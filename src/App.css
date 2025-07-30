@@ -1,6 +1,96 @@
-nav{
-    background-color: pink;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+}
+.nav-text{
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 5px;
+    color:rgba(152, 152, 152, 0.829);
+}
+.hamburger {
+  font-size: 24px;
+  background: none;
+  color: white;
+  border: none;
+  margin-right: 15px;
+  display: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 60px; /* below navbar */
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 60px); /* fill screen below navbar */
+  background-color: #333;
+  padding-top: 20px;
+  color: white;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 15px 20px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #575757;
+}
+
+.main-content-container{
+  margin-left: 250px;      /* space for sidebar */
+  margin-top: 60px;       /* space for navbar */
+  padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    display: flex;
+  }
+  .nav-text{
+    font-size: 24px;
+    font-weight: 550;
+    margin-left: -5px;
+}
+.hamburger{
+    display: flex;
+}
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 1000;
+    top: 60px;
+    width:200px;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+    top: 60px;
+  }
+  .sidebar a {
+    padding: 15px 25px;
+  }
+  .main-content-container{
+    margin-left: 0;
+    margin-top: 60px;
     padding: 20px;
-    height:100px;
-    width:100%;
+  }
 }
