@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
         <button className="hamburger" onClick={toggleSidebar}>
           ☰
         </button> 
-        <div className="nav-text">Inventory Management System</div>
+        <div className="nav-text">Inventory Management System....</div>
       </header>
     </div>
   );
