@@ -4,10 +4,10 @@ const Navbar = ({ toggleSidebar }) => {
   return (
     <div>
       <header className="navbar">
-        <button className="hamburger" onClick={toggleSidebar}>
+        <button className="hamburger text-left" onClick={toggleSidebar} >
           ☰
         </button> 
-        <div className="nav-text">Inventory Management System....</div>
+        <div className="nav-text">StockWise</div>
       </header>
     </div>
   );
