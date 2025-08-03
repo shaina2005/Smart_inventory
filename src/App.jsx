@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link , Navigate , useNavigate } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
@@ -8,8 +8,8 @@ import Login from "./Pages/Login";
 import "./App.css";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // controls sidebar visibility on small screen
+  const [isLogin, setIsLogin] = useState(false); // chcks login if true show dashboard
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -20,7 +20,7 @@ function App() {
       <div className="App">
         {!isLogin ? (
           <Routes>
-            <Route path="*" element={<Login onLoginSuccess={setIsLogin} />} />
+            <Route path="*" element={<Login onLoginSuccess={()=>setIsLogin(true)} />} />
           </Routes>
         ) : (
           <>
@@ -28,9 +28,10 @@ function App() {
             <Sidebar isOpen={isOpen} />
             <main className="main-content-container">
               <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<Navigate to="/dashboard"/>} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/inventory" element={<Inventory />} />
+                <Route path="*" element={< Navigate to = "/dashboard"/>}/>
               </Routes>
             </main>
           </>
