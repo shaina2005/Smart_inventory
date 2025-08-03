@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import {}
 
 function Login({onLoginSuccess}) {
   const [role, setRole] = useState("");
@@ -24,7 +23,7 @@ function Login({onLoginSuccess}) {
         alert("failed. Try again");
       }
     } catch (error) {
-     if(error.response && error.response.status===401)
+     if(error.response.status===401)
      {
       alert(error.response.data.message)
      }
