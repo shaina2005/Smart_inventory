@@ -83,6 +83,7 @@ body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .card {
@@ -132,4 +133,44 @@ body {
     margin-left: 0;
     margin-top: 60px;
   }
+}
+
+
+
+.inventory-page {
+  padding: 20px;
+}
+
+
+
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.inventory-table th, .inventory-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.status.good {
+  background-color: #d4edda;
+  color: #155724;
+}
+.status.low-stock {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.status.out-of-stock {
+  background-color: #f8d7da;
+  color: #721c24;
 }
