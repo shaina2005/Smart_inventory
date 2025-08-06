@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 import loginRoute from "./routes/loginRoute.js";
 import mongoose from "mongoose";
+import inventoryRoute from "./routes/inventoryRoute.js";
 
 const app = express();
 dotenv.config(); // loads .env varibales (that can be access using process.env)
@@ -19,6 +20,7 @@ app.use(cors()); //assigning middleware
 app.use(express.json()); //handling data send by frontend
 
 app.use("/api/auth", loginRoute);
+app.use("/items",inventoryRoute);
 
 app.listen(5000, () => {
   console.log("Server is running");

@@ -1,4 +1,4 @@
-import Inventory from "../model/Inventory";
+import Inventory from "../model/Inventory.js";
 
 // handling get request for all items
 export const getAllItems = async (req, res)=>{
@@ -10,7 +10,20 @@ export const getAllItems = async (req, res)=>{
     }
 }
 
-
+//handling get request for a particular item
+export const getItem = async(req,res)=>{
+  try {
+    const id = req.params.id;
+    const items = await Inventory.findById(id);
+    if(items === null)
+    {
+      res.status(404).json({message : "Item not found"});
+    }
+    res.status(200).json({message:"Item Found" , item : items})
+  } catch (error) {
+    res.json({message : error});
+  }
+}
 // handling post request to add item in inventory
 export const addItem = async (req , res)=>{
 
@@ -34,7 +47,7 @@ export const putItem = async (req, res) => {
       req.body,
       { new: true }
     );
-    if (!updatedItem) {
+    if (updatedItem=== null) {
       return res.status(404).json({ message: "Item not found" });
     }
     res.status(200).json({ message: "Item updated successfully", item: updatedItem });
