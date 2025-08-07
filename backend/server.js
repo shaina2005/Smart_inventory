@@ -7,6 +7,7 @@ import inventoryRoute from "./routes/inventoryRoute.js";
 
 const app = express();
 dotenv.config(); // loads .env varibales (that can be access using process.env)
+app.use(express.json()); //handling data send by frontend
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -17,9 +18,8 @@ mongoose
 
 app.use(cors()); //assigning middleware
 
-app.use(express.json()); //handling data send by frontend
 
-app.use("/api/auth", loginRoute);
+// app.use("/api/auth", loginRoute);
 app.use("/items",inventoryRoute);
 
 app.listen(5000, () => {

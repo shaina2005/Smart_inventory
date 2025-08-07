@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const inventorySchema = new mongoose.Schema({
-  item_id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
 
   item_name: {
     type: String,
