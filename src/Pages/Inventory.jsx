@@ -38,10 +38,16 @@ function Inventory() {
     },
   ];
 
+   // 🗓️ Get today's date
+  const today = new Date();
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = today.toLocaleDateString("en-US", options); // Example: August 4, 2025
+
+
   return (
     <div className="inventory-page">
       <h2>Inventory Management</h2>
-      <p className="date">Today, August 16th 2024</p>
+          <p className="date">Today, {formattedDate}</p>
 
       {/* Cards */}
      <div className="cards-container">
