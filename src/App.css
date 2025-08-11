@@ -2,67 +2,160 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
 }
-/* navbar  */
-
-.navbar {
+/* Modern Sidebar */
+.sidebar-modern {
   position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #1f1f1f;
-  color: #fff;
+  top: 20px;
+  left: 20px;
+  width: 230px;
+  height: calc(100vh - 40px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 20px 0;
   display: flex;
-  align-items: center;
-  padding: 0 20px;
-  z-index: 1001;
-  display: flex;
-}
-
-.nav-text {
-  font-size: 22px;
-  font-weight: 600;
-  margin-left: 10px;
-  color: #aaa;
-}
-
-.hamburger {
-  font-size: 24px;
-  background: none;
-  color: #fff;
-  border: none;
-  margin-right: 10px;
-  display: none;
-  cursor: pointer;
-  text-align: left;
-}
-
-/* sidebar  */
-.sidebar { 
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 250px;
-  height: calc(100vh - 60px);
-  background-color: #2c2c2c;
-  padding-top: 20px;
-  color: #fff;
-  transition: transform 0.3s ease-in-out;
+  flex-direction: column;
   z-index: 1000;
 }
 
-.sidebar a {
+.sidebar-logo {
   display: flex;
-  color: #fff;
-  padding: 12px 20px;
-  text-decoration: none;
-  font-size: 18px;
-  transition: background-color 0.2s;
-  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.sidebar a:hover {
-  background-color: #444;
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 30px;
+  margin-left: -100px;
+  font-weight: bold;
 }
+
+.sidebar-modern nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-modern a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #444;
+  font-size: 15px;
+  border-radius: 8px;
+  margin: 4px 12px;
+  transition: 0.2s;
+}
+
+.sidebar-modern a span {
+  margin-left: 12px;
+}
+
+.sidebar-modern a:hover {
+  background: #f4f4f4;
+}
+
+.sidebar-modern a.active {
+  background: #0f766e;
+  color: #fff;
+}
+
+/* hamburger */
+.hamburger-text-left {
+  font-size: 22px;
+  background: #f5f5f5;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  display: none;
+  transition: background 0.3s ease;
+}
+
+.hamburger-text-left:hover {
+  background: #e0e0e0;
+}
+/* Modern Navbar */
+.navbar-modern {
+  position: fixed;
+  top: 20px;
+  left: 270px;
+  right: 20px;
+  height: 60px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f4f4f4;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Bell Icon Background */
+.icon-container {
+  background: #f5f6fa;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Profile Background */
+.profile-container {
+  background: #f5f6fa;
+  padding: 6px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.profile-container img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.nav-icon {
+  color: #555;
+}
+
+/* Main content shift */
+.main-modern {
+  margin-left: 270px;
+  margin-top: 100px;
+  padding: 20px;
+}
+
 
 /* main content  */
 .main-content-container {
@@ -207,6 +300,9 @@ body {
   .main-content-container {
     margin-left: 0;
     margin-top: 60px;
+  }
+  .hamburger-text-left{
+    display: block;
   }
 }
 
