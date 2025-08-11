@@ -10,7 +10,7 @@ dotenv.config(); // loads .env varibales (that can be access using process.env)
 app.use(express.json()); //handling data send by frontend
 
 mongoose
-  .connect("mongodb+srv://0506shyna:shaina2005@smart-inventory.nevekxh.mongodb.net/SmartInventory?retryWrites=true")
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Database connected"))
   .catch((err) =>
     console.log("Database connection failed due to error :", err)
