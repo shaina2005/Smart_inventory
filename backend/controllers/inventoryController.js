@@ -4,6 +4,11 @@ import Inventory from "../model/Inventory.js";
 export const getAllItems = async (req, res) => {
   try {
     const items = await Inventory.find();
+
+    if(items==null){
+      res.status(404).json({message:"Database not found"});
+      return ;
+    }
     res.status(200).json(items);
   } catch (error) {
     res.status(500).json({ message: "can't load the inventory" });
@@ -17,6 +22,7 @@ export const getItem = async (req, res) => {
     const items = await Inventory.findById(id);
     if (items === null) {
       res.status(404).json({ message: "Item not found" });
+      return ;
     }
     res.status(200).json({ message: "Item Found", item: items });
   } catch (error) {

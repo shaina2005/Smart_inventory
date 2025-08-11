@@ -19,7 +19,7 @@ mongoose
 app.use(cors()); //assigning middleware
 
 
-// app.use("/api/auth", loginRoute);
+app.use("/api/auth", loginRoute);
 app.use("/items",inventoryRoute);
 
 app.listen(5000, () => {
