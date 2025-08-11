@@ -4,7 +4,7 @@ import { FiSearch, FiBell ,FiMenu} from "react-icons/fi";
 const Navbar = ({ toggleSidebar }) => {
   return (
     <header className="navbar-modern">
-      <button className="hamburger-text-left" onClick={toggleSidebar}>
+      <button className="hamburger" onClick={toggleSidebar}>
         <FiMenu size={22} />
       </button>
       <div className="navbar-left"></div>

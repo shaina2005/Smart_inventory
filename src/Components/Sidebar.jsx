@@ -2,8 +2,10 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineGridView } from "react-icons/md";
 import { FaChartLine, FaUtensils, FaUsers, FaShoppingCart, FaShieldAlt, FaChartBar, FaCog } from "react-icons/fa";
+import { FiMenu} from "react-icons/fi";
 
-const Sidebar = () => {
+
+const Sidebar = ({isOpen , toggleSidebar}) => {
   const location = useLocation();
 
   const menuItems = [
@@ -14,9 +16,13 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="sidebar-modern">
+    <>
+    <div className={`sidebar-modern ${isOpen? "open ":" "}`}>
       <div className="sidebar-logo">
-        <div className="logo-circle">StockWise</div>
+        <button className="hamburger" onClick={toggleSidebar}>
+                <FiMenu size={22} />
+              </button>
+       StockWise
       </div>
       <nav>
         {menuItems.map((item) => (
@@ -31,6 +37,7 @@ const Sidebar = () => {
         ))}
       </nav>
     </div>
+    </>
   );
 };
 

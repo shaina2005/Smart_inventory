@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
@@ -8,23 +13,40 @@ import Login from "./Pages/Login";
 import "./App.css";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false); // login state
-  const [isOpen ,setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(
+    localStorage.getItem("isLogin") === "true"
+  ); // login state
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar =()=>{
+  useEffect(() => {
+    if (localStorage.getItem("isLogin") === "true") {
+      setIsLogin(true);
+    }
+  }, []);
+  const toggleSidebar = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <Router>
       <div className="App">
         {!isLogin ? (
           <Routes>
-            <Route path="*" element={<Login onLoginSuccess={() => setIsLogin(true)} />} />
+            <Route
+              path="*"
+              element={
+                <Login
+                  onLoginSuccess={() => {
+                    localStorage.setItem("isLogin", "true");
+                    setIsLogin(true);
+                  }}
+                />
+              }
+            />
           </Routes>
         ) : (
           <>
-            <Sidebar isOpen={isOpen}/>
+            <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}/>
             <Navbar toggleSidebar={toggleSidebar} />
             <main className="main-modern">
               <Routes>
