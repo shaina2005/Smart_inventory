@@ -14,15 +14,11 @@ import "./App.css";
 
 function App() {
   const [isLogin, setIsLogin] = useState(
-    localStorage.getItem("isLogin") === "true"
+    sessionStorage.getItem("isLogin") === "true"
   ); // login state
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("isLogin") === "true") {
-      setIsLogin(true);
-    }
-  }, []);
+ 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -36,9 +32,14 @@ function App() {
               path="*"
               element={
                 <Login
-                  onLoginSuccess={() => {
-                    localStorage.setItem("isLogin", "true");
-                    setIsLogin(true);
+                  onLoginSuccess={(success) => {
+                    if (success) {
+                      sessionStorage.setItem("isLogin", "true");
+                      setIsLogin(true);
+                    } else {
+                      sessionStorage.removeItem("isLogin");
+                      setIsLogin(false);
+                    }
                   }}
                 />
               }
@@ -46,7 +47,7 @@ function App() {
           </Routes>
         ) : (
           <>
-            <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}/>
+            <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
             <Navbar toggleSidebar={toggleSidebar} />
             <main className="main-modern">
               <Routes>

@@ -37,6 +37,8 @@ const Sidebar = ({isOpen , toggleSidebar}) => {
         ))}
       </nav>
     </div>
+
+    
     </>
   );
 };

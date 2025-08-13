@@ -20,6 +20,7 @@ function Login({onLoginSuccess}) {
         onLoginSuccess(true);
         Navigate("/dashboard")
       } else {
+        onLoginSuccess(false);
         alert("failed. Try again");
       }
     } catch (error) {
@@ -28,7 +29,7 @@ function Login({onLoginSuccess}) {
       alert(error.response.data.message)
      }
      else{
-      alert("Pta nhi kya hogya")
+      alert("Something went wrong")
      }
     }
   };

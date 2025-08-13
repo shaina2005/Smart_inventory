@@ -3,6 +3,8 @@ import { FiSearch, FiBell ,FiMenu} from "react-icons/fi";
 
 const Navbar = ({ toggleSidebar }) => {
   return (
+    <>
+    <div className="navbar-container">
     <header className="navbar-modern">
       <button className="hamburger" onClick={toggleSidebar}>
         <FiMenu size={22} />
@@ -31,6 +33,8 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
       </div>
     </header>
+    </div>
+    </>
   );
 };
 
