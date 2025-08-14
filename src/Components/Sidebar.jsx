@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineGridView } from "react-icons/md";
-import { FaChartLine, FaUtensils, FaUsers, FaShoppingCart, FaShieldAlt, FaChartBar, FaCog } from "react-icons/fa";
+import { FaChartLine, FaChartBar, FaCog } from "react-icons/fa";
 import { FiMenu} from "react-icons/fi";
 
 
