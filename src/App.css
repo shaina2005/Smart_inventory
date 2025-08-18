@@ -287,7 +287,7 @@ body {
   color: #f9f9f9;
 }
 
-
+/* inventory page  */
 .inventory-page {
   padding: 20px;
   background-color: #f8f9fa;
@@ -381,7 +381,6 @@ body {
 
 /* Inventory Section */
 .inventory-section {
-  background: white;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);

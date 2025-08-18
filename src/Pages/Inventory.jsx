@@ -17,7 +17,11 @@ function Inventory() {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/items");
-      setInventory(response.data);
+      if (response.ok) {
+        setInventory(response.data);
+        console.log(inventory);
+        alert("inv fetched");
+      }
       setError(null);
     } catch (err) {
       setError("Failed to fetch inventory data");
@@ -30,12 +34,22 @@ function Inventory() {
   // Calculate statistics from inventory data
   const calculateStats = () => {
     const totalItems = inventory.length;
-    const lowStock = inventory.filter(item => item.item_status === "low-stock").length;
-    const outOfStock = inventory.filter(item => item.item_status === "out-of-stock").length;
-    
+    //low stock filter
+    const lowStock = inventory.filter(
+      (item) => item.item_status === "low-stock"
+    ).length;
+    //out of stock filter
+    const outOfStock = inventory.filter(
+      (item) => item.item_status === "out-of-stock"
+    ).length;
+    //good stock filter
+    const goodStock = inventory.filter(
+      (item) => item.item_status === "good-stock"
+    ).length;
+
     // Calculate expired items (items past expiry date)
     const today = new Date();
-    const expiredItems = inventory.filter(item => {
+    const expiredItems = inventory.filter((item) => {
       const expiryDate = new Date(item.item_expirydate);
       return expiryDate < today;
     }).length;
@@ -44,14 +58,18 @@ function Inventory() {
       totalItems,
       lowStock,
       expiredItems,
-      outOfStock
+      outOfStock,
+      goodStock,
     };
   };
 
   // Filter inventory based on search and status
-  const filteredInventory = inventory.filter(item => {
-    const matchesSearch = item.item_name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === "all" || item.item_status === filterStatus;
+  const filteredInventory = inventory.filter((item) => {
+    const matchesSearch = item.item_name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === "all" || item.item_status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
@@ -59,11 +77,11 @@ function Inventory() {
   const getStatusInfo = (status, expiryDate) => {
     const today = new Date();
     const expiry = new Date(expiryDate);
-    
+
     if (expiry < today) {
       return { text: "Expired", className: "expired" };
     }
-    
+
     switch (status) {
       case "good-stock":
         return { text: "Good", className: "good" };
@@ -79,12 +97,10 @@ function Inventory() {
   // Format date for display
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-IN", {
       month: "short",
       day: "numeric",
       year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
     });
   };
 
@@ -114,8 +130,6 @@ function Inventory() {
 
   return (
     <div className="inventory-page">
-  
-
       {/* Statistics Cards */}
       <div className="cards-container">
         <div className="card total">
@@ -131,7 +145,9 @@ function Inventory() {
           <div className="card-icon">⏰</div>
           <div className="card-content">
             <h4>Low Stock Items</h4>
-            <p className="card-description">Number of items that are running low</p>
+            <p className="card-description">
+              Number of items that are running low
+            </p>
             <p className="card-value">{inventoryStats.lowStock}</p>
           </div>
         </div>
@@ -140,7 +156,9 @@ function Inventory() {
           <div className="card-icon">⚠️</div>
           <div className="card-content">
             <h4>Expired Items</h4>
-            <p className="card-description">Number of items past their expiration date</p>
+            <p className="card-description">
+              Number of items past their expiration date
+            </p>
             <p className="card-value">{inventoryStats.expiredItems}</p>
           </div>
         </div>
@@ -149,7 +167,9 @@ function Inventory() {
           <div className="card-icon">📦</div>
           <div className="card-content">
             <h4>Out of Stock Items</h4>
-            <p className="card-description">Count of items currently out of stock</p>
+            <p className="card-description">
+              Count of items currently out of stock
+            </p>
             <p className="card-value">{inventoryStats.outOfStock}</p>
           </div>
         </div>
@@ -169,7 +189,10 @@ function Inventory() {
               />
             </div>
             <div className="filter-dropdown">
-              <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
                 <option value="all">All Status</option>
                 <option value="good-stock">Good</option>
                 <option value="low-stock">Low Stock</option>
@@ -184,7 +207,9 @@ function Inventory() {
           <table className="inventory-table">
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
+                <th>
+                  <input type="checkbox" />
+                </th>
                 <th>Item Name</th>
                 <th>Image</th>
                 <th>Quantity</th>
@@ -196,10 +221,15 @@ function Inventory() {
             </thead>
             <tbody>
               {filteredInventory.map((item, index) => {
-                const statusInfo = getStatusInfo(item.item_status, item.item_expirydate);
+                const statusInfo = getStatusInfo(
+                  item.item_status,
+                  item.item_expirydate
+                );
                 return (
                   <tr key={item._id || index}>
-                    <td><input type="checkbox" /></td>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
                     <td>{item.item_name}</td>
                     <td>
                       <div className="item-image">
