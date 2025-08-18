@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Splashscreen from "./Components/Splashscreen";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
@@ -17,12 +18,21 @@ function App() {
     sessionStorage.getItem("isLogin") === "true"
   ); // login state
   const [isOpen, setIsOpen] = useState(false);
+  const [splash , setSplash] = useState(true);
 
- 
+ useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setSplash(false);
+    } , 2000);
+    return ()=>{ clearTimeout(timer);}
+ } , [])
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
+if(splash)
+{
+   return <Splashscreen />
+}
   return (
     <Router>
       <div className="App">
