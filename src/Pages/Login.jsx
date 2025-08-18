@@ -1,65 +1,88 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-function Login({onLoginSuccess}) {
+function Login({ onLoginSuccess }) {
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
         role,
         password,
       });
 
-      if ((await res).data.success) {
+      if (res.data.success) {
         onLoginSuccess(true);
-        Navigate("/dashboard")
+        navigate("/dashboard");
       } else {
         onLoginSuccess(false);
-        alert("failed. Try again");
+        alert("Login failed. Try again");
       }
     } catch (error) {
-     if(error.response.status===401)
-     {
-      alert(error.response.data.message)
-     }
-     else{
-      alert("Something went wrong")
-     }
+      if (error.response && error.response.status === 401) {
+        alert(error.response.data.message);
+      } else {
+        alert("Something went wrong");
+      }
     }
   };
+
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h2 className="title">StockWise</h2>
+    <div className="login-layout">
+      {/* Left side branding */}
+      <div className="login-left">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png"
+          alt="Smart Inventory Logo"
+          className="brand-logo"
+        />
+        <h1>Smart Inventory</h1>
+        <p>Manage your stock efficiently with ease.</p>
+      </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>User</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="">-Select role-</option>
-              <option value="admin">Admin</option>
-              <option value="staff">staff</option>
-            </select>
+      {/* Right side login form */}
+      <div className="login-right">
+        <div className="login-box">
+          <h2>Welcome Back</h2>
+          <p className="subtitle">Sign in to continue</p>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Role</label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
+                <option value="">Select Role</option>
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button className="login-btn">Login</button>
+          </form>
+
+          {/* Forgot password link */}
+          <div className="forgot-password">
+            <Link to="/reset-password">Forgot password?</Link>
           </div>
-
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button className="login-button">Submit</button>
-        </form>
+        </div>
       </div>
     </div>
   );

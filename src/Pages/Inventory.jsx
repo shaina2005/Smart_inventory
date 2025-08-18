@@ -95,7 +95,7 @@ function Inventory() {
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString("en-US", options);
 
-  if (loading) {
+  if (loading) {  
     return (
       <div className="inventory-page">
         <div className="loading">Loading inventory data...</div>
