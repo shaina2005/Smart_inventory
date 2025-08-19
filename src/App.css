@@ -2,6 +2,24 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
 }
+/* splash screen  */
+/* Splash container */
+.splash-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden; /* video container ke liye */
+  background-color: #0f766e; 
+}
+
+/* Video ko full screen cover karne ke liye */
+.splash-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* video stretch ya crop kare to full screen cover ho */
+}
 /* Modern Sidebar */
 .sidebar-modern {
   position: fixed;
@@ -352,20 +370,11 @@ body {
   text-decoration: underline;
 }
 
-/* Responsive for mobile */
-@media (max-width: 768px) {
-  .login-layout {
-    flex-direction: column;
-  }
-  .login-left {
-    padding: 20px;
-  }
-  .brand-logo {
-    width: 90px;
-  }
-  .login-right {
-    padding: 20px;
-  }
+
+.inventory-page {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 
@@ -455,7 +464,6 @@ body {
 
 /* Inventory Section */
 .inventory-section {
-  background: white;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
