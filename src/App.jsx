@@ -11,6 +11,7 @@ import Sidebar from "./Components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
 import Inventory from "./Pages/Inventory";
 import Login from "./Pages/Login";
+import Settings from "./Pages/Settings";
 import "./App.css";
 
 function App() {
@@ -65,6 +66,7 @@ if(splash)
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="*" element={<Navigate to="/dashboard" />} />
+                <Route path="/settings" element={<Settings/>} />
               </Routes>
             </main>
           </>
