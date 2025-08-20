@@ -78,10 +78,7 @@ function Login({ onLoginSuccess }) {
             <button className="login-btn">Login</button>
           </form>
 
-          {/* Forgot password link */}
-          <div className="forgot-password">
-            <Link to="/reset-password">Forgot password?</Link>
-          </div>
+          
         </div>
       </div>
     </div>

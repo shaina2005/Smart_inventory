@@ -184,7 +184,6 @@ function Inventory() {
           <table className="inventory-table">
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
                 <th>Item Name</th>
                 <th>Image</th>
                 <th>Quantity</th>
@@ -199,7 +198,6 @@ function Inventory() {
                 const statusInfo = getStatusInfo(item.item_status, item.item_expirydate);
                 return (
                   <tr key={item._id || index}>
-                    <td><input type="checkbox" /></td>
                     <td>{item.item_name}</td>
                     <td>
                       <div className="item-image">
