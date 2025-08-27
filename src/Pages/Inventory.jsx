@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./Inventory.css";
 
 function Inventory() {
   const [inventory, setInventory] = useState([]);
@@ -7,6 +8,17 @@ function Inventory() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newItem, setNewItem] = useState({
+    item_name: "",
+    item_image: "",
+    item_quantity: "",
+    item_location: "",
+    item_expirydate: "",
+    item_status: "good-stock",
+  });
 
   // Fetch inventory data from backend
   useEffect(() => {
@@ -27,15 +39,47 @@ function Inventory() {
     }
   };
 
-  // Calculate statistics from inventory data
+  // Handle form input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewItem({ ...newItem, [name]: value });
+  };
+
+  // Handle form submit (for now, just add to local state)
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      // post to backend
+      await axios.post("http://localhost:5000/items", newItem);
+      fetchInventoryData(); // reload data
+      closeModal();
+    } catch (err) {
+      console.error("Error saving item:", err);
+    }
+  };
+
+  // Modal controls
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setNewItem({
+      item_name: "",
+      item_image: "",
+      item_quantity: "",
+      item_location: "",
+      item_expirydate: "",
+      item_status: "good-stock",
+    });
+  };
+
+  // Calculate statistics
   const calculateStats = () => {
     const totalItems = inventory.length;
-    const lowStock = inventory.filter(item => item.item_status === "low-stock").length;
-    const outOfStock = inventory.filter(item => item.item_status === "out-of-stock").length;
-    
-    // Calculate expired items (items past expiry date)
+    const lowStock = inventory.filter((item) => item.item_status === "low-stock").length;
+    const outOfStock = inventory.filter((item) => item.item_status === "out-of-stock").length;
+
     const today = new Date();
-    const expiredItems = inventory.filter(item => {
+    const expiredItems = inventory.filter((item) => {
       const expiryDate = new Date(item.item_expirydate);
       return expiryDate < today;
     }).length;
@@ -44,26 +88,24 @@ function Inventory() {
       totalItems,
       lowStock,
       expiredItems,
-      outOfStock
+      outOfStock,
     };
   };
 
-  // Filter inventory based on search and status
-  const filteredInventory = inventory.filter(item => {
+  const filteredInventory = inventory.filter((item) => {
     const matchesSearch = item.item_name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === "all" || item.item_status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  // Get status display text and color
   const getStatusInfo = (status, expiryDate) => {
     const today = new Date();
     const expiry = new Date(expiryDate);
-    
+
     if (expiry < today) {
       return { text: "Expired", className: "expired" };
     }
-    
+
     switch (status) {
       case "good-stock":
         return { text: "Good", className: "good" };
@@ -76,7 +118,6 @@ function Inventory() {
     }
   };
 
-  // Format date for display
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -84,18 +125,13 @@ function Inventory() {
       day: "numeric",
       year: "numeric",
       hour: "2-digit",
-      minute: "2-digit"
+      minute: "2-digit",
     });
   };
 
   const inventoryStats = calculateStats();
 
-  // Get today's date
-  const today = new Date();
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  const formattedDate = today.toLocaleDateString("en-US", options);
-
-  if (loading) {  
+  if (loading) {
     return (
       <div className="inventory-page">
         <div className="loading">Loading inventory data...</div>
@@ -114,8 +150,6 @@ function Inventory() {
 
   return (
     <div className="inventory-page">
-  
-
       {/* Statistics Cards */}
       <div className="cards-container">
         <div className="card total">
@@ -176,7 +210,9 @@ function Inventory() {
                 <option value="out-of-stock">Out of Stock</option>
               </select>
             </div>
-            <button className="add-item-btn">+ Add Item</button>
+            <button className="add-item-btn" onClick={openModal}>
+              + Add Item
+            </button>
           </div>
         </div>
 
@@ -187,6 +223,7 @@ function Inventory() {
                 <th>Item Name</th>
                 <th>Image</th>
                 <th>Quantity</th>
+                <th>Unit</th>
                 <th>Storage Location</th>
                 <th>Last Updated</th>
                 <th>Status</th>
@@ -200,17 +237,14 @@ function Inventory() {
                   <tr key={item._id || index}>
                     <td>{item.item_name}</td>
                     <td>
-                      <div className="item-image">
-                        {item.item_image || "🍽️"}
-                      </div>
+                      <div className="item-image">{item.item_image || "🍽️"}</div>
                     </td>
-                    <td>{item.item_quantity}kg</td>
+                    <td>{item.item_quantity}</td>
+                    <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>
                     <td>{formatDate(item.item_expirydate)}</td>
                     <td>
-                      <span className={`status ${statusInfo.className}`}>
-                        {statusInfo.text}
-                      </span>
+                      <span className={`status ${statusInfo.className}`}>{statusInfo.text}</span>
                     </td>
                     <td>
                       <div className="action-buttons">
@@ -231,6 +265,69 @@ function Inventory() {
           </table>
         </div>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={closeModal}>×</button>
+            <h3>Add New Item</h3>
+            <form onSubmit={handleSave}>
+              <input
+                type="text"
+                name="item_name"
+                placeholder="Item Name"
+                value={newItem.item_name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="item_image"
+                placeholder="Image URL"
+                value={newItem.item_image}
+                onChange={handleChange}
+              />
+              <input
+                type="number"
+                name="item_quantity"
+                placeholder="Quantity (kg)"
+                value={newItem.item_quantity}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="item_location"
+                placeholder="Storage Location"
+                value={newItem.item_location}
+                onChange={handleChange}
+              />
+              <input
+                type="date"
+                name="item_expirydate"
+                value={newItem.item_expirydate}
+                onChange={handleChange}
+                required
+              />
+              <select
+                name="item_status"
+                value={newItem.item_status}
+                onChange={handleChange}
+              >
+                <option value="good-stock">Good</option>
+                <option value="low-stock">Low Stock</option>
+                <option value="out-of-stock">Out of Stock</option>
+              </select>
+
+              <div className="form-actions">
+                <button type="submit" className="save-btn">Save</button>
+                <button type="button" className="cancel-btn" onClick={closeModal}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

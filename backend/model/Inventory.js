@@ -9,12 +9,15 @@ const inventorySchema = new mongoose.Schema({
 
   item_image: {
     type: String,
-    required: true,
   },
 
   item_quantity: {
     type: Number,
     required: true,
+  },
+  item_unit :{
+    type : String,
+    required : true,
   },
 
   item_location: {
@@ -30,7 +33,6 @@ const inventorySchema = new mongoose.Schema({
   item_status: {
     type: String,
     enum: ["good-stock", "low-stock", "out-of-stock"],
-    required: true,
   },
 });
 

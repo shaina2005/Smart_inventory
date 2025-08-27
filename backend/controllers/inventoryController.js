@@ -40,7 +40,8 @@ export const addItem = async (req, res) => {
     if(existingItem)
     {
       existingItem.item_image = incomingdata.item_image;
-      existingItem.item_quantity = existingItem.item_quantity + incomingdata.item_quantity;
+      existingItem.item_quantity = parseInt(existingItem.item_quantity) + parseInt(incomingdata.item_quantity);
+      existingItem.item_unit = incomingdata.item_unit;
       existingItem.item_location = incomingdata.item_location;
       existingItem.item_expirydate = incomingdata.item_expirydate;
       existingItem.item_status = incomingdata.item_status;
