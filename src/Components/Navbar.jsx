@@ -6,7 +6,7 @@ const Navbar = ({ toggleSidebar }) => {
     <>
     <div className="navbar-container">
     <header className="navbar-modern">
-      <button className="hamburger" onClick={toggleSidebar}>
+      <button className="hamburger-N" onClick={toggleSidebar}>
         <FiMenu size={22} />
       </button>
       <div className="navbar-left"></div>

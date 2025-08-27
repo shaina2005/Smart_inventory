@@ -17,10 +17,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div className={`sidebar-modern ${isOpen ? "open" : ""}`}>
       <div className="sidebar-logo">
-        <button className="hamburger" onClick={toggleSidebar}>
-          <FiMenu size={22} />
-        </button>
-        StockWise
+        <div className="hamburger" onClick={toggleSidebar}>
+          <FiMenu size={25} />
+        </div>
+        <p>StockWise</p>
       </div>
 
       <nav>
