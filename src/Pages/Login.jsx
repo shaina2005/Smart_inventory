@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Logo from "../assets/Logo.png";
 
 function Login({ onLoginSuccess }) {
   const [role, setRole] = useState("");
@@ -36,7 +37,7 @@ function Login({ onLoginSuccess }) {
       {/* Left side branding */}
       <div className="login-left">
         <img
-          src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png"
+          src={Logo}
           alt="Smart Inventory Logo"
           className="brand-logo"
         />
