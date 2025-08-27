@@ -9,7 +9,6 @@ const inventorySchema = new mongoose.Schema({
 
   item_image: {
     type: String,
-    required: true,
   },
 
   item_quantity: {

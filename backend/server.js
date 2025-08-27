@@ -11,7 +11,7 @@ app.use(express.json()); //handling data send by frontend
 
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Database connected"))
+  .then(() => console.log("Database connected :" , mongoose.connection.name))
   .catch((err) =>
     console.log("Database connection failed due to error :", err)
   );

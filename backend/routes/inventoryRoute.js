@@ -1,8 +1,7 @@
 import express from 'express';
 import {getAllItems , getItem , addItem , putItem , deleteItem} from "../controllers/inventoryController.js";
-
-
 const router = express.Router();
+
 router.get("/",getAllItems);
 router.get("/items/:id", getItem);
 router.post("/items", addItem);

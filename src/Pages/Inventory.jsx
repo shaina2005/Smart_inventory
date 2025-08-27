@@ -188,7 +188,7 @@ function Inventory() {
                 <th>Image</th>
                 <th>Quantity</th>
                 <th>Storage Location</th>
-                <th>Last Updated</th>
+                <th>Used By</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>

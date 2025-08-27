@@ -66,7 +66,12 @@ if(splash)
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="*" element={<Navigate to="/dashboard" />} />
-                <Route path="/settings" element={<Settings/>} />
+                <Route path="/settings" element={<Settings
+                handleLogout={
+                  ()=>{sessionStorage.removeItem("isLogin");
+                    setIsLogin(false);
+                  }
+                }/>} />
               </Routes>
             </main>
           </>
