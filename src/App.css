@@ -821,6 +821,12 @@ body {
   }
   
 }
+@media (min-width:768px)
+{
+  .sidebar-logo p{
+  display: block;
+}
+}
 
 
 
