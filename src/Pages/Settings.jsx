@@ -14,6 +14,7 @@ function Settings({ handleLogout }) {
 	};
 
 	const [profileData, setProfileData] = useState(initialProfile);
+	const [profileImage , setProfileImage] = useState(profile);
 	const [draft, setDraft] = useState(initialProfile);
 	const [isEditing, setIsEditing] = useState(false);
 	const [errors, setErrors] = useState({});
@@ -107,7 +108,8 @@ function Settings({ handleLogout }) {
 				{/* Left column - Profile picture and name */}
 				<div className="left">
 					<div className="profile-image">
-						<img src={profile} alt="Profile avatar" />
+						<img src={profileImage} alt="Profile avatar" />
+						<input type="file" accept=""/>
 					</div>
 					<div className="name-container">
 						<div className="name">{profileData.name}</div>
