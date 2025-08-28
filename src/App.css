@@ -723,7 +723,7 @@ body {
   }
   
 }
-@media (min-width : 550px) and (max-width:767px)
+@media (min-width : 550px) and (max-width:768px)
 {
   .navbar-modern{
     width: 100%;
