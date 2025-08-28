@@ -32,7 +32,7 @@ const inventorySchema = new mongoose.Schema({
 
   item_status: {
     type: String,
-    enum: ["good-stock", "low-stock", "out-of-stock"],
+    enum: ["good-stock", "low-stock", "out-of-stock" , "expired"],
   },
 });
 

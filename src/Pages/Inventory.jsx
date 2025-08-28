@@ -113,6 +113,8 @@ function Inventory() {
         return { text: "Low Stock", className: "low-stock" };
       case "out-of-stock":
         return { text: "Out of Stock", className: "out-of-stock" };
+        case "expired":
+          return{ text : "expired" , className: "expired"}
       default:
         return { text: status, className: "unknown" };
     }
@@ -151,43 +153,51 @@ function Inventory() {
   return (
     <div className="inventory-page">
       {/* Statistics Cards */}
-      <div className="cards-container">
-        <div className="card total">
-          <div className="card-icon">📄</div>
-          <div className="card-content">
-            <h4>Total Items</h4>
-            <p className="card-description">Total Items in stock</p>
-            <p className="card-value">{inventoryStats.totalItems}</p>
-          </div>
-        </div>
+      <div className="stats-cards">
+  <div className="stat-card">
+    <div className="stat-icon total">
+      📄
+    </div>
+    <div className="stat-content">
+      <h4>Total Items</h4>
+      <p>Total items in stock</p>
+      <span className="stat-value">{inventoryStats.totalItems}</span>
+    </div>
+  </div>
 
-        <div className="card low-stock">
-          <div className="card-icon">⏰</div>
-          <div className="card-content">
-            <h4>Low Stock Items</h4>
-            <p className="card-description">Number of items that are running low</p>
-            <p className="card-value">{inventoryStats.lowStock}</p>
-          </div>
-        </div>
+  <div className="stat-card">
+    <div className="stat-icon low">
+      ⏰
+    </div>
+    <div className="stat-content">
+      <h4>Low Stock Items</h4>
+      <p>Number of items that are running low</p>
+      <span className="stat-value">{inventoryStats.lowStock}</span>
+    </div>
+  </div>
 
-        <div className="card expired">
-          <div className="card-icon">⚠️</div>
-          <div className="card-content">
-            <h4>Expired Items</h4>
-            <p className="card-description">Number of items past their expiration date</p>
-            <p className="card-value">{inventoryStats.expiredItems}</p>
-          </div>
-        </div>
+  <div className="stat-card">
+    <div className="stat-icon expired">
+      ⚠️
+    </div>
+    <div className="stat-content">
+      <h4>Expired Items</h4>
+      <p>Number of items of their expiration date</p>
+      <span className="stat-value">{inventoryStats.expiredItems}</span>
+    </div>
+  </div>
 
-        <div className="card out-of-stock">
-          <div className="card-icon">📦</div>
-          <div className="card-content">
-            <h4>Out of Stock Items</h4>
-            <p className="card-description">Count of items currently out of stock</p>
-            <p className="card-value">{inventoryStats.outOfStock}</p>
-          </div>
-        </div>
-      </div>
+  <div className="stat-card">
+    <div className="stat-icon out">
+      📦
+    </div>
+    <div className="stat-content">
+      <h4>Out of Stock Items</h4>
+      <p>Count of items currently out of stock</p>
+      <span className="stat-value">{inventoryStats.outOfStock}</span>
+    </div>
+  </div>
+</div>
 
       {/* Inventory Table Section */}
       <div className="inventory-section">
@@ -204,10 +214,11 @@ function Inventory() {
             </div>
             <div className="filter-dropdown">
               <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-                <option value="all">All Status</option>
+                <option value="all">All </option>
                 <option value="good-stock">Good</option>
                 <option value="low-stock">Low Stock</option>
                 <option value="out-of-stock">Out of Stock</option>
+                <option value="expired">Expired</option>
               </select>
             </div>
             <button className="add-item-btn" onClick={openModal}>
