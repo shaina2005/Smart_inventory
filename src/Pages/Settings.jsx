@@ -117,11 +117,12 @@ function Settings({ handleLogout }) {
           <div className="profile-image">
             <img src={profileImage} alt="Profile avatar" />
             <input type="file" accept="image/*" id="fileInput" onChange={handleImageChange} style={{ display: "none" }} />
+            <div className="editicon-container">
             <FiEdit2
               size={25}
               className="edit-icon"
               onClick={() => document.getElementById("fileInput").click()}
-            />
+            /></div>
           </div>
           <div className="name-container">
             <div className="name">{profileData.name}</div>
