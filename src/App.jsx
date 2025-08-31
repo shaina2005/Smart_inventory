@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import Splashscreen from "./Components/Splashscreen";
 import Navbar from "./Components/Navbar";
@@ -12,7 +13,7 @@ import Dashboard from "./Pages/Dashboard";
 import Inventory from "./Pages/Inventory";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
-import Settings_main from "./Pages/settings_main";
+import Settings_main from "./Pages/Settings_main";
 import "./App.css";
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, 1);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -78,6 +80,14 @@ function App() {
                     />
                   }
                 />
+                {/* <Route path="/logout" element={()=>{
+                  <div>
+                 { sessionStorage.removeItem("isLogin")}
+                  {setIsLogin(false)}
+                  <Navigate to="/login" />
+
+                  </div>
+                }}/> */}
                 <Route path="*" element={<Navigate to="/dashboard" />} />
                 <Route path="/settings" element={<Settings_main />} />
               </Routes>
