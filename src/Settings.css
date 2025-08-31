@@ -1,22 +1,27 @@
-.setting-container {
+.profile-container1 {
   background-color: transparent;
   width: 100%;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
   max-width: 1100px;
-  margin: 0 auto;
-}
-.settings-header {
+  margin: 0 auto;  
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+}
+.profile-header {
+  display: flex;
+  justify-content: flex-end; 
+  /* align-items: center; */
+  /* gap: 12px; */
   margin-bottom: 20px;
 }
-.settings-actions {
+
+.profile-actions {
   display: flex;
   align-items: center;
+  justify-content: end;
   gap: 10px;
 }
 .columns {
@@ -37,7 +42,7 @@
 
 }
 
-.setting-heading {
+.profile-heading {
   font-size: 24px;
   font-weight: 700;
   margin-left: 0;
@@ -51,6 +56,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 6px #ffffff;
   margin-bottom: 12px;
   background: #fff;
+  position: relative;
 }
 .profile-image img {
   object-fit: cover;
@@ -59,13 +65,13 @@
   border-radius: 50%;
 }
 .editicon-container{
-  /* background-color: green;x */
+  background-color: green;
   position: relative;
 }
 .edit-icon{
   position: absolute;
-  left: 150px;
-  top:-20px;
+  left: 160px;
+  top:170px;
   /* background-color: pink; */
 }
 .name-container {
@@ -161,6 +167,14 @@
   transition: border 0.2s;
   outline: none;
 }
+.input:disabled {
+  background-color: #fff;      
+  color: #333;                 
+  border: none;       
+  cursor: not-allowed;      
+  opacity: 1; 
+}
+
 .input:focus {
   border-color: #0f766e;
   background: #fff;
@@ -243,29 +257,29 @@
 
 
 @media (max-width: 768px) {
-  .setting-heading {
+  .profile-heading {
     margin-left: 0;
     margin-bottom: 2%;
   }
-  .settings-header {
+  .profile-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  .settings-actions {
-    /* align-self: stretch; */
+  .profile-actions {
+    align-self: stretch;
     justify-content: flex-end;
   }
+ 
   .columns {
     grid-template-columns: 1fr;
+    justify-items: center; /* center the left/right columns */
     gap: 16px;
   }
-  .left {
-    width: 100%;
+  .left, .right {
+    width: 100%; /* full width for mobile */
   }
-  .right {
-    width: 100%;
-  }
+
   .profile-image {
     margin-left: 0;
     height: 200px;
@@ -284,3 +298,5 @@
     gap: 12px;
   }
 }
+
+
