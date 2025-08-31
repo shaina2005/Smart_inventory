@@ -454,6 +454,31 @@ body {
 }
 
 
+/* Medium screens (tablets) → 2 cards per row */
+@media (max-width: 1024px) {
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small screens (mobiles) → still 2 cards per row */
+@media (max-width: 600px) {
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 15px;
+    height: auto; /* let height adjust naturally */
+  }
+
+  .stat-value {
+    font-size: 18px;
+  }
+}
+
+
 .card.total .card-value { color: #0f766e; }
 .card.low-stock .card-value { color: #f57c00; }
 .card.expired .card-value { color: #d32f2f; }
