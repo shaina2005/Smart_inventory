@@ -5,6 +5,7 @@ import { IoIosColorPalette } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { IoMoon } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import ToggleButton from "../Components/Togglebutton";
 
 import Profile from "../assets/profile_img.webp";
 
@@ -55,7 +56,7 @@ function Settings_main() {
         {/* boxex  */}
         <div className="boxes">
           {boxes.map((item) => (
-            <Link to={item.path} className="box">
+            <Link to={item.path} key={item.path}className="box">
               <div className="h">
                 <item.icon size={18} />
                 {item.label}

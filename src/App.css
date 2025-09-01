@@ -134,7 +134,7 @@ body {
   justify-content: space-between;
   padding: 0 20px;
   z-index: 100;
-  width: calc(100vw - 300px);
+   width: 100vw;
 }
 
 .search-box {
@@ -986,6 +986,15 @@ body {
   .sidebar-logo p{
   display: block;
 }
+
+.navbar-modern {
+    position: fixed; /* instead of relative */
+    top: 20px;
+    left: 270px;      /* offset for sidebar */
+    right: 20px;
+    width: calc(100% - 290px); /* consistent across all pages */
+    max-width: none;
+  }
 }
 
 

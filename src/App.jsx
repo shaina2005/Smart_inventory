@@ -30,7 +30,7 @@ function App() {
     return () => {
       clearTimeout(timer);
     };
-  }, 1);
+  }, []);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
