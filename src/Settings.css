@@ -55,9 +55,13 @@
   margin-bottom: 12px;
   background: #fff;
   position: relative;
-
 }
-.profile-image img {
+.profile-image img{
+  height :100%;
+  width:100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .name-container {
   display: flex;
