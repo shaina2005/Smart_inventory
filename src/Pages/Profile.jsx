@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FiEdit2, FiSave, FiLogOut } from "react-icons/fi";
 import profile from "../assets/profile_img.webp";
 import "../Settings.css";
+import "../App.css"
 
-function Settings({ handleLogout }) {
+function Profile({ handleLogout }) {
   const initialProfile = {
     name: "PCTE",
     role: "Admin",
@@ -20,14 +21,13 @@ function Settings({ handleLogout }) {
   const [errors, setErrors] = useState({});
   const [statusMessage, setStatusMessage] = useState("");
 
-  const handleImageChange = (e)=>{
-	const file = e.target.files[0];
-	if(file)
-	{
-		const imageUrl = URL.createObjectURL(file);
-		setProfileImage(imageUrl);
-	}
-  }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+    }
+  };
   const handleEditToggle = () => {
     setStatusMessage("");
 
@@ -88,10 +88,10 @@ function Settings({ handleLogout }) {
   };
 
   return (
-    <div className="setting-container">
-      <div className="settings-header">
-        <h2 className="setting-heading"></h2>
-        <div className="settings-actions">
+
+    <div className="profile-container">
+      <div className="profile-header">
+        <div className="profile-actions">
           <button
             type="button"
             className="btn ghost edit-btn"
@@ -116,12 +116,20 @@ function Settings({ handleLogout }) {
         <div className="left">
           <div className="profile-image">
             <img src={profileImage} alt="Profile avatar" />
-            <input type="file" accept="image/*" id="fileInput" onChange={handleImageChange} style={{ display: "none" }} />
-            <FiEdit2
-              size={25}
-              className="edit-icon"
-              onClick={() => document.getElementById("fileInput").click()}
+            <input
+              type="file"
+              accept="image/*"
+              id="fileInput"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
             />
+            
+              <FiEdit2
+                size={25}
+                className="edit-icon"
+                onClick={() => document.getElementById("fileInput").click()}
+              />
+           
           </div>
           <div className="name-container">
             <div className="name">{profileData.name}</div>
@@ -248,7 +256,7 @@ function Settings({ handleLogout }) {
                       name="role"
                       type="text"
                       value={draft.role}
-                      readOnly
+                      disabled   
                       className="input"
                     />
                   </div>
@@ -278,7 +286,8 @@ function Settings({ handleLogout }) {
         </div>
       </div>
     </div>
+
   );
 }
 
-export default Settings;
+export default Profile;

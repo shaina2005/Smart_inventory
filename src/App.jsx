@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import Splashscreen from "./Components/Splashscreen";
 import Navbar from "./Components/Navbar";
@@ -11,7 +12,8 @@ import Sidebar from "./Components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
 import Inventory from "./Pages/Inventory";
 import Login from "./Pages/Login";
-import Settings from "./Pages/Settings";
+import Profile from "./Pages/Profile";
+import Settings_main from "./Pages/Settings_main";
 import "./App.css";
 
 function App() {
@@ -19,21 +21,23 @@ function App() {
     sessionStorage.getItem("isLogin") === "true"
   ); // login state
   const [isOpen, setIsOpen] = useState(false);
-  const [splash , setSplash] = useState(true);
+  const [splash, setSplash] = useState(true);
 
- useEffect(()=>{
-    const timer = setTimeout(()=>{
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setSplash(false);
-    } , 2000);
-    return ()=>{ clearTimeout(timer);}
- } , [])
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-if(splash)
-{
-   return <Splashscreen />
-}
+  if (splash) {
+    return <Splashscreen />;
+  }
   return (
     <Router>
       <div className="App">
@@ -65,18 +69,27 @@ if(splash)
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/inventory" element={<Inventory />} />
-                <Route path="*" element={<Navigate to="/dashboard" />} />
                 <Route
-                  path="/settings"
+                  path="/profile"
                   element={
-                    <Settings
-                    handleLogout={() => {
+                    <Profile
+                      handleLogout={() => {
                         sessionStorage.removeItem("isLogin");
                         setIsLogin(false);
                       }}
                     />
                   }
                 />
+                {/* <Route path="/logout" element={()=>{
+                  <div>
+                 { sessionStorage.removeItem("isLogin")}
+                  {setIsLogin(false)}
+                  <Navigate to="/login" />
+
+                  </div>
+                }}/> */}
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+                <Route path="/settings" element={<Settings_main />} />
               </Routes>
             </main>
           </>

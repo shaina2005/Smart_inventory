@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { MdOutlineGridView } from "react-icons/md";
 import { FaChartLine, FaChartBar, FaCog } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
-
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
 
@@ -11,7 +10,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { path: "/dashboard", label: "Dashboard", icon: <MdOutlineGridView size={20} /> },
     { path: "/inventory", label: "Inventory", icon: <FaChartLine size={20} /> },
     { path: "/reports", label: "Reports & Analysis", icon: <FaChartBar size={20} /> },
-    { path: "/settings", label: "Settings", icon: <FaCog size={20} /> }
+    { path: "/settings", label: "Settings", icon: <FaCog size={20} />,extraPath:"/profile"} 
   ];
 
   return (
@@ -28,7 +27,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <Link
             key={item.path}
             to={item.path}
-            className={location.pathname === item.path ? "active" : ""}
+            className={location.pathname === item.path || (item.extraPath  && item.extraPath.includes(location.pathname))? "active" : ""}
           >
             {item.icon}
             <span>{item.label}</span>
