@@ -171,7 +171,7 @@ body {
   justify-content: center;
 }
 
-/* Profile Background */
+/* Profile Background {navbar}*/ 
 .navprofile-container {
   background: #f5f6fa;
   padding: 6px 10px;
@@ -210,8 +210,6 @@ body {
   padding: 20px;
 }
 
-
-
 /* main content  */
 .main-content-container {
   margin-left: 250px;
@@ -220,19 +218,19 @@ body {
 }
 .dashboard {
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
-
+ /* date of dashboard  */
 .date {
   color: gray;
   margin-bottom: 20px;
 }
 
-.cards-container {
+/* .cards-container {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 30px;
+  background-color: pink;
 }
 
 .card {
@@ -256,7 +254,7 @@ body {
 .card.total { border-left: 6px solid teal; }
 .card.low-stock { border-left: 6px solid orange; }
 .card.expired { border-left: 6px solid red; }
-.card.out-of-stock { border-left: 6px solid darkred; }
+.card.out-of-stock { border-left: 6px solid darkred; } */
   
 /* Layout split */
 .login-layout {
@@ -277,7 +275,7 @@ body {
   text-align: center;
   padding: 40px;
 }
-
+/* split screen logo  */
 .brand-logo {
   width: 120px; /* adjust based on your logo */
   margin-bottom: 20px;
@@ -378,19 +376,16 @@ body {
 .login-btn:hover {
   background: #115e57;
 }
-
-
-
+/* inventory page  */
 .inventory-page {
   padding: 20px;
   background-color: #f8f9fa;
   min-height: 100vh;
 }
 
-
-
 /* Updated Cards Styling */
-.stats-cards {
+/* card container  */
+.stats-cards {  
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -404,7 +399,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 180px;   /* same height as reference */
+  height: 180px;   
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   transition: all 0.2s ease;
 }
@@ -463,37 +458,11 @@ body {
   font-weight: bold;
   color: #111;
 }
-
-
-/* Medium screens (tablets) → 2 cards per row */
-@media (max-width: 1024px) {
-  .stats-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Small screens (mobiles) → still 2 cards per row */
-@media (max-width: 600px) {
-  .stats-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .stat-card {
-    padding: 15px;
-    height: auto; /* let height adjust naturally */
-  }
-
-  .stat-value {
-    font-size: 18px;
-  }
-}
-
-
 .card.total .card-value { color: #0f766e; }
 .card.low-stock .card-value { color: #f57c00; }
 .card.expired .card-value { color: #d32f2f; }
 .card.out-of-stock .card-value { color: #757575; }
+
 /* Notification Panel */
 .notification-panel {
   margin-top: 2rem;
@@ -505,6 +474,7 @@ body {
 .notification-bar{
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .notification-bar button {
   height: 28px;
@@ -574,17 +544,6 @@ body {
 .notification-item.info {
   background-color: #dbeafe; /* light blue */
   color: #1e40af; /* dark blue */
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .notification-panel {
-    padding: 0.75rem;
-  }
-  .notification-item {
-    font-size: 0.9rem;
-    padding: 0.6rem 0.8rem;
-  }
 }
 
 /* Inventory Section */
@@ -857,7 +816,6 @@ body {
     margin: 0.5rem;
   }
   .notification-bar {
-    flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
@@ -880,6 +838,22 @@ body {
   
    .sidebar-logo p{
     display: none;
+  }
+}
+/* Small screens (mobiles) → still 2 cards per row */
+@media (max-width: 600px) {
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 15px;
+    height: auto; 
+  }
+
+  .stat-value {
+    font-size: 18px;
   }
 }
 @media (max-width: 768px) {
@@ -938,10 +912,11 @@ body {
   }
     .notification-panel {
     padding: 0.75rem;
-    margin: 0.75rem;
   }
-  .notification-bar h3 {
-    font-size: 1.1rem;
+  
+  .notification-item {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
   .notification-bar button {
     font-size: 13px;
@@ -997,5 +972,12 @@ body {
   }
 }
 
+/* Medium screens (tablets) → 2 cards per row */
+@media (max-width:1024px) {
+    .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
 
 
