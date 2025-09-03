@@ -135,6 +135,15 @@
   background: #fff;
   position: relative;
 }
+
+.profile-image img{
+  height :100%;
+  width:100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
 .profile-image img {
   object-fit: cover;
   height: 100%;
@@ -150,6 +159,7 @@
   left: 160px;
   top: 170px;
 }
+
 .name-container {
   display: flex;
   justify-content: center;
