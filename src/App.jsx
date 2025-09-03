@@ -69,10 +69,11 @@ function App() {
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/inventory" element={<Inventory />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route
-                  path="/profile"
+                  path="/settings"
                   element={
-                    <Profile
+                    <Settings_main
                       handleLogout={() => {
                         sessionStorage.removeItem("isLogin");
                         setIsLogin(false);
@@ -80,16 +81,7 @@ function App() {
                     />
                   }
                 />
-                {/* <Route path="/logout" element={()=>{
-                  <div>
-                 { sessionStorage.removeItem("isLogin")}
-                  {setIsLogin(false)}
-                  <Navigate to="/login" />
-
-                  </div>
-                }}/> */}
                 <Route path="*" element={<Navigate to="/dashboard" />} />
-                <Route path="/settings" element={<Settings_main />} />
               </Routes>
             </main>
           </>

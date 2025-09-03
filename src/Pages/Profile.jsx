@@ -4,7 +4,7 @@ import profile from "../assets/profile_img.webp";
 import "../Settings.css";
 import "../App.css"
 
-function Profile({ handleLogout }) {
+function Profile() {
   const initialProfile = {
     name: "PCTE",
     role: "Admin",
@@ -99,14 +99,6 @@ function Profile({ handleLogout }) {
           >
             {isEditing ? <FiSave size={16} /> : <FiEdit2 size={16} />}
             <span>{isEditing ? "Save" : "Edit"}</span>
-          </button>
-          <button
-            type="button"
-            className="btn danger logout-btn"
-            onClick={handleLogout}
-          >
-            <FiLogOut size={16} />
-            <span>Logout</span>
           </button>
         </div>
       </div>

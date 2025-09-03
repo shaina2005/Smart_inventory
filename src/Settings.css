@@ -44,7 +44,7 @@
   height: 100%;
 }
 .boxes{
-  background-color: #f8f9fa;
+  background-color: #f8f9faa5;
   display: flex;
   gap:10px;
   flex-direction: column;
@@ -54,15 +54,16 @@
 .box {
   display: flex;
   height: 60px;
-  /* background-color: rgb(240, 237, 237);  */
   backdrop-filter: blur(1px); 
   background-color: white;
-  box-shadow: 0 4px 10px rgba(92, 91, 91, 0.13);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   color: white;
   padding: 10px;
+  padding-right: 20px;
   width: 100%;
   border-radius: 10px;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .box .h {
   align-items: center;
@@ -71,7 +72,7 @@
   color: #444;
   margin-left: 15px;
   display: flex;
-  gap:10px
+  gap:10px;
 }
 .box .arrow{
   color: #444;
@@ -100,8 +101,10 @@
 .profile-actions {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: right;
   gap: 10px;
+  padding-right: 30px;
+  width: 100%;
 }
 .columns {
   display: grid;

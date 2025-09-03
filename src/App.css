@@ -225,37 +225,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* .cards-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
-  background-color: pink;
-}
-
-.card {
-  flex: 1 1 200px;
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.card h4 {
-  margin-bottom: 10px;
-}
-
-.card p {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.card.total { border-left: 6px solid teal; }
-.card.low-stock { border-left: 6px solid orange; }
-.card.expired { border-left: 6px solid red; }
-.card.out-of-stock { border-left: 6px solid darkred; } */
-  
 /* Layout split */
 .login-layout {
   display: flex;
@@ -963,11 +932,11 @@ body {
 }
 
 .navbar-modern {
-    position: fixed; /* instead of relative */
+    position: fixed; 
     top: 20px;
-    left: 270px;      /* offset for sidebar */
+    left: 270px;     
     right: 20px;
-    width: calc(100% - 290px); /* consistent across all pages */
+    width: calc(100% - 290px); 
     max-width: none;
   }
 }

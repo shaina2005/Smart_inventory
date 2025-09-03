@@ -1,40 +1,57 @@
 import React from "react";
-import { FaUserPen } from "react-icons/fa6";
-import { IoNotifications } from "react-icons/io5";
-import { IoIosColorPalette } from "react-icons/io";
+import { LuUserRoundPen } from "react-icons/lu";
+import { FiBell } from "react-icons/fi";
+import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { IoMdLogOut } from "react-icons/io";
-import { IoMoon } from "react-icons/io5";
+import { IoMoonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import ToggleButton from "../Components/Togglebutton";
 
 import Profile from "../assets/profile_img.webp";
 
-function Settings_main() {
+function Settings_main({handleLogout}) {
   const boxes = [
     {
-      path: "/profile",
-      icon: FaUserPen,
-      label: "Profile",
+      title: "Account settings",
+      items: [
+        {
+          path: "/profile",
+          icon: LuUserRoundPen,
+          label: "Profile",
+        },
+        {
+          path: "/notification",
+          icon: FiBell,
+          label: "Notifications",
+        },
+      ],
+    },
+
+    {
+      title: "Preferences",
+      items: [
+        {
+          path: "/theme",
+          icon: HiOutlinePaintBrush,
+          label: "Theme",
+        },
+        {
+          path: "/dnd",
+          icon: IoMoonOutline,
+          label: "Do Not Disturb",
+        },
+      ],
     },
     {
-      path: "/notification",
-      icon: IoNotifications,
-      label: "Notifications",
-    },
-    {
-      path: "/theme",
-      icon: IoIosColorPalette,
-      label: "Theme",
-    },
-    {
-      path: "/dnd",
-      icon: IoMoon,
-      label: "Do Not Disturb",
-    },
-    {
-      path: "/logout",
-      icon: IoMdLogOut,
-      label: "Logout",
+      title: "General",
+      items: [
+        {
+          path: "/logout",
+          icon: IoMdLogOut,
+          label: "Logout",
+          action :handleLogout,
+        },
+      ],
     },
   ];
   return (
@@ -54,15 +71,21 @@ function Settings_main() {
         </div>
 
         {/* boxex  */}
+
         <div className="boxes">
-          {boxes.map((item) => (
-            <Link to={item.path} key={item.path}className="box">
-              <div className="h">
-                <item.icon size={18} />
-                {item.label}
-              </div>
-              <div className="arrow"> &gt;</div>
-            </Link>
+          {boxes.map((section)=>(
+            <div key={section.title}>
+            <h5>{section.title}</h5>
+            {section.items.map((item)=>(
+              <Link to={item.path} key={item.path} className="box" onClick={item.action}>
+                <div className="h">
+                  <item.icon size={18}/>
+                  {item.label}
+                </div>
+                <div className="arrow">&gt;</div>
+              </Link> 
+            ))}
+            </div>  
           ))}
         </div>
       </div>
