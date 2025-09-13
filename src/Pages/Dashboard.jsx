@@ -1,12 +1,21 @@
 import React from "react";
-
-const Dashboard = () => {
+import { useEffect } from "react";
+const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
   const inventoryStats = {
     totalItems: 120,
     lowStock: 8,
     expiredItems: 40,
     outOfStock: 15,
   };
+  useEffect(() => {
+    if (dndOn) {
+      const timer = setTimeout(() => {
+        setDnd(false); // automatically turn off DND after 12 hours
+      }, 12 * 60 * 60 * 1000); // 12 hours in milliseconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [dndOn, setDnd]);
 
   const notifications = [
     { id: 1, type: "expired", message: "Item 'Milk' has expired!" },
@@ -37,13 +46,18 @@ const Dashboard = () => {
         return "#374151"; // grey
     }
   };
-   const getNotificationColor = (type) => {
+  const getNotificationColor = (type) => {
     switch (type) {
-      case "expired": return "#FEE2E2"; // light red
-      case "low-stock": return "#FEF3C7"; // light yellow
-      case "restocked": return "#DCFCE7"; // light green
-      case "info": return "#DBEAFE"; // light blue
-      default: return "#F3F4F6"; // light grey
+      case "expired":
+        return "#FEE2E2"; // light red
+      case "low-stock":
+        return "#FEF3C7"; // light yellow
+      case "restocked":
+        return "#DCFCE7"; // light green
+      case "info":
+        return "#DBEAFE"; // light blue
+      default:
+        return "#F3F4F6"; // light grey
     }
   };
   return (
@@ -92,22 +106,28 @@ const Dashboard = () => {
       {/* Notification Panel */}
       <div className="notification-panel">
         <div className="notification-bar">
-        <h3>Notifications</h3>
-        <button>Clear</button>
+          <h3>Notifications</h3>
+          <button>Clear</button>
         </div>
         <div className="notifications">
-          {notifications.map((note) => (
-            <div
-              key={note.id}
-              className="notification-item"
-              style={{
-                backgroundColor: getNotificationColor(note.type),
-                color: getTextColor(note.type),
-              }}
-            >
-              {note.message}
-            </div>
-          ))}
+          {dndOn ? (
+            <div className="notification-item">Do Not Disturb is on</div>
+          ) : notificationsOn ? (
+            notifications.map((note) => (
+              <div
+                key={note.id}
+                className="notification-item"
+                style={{
+                  backgroundColor: getNotificationColor(note.type),
+                  color: getTextColor(note.type),
+                }}
+              >
+                {note.message}
+              </div>
+            ))
+          ) : (
+            <div className="notification-item">Notifications are off</div>
+          )}
         </div>
       </div>
     </div>

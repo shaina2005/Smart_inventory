@@ -4,12 +4,16 @@ import { FiBell } from "react-icons/fi";
 import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { IoMdLogOut } from "react-icons/io";
 import { IoMoonOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import ToggleButton from "../Components/Togglebutton";
-
+import { Link, useNavigate } from "react-router-dom";
+import ToggleButton from "../Components/ToggleButton";
 import Profile from "../assets/profile_img.webp";
+import { useState } from "react";
 
-function Settings_main({handleLogout}) {
+function Settings_main({ handleLogout, notifications, setNotifications, dnd, setDnd }) {
+  // const [notifications, setNotifications] = useState(true);
+  // const [dnd, setDnd] = useState(false);
+  const [theme, setTheme] = useState(false);
+  const navigate = useNavigate();
   const boxes = [
     {
       title: "Account settings",
@@ -20,7 +24,9 @@ function Settings_main({handleLogout}) {
           label: "Profile",
         },
         {
-          path: "/notification",
+          // path: "/notification",
+          type: "toggle",
+          state: "notifications",
           icon: FiBell,
           label: "Notifications",
         },
@@ -31,12 +37,16 @@ function Settings_main({handleLogout}) {
       title: "Preferences",
       items: [
         {
-          path: "/theme",
+          // path: "/theme",
+          type: "toggle",
+          state: "theme",
           icon: HiOutlinePaintBrush,
-          label: "Theme",
+          label: "Dark Theme",
         },
         {
-          path: "/dnd",
+          // path: "/dnd",
+          type: "toggle",
+          state: "dnd",
           icon: IoMoonOutline,
           label: "Do Not Disturb",
         },
@@ -49,11 +59,26 @@ function Settings_main({handleLogout}) {
           path: "/logout",
           icon: IoMdLogOut,
           label: "Logout",
-          action :handleLogout,
+          action: handleLogout,
         },
       ],
     },
   ];
+
+  const handleToggle = (stateName)=>{
+    if(stateName === "notifications")
+    {
+      setNotifications(!notifications);
+    }
+    if(stateName === "theme")
+    {
+      setTheme(!theme);
+    }
+    if(stateName === "dnd")
+    {
+      setDnd(!dnd);
+    }
+  }
   return (
     <div>
       <div className="settings-container">
@@ -73,19 +98,40 @@ function Settings_main({handleLogout}) {
         {/* boxex  */}
 
         <div className="boxes">
-          {boxes.map((section)=>(
+          {boxes.map((section) => (
             <div key={section.title}>
-            <h5>{section.title}</h5>
-            {section.items.map((item)=>(
-              <Link to={item.path} key={item.path} className="box" onClick={item.action}>
-                <div className="h">
-                  <item.icon size={18}/>
-                  {item.label}
+              <h5>{section.title}</h5>
+              {section.items.map((item) => (
+                <div key={item.label} className="box" onClick={
+                  ()=>{
+                    if(item.path)
+                    {
+                      navigate(item.path);
+                    }
+                    if(item.action)
+                    {
+                      item.action();
+                    }
+                  }
+                }>
+                  <div className="h">
+                    <item.icon size={18}/>
+                    {item.label}
+                  </div>
+
+                  {/* toggle  */}
+                  {item.type==="toggle"?(
+                    <ToggleButton 
+                    isOn={
+                      item.state==="notifications"?notifications:item.state==="theme"?theme:dnd
+                    }
+                    onToggle={()=>handleToggle(item.state)}
+                    />
+                  ):(<div className="arrow">&gt;</div>)}
                 </div>
-                <div className="arrow">&gt;</div>
-              </Link> 
-            ))}
-            </div>  
+      
+              ))}
+            </div>
           ))}
         </div>
       </div>

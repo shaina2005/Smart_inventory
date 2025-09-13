@@ -22,6 +22,8 @@ function App() {
   ); // login state
   const [isOpen, setIsOpen] = useState(false);
   const [splash, setSplash] = useState(true);
+  const [notificationsOn, setNotificationsOn] = useState(true);
+  const [dndOn, setDndOn] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -67,13 +69,26 @@ function App() {
             <main className="main-modern">
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <Dashboard
+                      notificationsOn={notificationsOn}
+                      dndOn={dndOn}
+                      setDnd={setDndOn}
+                    />
+                  }
+                />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route
                   path="/settings"
                   element={
                     <Settings_main
+                      notifications={notificationsOn}
+                      setNotifications={setNotificationsOn}
+                      dnd={dndOn}
+                      setDnd={setDndOn}
                       handleLogout={() => {
                         sessionStorage.removeItem("isLogin");
                         setIsLogin(false);

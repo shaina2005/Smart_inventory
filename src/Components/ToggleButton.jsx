@@ -1,25 +1,16 @@
-import React, { useState } from "react";
-
-export default function ToggleButton() {
-  const [isOn, setIsOn] = useState(false); // state to track toggle
-
-  const handleToggle = () => {
-    setIsOn(!isOn); // flip state
-  };
-
+import React from 'react'
+import "../Settings.css";
+function ToggleButton({isOn , onToggle}) {
   return (
-    <button
-      onClick={handleToggle}
-      style={{
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "20px",
-        cursor: "pointer",
-        background: isOn ? "green" : "gray",
-        color: "white",
-      }}
-    >
-      {isOn ? "ON" : "OFF"}
-    </button>
-  );
+    <div>
+      <div className="toggle-container">
+        <label className='switch'>
+          <input type="checkbox" checked={isOn} onChange={onToggle}/>
+        <span className='slider round'/>
+        </label>
+      </div>
+    </div>
+  )
 }
+
+export default ToggleButton
