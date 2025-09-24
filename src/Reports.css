@@ -1,0 +1,40 @@
+.main-reports-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  height: 100vh;
+  padding: 10px;
+  margin-right: 50px;
+}
+
+.chart-box {
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  height: 100%;
+}
+.chart-box .heading {
+  font-size: 25px;
+  height: 15%;
+  color: black;
+  text-align: center;
+}
+.chart-box .chart-container {
+  flex: 1;
+}
+
+@media (max-width: 1200px) {
+  .main-reports-container {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .chart-box .heading{
+    font-size: 18px;   
+  }
+  .chart-box .chart-container{
+    height: 300px;
+    flex: none;
+  }
+}

@@ -34,6 +34,6 @@ const inventorySchema = new mongoose.Schema({
     type: String,
     enum: ["good-stock", "low-stock", "out-of-stock" , "expired"],
   },
-});
+} , { timestamps: true });
 
 export default mongoose.model("Inventory" , inventorySchema);
