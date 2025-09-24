@@ -1,19 +1,43 @@
 import React from "react";
-import ExpiredReport from "../Components/ExpiredReport";
+import ExpiredItemChart from "../Components/ExpiredItemChart";
+import NewItemAdded from "../Components/NewItemAdded";
+import LowStockItems from "../Components/LowStockItems";
+import "../Reports.css";
 
 const Reports = () => {
-  // Mock data for now (replace with API later)
-  const expiredItemsData = [3, 1, 8, 4, 2, 1, 6];
-  const addedItem = [4,0,8,12,7,5,9];
-
   return (
-    <div style={{ width: "400px", height: "350px", margin: "0 auto" } }>
+    <div className="main-reports-container">
+      {/* box 1  */}
+      <div className="chart-box">
+        <div className="heading">Expired Items</div>
+        <div className="chart-container">
+          <ExpiredItemChart />
+        </div>
+      </div>
 
-      {/* Chart */}
-      <ExpiredReport data={expiredItemsData} />
-      {/* <ExpiredReport data={addedItem}/> */}
+      {/* box 2  */}
+      <div className="chart-box">
+        <div className="heading">New Items Added</div>
+        <div className="chart-container">
+         <NewItemAdded />
+        </div>
+      </div>
 
-      {/* You can add summary cards and table here later */}
+      {/* box 3  */}
+      <div className="chart-box">
+        <div className="heading">Low Stock Items</div>
+        <div className="chart-container">
+        <LowStockItems />
+        </div>
+      </div>
+
+      {/* box 4  */}
+      <div className="chart-box">
+        <div className="heading">-</div>
+        <div className="chart-container">
+          -
+        </div>
+      </div>
     </div>
   );
 };

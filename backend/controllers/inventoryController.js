@@ -97,3 +97,129 @@ export const deleteItem = async (req, res) => {
   }
 };
 
+export const getExpiredItem = async (req, res) => {
+  try {
+    const today = new Date();
+
+    // Get Monday of the current week
+    const startOfWeek = new Date(today);
+    const day = today.getDay(); // Sunday = 0, Monday = 1
+    const diffToMonday = day === 0 ? -6 : 1 - day; 
+    startOfWeek.setDate(today.getDate() + diffToMonday);
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const weekData = [];
+
+    for (let i = 0; i <= today.getDay() - 1; i++) { // Only Monday → today
+      const currentDay = new Date(startOfWeek);
+      currentDay.setDate(startOfWeek.getDate() + i);
+
+      const start = new Date(currentDay);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(currentDay);
+      end.setHours(23, 59, 59, 999);
+
+      const expiredCount = await Inventory.countDocuments({
+        item_expirydate: { $gte: start, $lte: end },
+      });
+
+      const dayName = currentDay
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toLowerCase();
+
+      weekData.push({ day: dayName, expired: expiredCount });
+    }
+
+    res.json(weekData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+export const getNewItemsWeek = async (req, res) => {
+  try {
+    const today = new Date();
+
+    // Get Monday of the current week
+    const startOfWeek = new Date(today);
+    const day = today.getDay(); // Sunday = 0, Monday = 1
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    startOfWeek.setDate(today.getDate() + diffToMonday);
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const weekData = [];
+
+    for (let i = 0; i <= today.getDay() - 1; i++) { // Monday → today
+      const currentDay = new Date(startOfWeek);
+      currentDay.setDate(startOfWeek.getDate() + i);
+
+      const start = new Date(currentDay);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(currentDay);
+      end.setHours(23, 59, 59, 999);
+
+      const newItemsCount = await Inventory.countDocuments({
+        createdAt: { $gte: start, $lte: end },
+      });
+
+      const dayName = currentDay
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toLowerCase();
+
+      weekData.push({ day: dayName, newItems: newItemsCount });
+    }
+
+    res.json(weekData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+export const getLowStockWeek = async (req, res) => {
+  try {
+    const today = new Date();
+
+    // Get Monday of the current week
+    const startOfWeek = new Date(today);
+    const day = today.getDay(); // Sunday = 0, Monday = 1
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    startOfWeek.setDate(today.getDate() + diffToMonday);
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const weekData = [];
+
+    // Loop Monday → today
+    for (let i = 0; i <= today.getDay() - 1; i++) {
+      const currentDay = new Date(startOfWeek);
+      currentDay.setDate(startOfWeek.getDate() + i);
+
+      const start = new Date(currentDay);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(currentDay);
+      end.setHours(23, 59, 59, 999);
+
+      // Count low-stock items for the day
+      const lowStockCount = await Inventory.countDocuments({
+        item_status: "low-stock",
+        createdAt: { $gte: start, $lte: end }
+      });
+
+      const dayName = currentDay
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toLowerCase();
+
+      weekData.push({ day: dayName, lowStock: lowStockCount });
+    }
+
+    res.json(weekData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
