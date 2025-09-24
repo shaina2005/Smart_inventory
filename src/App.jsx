@@ -14,6 +14,7 @@ import Inventory from "./Pages/Inventory";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Settings_main from "./Pages/Settings_main";
+import Reports from "./Pages/Reports";
 import "./App.css";
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
                 />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/reports" element={<Reports />} />
                 <Route
                   path="/settings"
                   element={

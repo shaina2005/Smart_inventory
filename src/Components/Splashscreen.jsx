@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import splashscreenvideo from '../assets/StockWise.mp4'
-import "../App.css";
 
 function Splashscreen() {
   return (
