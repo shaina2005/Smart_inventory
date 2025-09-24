@@ -400,7 +400,7 @@ input:checked + .slider:before {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 1160px) {
   .profile-heading {
     margin-left: 0;
     margin-bottom: 2%;
@@ -448,13 +448,13 @@ input:checked + .slider:before {
     gap: 12px;
   }
 }
-@media (min-width:450px) and (max-width:768px) {
+/* @media (min-width:450px) and (max-width:768px) {
   .profile-image{
     height:180px;
     width:180px;
-  }
-}
-@media (min-width: 769px) {
+  } 
+} */
+/* @media (min-width: 769px) {
   .profile-header {
     flex-direction: row;
     justify-content: space-between;
@@ -465,4 +465,4 @@ input:checked + .slider:before {
     grid-template-columns: 300px 1fr;
     gap: 24px;
   }
-}
+} */

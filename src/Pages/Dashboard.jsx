@@ -117,10 +117,10 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
               <div
                 key={note.id}
                 className="notification-item"
-                style={{
-                  backgroundColor: getNotificationColor(note.type),
-                  color: getTextColor(note.type),
-                }}
+                // style={{
+                //   backgroundColor: getNotificationColor(note.type),
+                //   color: getTextColor(note.type),
+                // }}
               >
                 {note.message}
               </div>
