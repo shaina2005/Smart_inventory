@@ -1,17 +1,21 @@
 import React from "react";
-import ExpiredItemChart from "../Components/ExpiredItemChart";
-import NewItemAdded from "../Components/NewItemAdded";
-import LowStockItems from "../Components/LowStockItems";
+import Charts from "../Components/Charts";
 import "../Reports.css";
 
 const Reports = () => {
   return (
-    <div className="main-reports-container">
+    <div className="main-reports-container ">
       {/* box 1  */}
       <div className="chart-box">
         <div className="heading">Expired Items</div>
         <div className="chart-container">
-          <ExpiredItemChart />
+          <Charts
+            apiUrl="http://localhost:5000/items/expired_items"
+            xDatakey="day"
+            chartdataKey="expired"
+            chartType="line"
+            fillColor="rgba(231, 88, 48, 1)"
+          />
         </div>
       </div>
 
@@ -19,7 +23,13 @@ const Reports = () => {
       <div className="chart-box">
         <div className="heading">New Items Added</div>
         <div className="chart-container">
-         <NewItemAdded />
+         <Charts
+            apiUrl="http://localhost:5000/items/new_items_added"
+            xDatakey="day"
+            chartdataKey="newItems"
+            chartType="line"
+            fillColor="#0f766e"
+          />
         </div>
       </div>
 
@@ -27,16 +37,21 @@ const Reports = () => {
       <div className="chart-box">
         <div className="heading">Low Stock Items</div>
         <div className="chart-container">
-        <LowStockItems />
+          <Charts
+            apiUrl="http://localhost:5000/items/get_lowstock_items"
+            xDatakey="day"
+            chartdataKey="lowStock"
+            chartType="bar"
+            fillColor="#f59e0b"
+            
+          />
         </div>
       </div>
 
       {/* box 4  */}
       <div className="chart-box">
-        <div className="heading">-</div>
-        <div className="chart-container">
-          -
-        </div>
+        <div className="heading">Storage centric</div>
+        <div className="chart-container">-</div>
       </div>
     </div>
   );
