@@ -13,7 +13,7 @@ const Reports = () => {
             apiUrl="http://localhost:5000/items/expired_items"
             xDatakey="day"
             chartdataKey="expired"
-            chartType="line"
+            chartType="bar"
             fillColor="rgba(231, 88, 48, 1)"
           />
         </div>
@@ -27,7 +27,7 @@ const Reports = () => {
             apiUrl="http://localhost:5000/items/new_items_added"
             xDatakey="day"
             chartdataKey="newItems"
-            chartType="line"
+            chartType="bar"
             fillColor="#0f766e"
           />
         </div>

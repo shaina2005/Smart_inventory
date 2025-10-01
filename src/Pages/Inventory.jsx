@@ -17,7 +17,6 @@ function Inventory() {
     item_quantity: "",
     item_location: "",
     item_expirydate: "",
-    item_status: "good-stock",
   });
 
   // Fetch inventory data from backend
@@ -29,7 +28,31 @@ function Inventory() {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/items");
-      setInventory(response.data);
+      const updatedInventory = response.data
+        .map((item) => {
+          let status;
+          const today = new Date();
+          const expiry = new Date(item.item_expirydate);
+
+          if (expiry < today) {
+            status = "expired"; // Expired overrides everything
+          } else if (item.item_quantity === 0) {
+            status = "out-of-stock";
+          } else if (item.item_quantity < 5) {
+            status = "low-stock";
+          } else {
+            status = "good-stock";
+          }
+
+          return { ...item, item_status: status };
+        })
+        .sort((a, b) => {
+          const nameA = (a.item_name || "").trim().toLowerCase();
+          const nameB = (b.item_name || "").trim().toLowerCase();
+          return nameA > nameB ? 1 : nameA < nameB ? -1 : 0;
+        });
+
+      setInventory(updatedInventory);
       setError(null);
     } catch (err) {
       setError("Failed to fetch inventory data");
@@ -75,8 +98,12 @@ function Inventory() {
   // Calculate statistics
   const calculateStats = () => {
     const totalItems = inventory.length;
-    const lowStock = inventory.filter((item) => item.item_status === "low-stock").length;
-    const outOfStock = inventory.filter((item) => item.item_status === "out-of-stock").length;
+    const lowStock = inventory.filter(
+      (item) => item.item_status === "low-stock"
+    ).length;
+    const outOfStock = inventory.filter(
+      (item) => item.item_status === "out-of-stock"
+    ).length;
 
     const today = new Date();
     const expiredItems = inventory.filter((item) => {
@@ -93,30 +120,26 @@ function Inventory() {
   };
 
   const filteredInventory = inventory.filter((item) => {
-    const matchesSearch = item.item_name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === "all" || item.item_status === filterStatus;
+    const matchesSearch = item.item_name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === "all" || item.item_status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  const getStatusInfo = (status, expiryDate) => {
+  const getStatusInfo = (quantity, expiryDate) => {
     const today = new Date();
     const expiry = new Date(expiryDate);
 
     if (expiry < today) {
       return { text: "Expired", className: "expired" };
-    }
-
-    switch (status) {
-      case "good-stock":
-        return { text: "Good", className: "good" };
-      case "low-stock":
-        return { text: "Low Stock", className: "low-stock" };
-      case "out-of-stock":
-        return { text: "Out of Stock", className: "out-of-stock" };
-        case "expired":
-          return{ text : "expired" , className: "expired"}
-      default:
-        return { text: status, className: "unknown" };
+    } else if (quantity === 0) {
+      return { text: "Out of Stock", className: "out-of-stock" };
+    } else if (quantity < 5) {
+      return { text: "Low Stock", className: "low-stock" };
+    } else {
+      return { text: "Good", className: "good" };
     }
   };
 
@@ -126,8 +149,6 @@ function Inventory() {
       month: "short",
       day: "numeric",
       year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
     });
   };
 
@@ -154,50 +175,42 @@ function Inventory() {
     <div className="inventory-page">
       {/* Statistics Cards */}
       <div className="stats-cards">
-  <div className="stat-card">
-    <div className="stat-icon total">
-      📄
-    </div>
-    <div className="stat-content">
-      <h4>Total Items</h4>
-      <p>Total items in stock</p>
-      <span className="stat-value">{inventoryStats.totalItems}</span>
-    </div>
-  </div>
+        <div className="stat-card">
+          <div className="stat-icon total">📄</div>
+          <div className="stat-content">
+            <h4>Total Items</h4>
+            <p>Total items in stock</p>
+            <span className="stat-value">{inventoryStats.totalItems}</span>
+          </div>
+        </div>
 
-  <div className="stat-card">
-    <div className="stat-icon low">
-      ⏰
-    </div>
-    <div className="stat-content">
-      <h4>Low Stock Items</h4>
-      <p>Number of items that are running low</p>
-      <span className="stat-value">{inventoryStats.lowStock}</span>
-    </div>
-  </div>
+        <div className="stat-card">
+          <div className="stat-icon low">⏰</div>
+          <div className="stat-content">
+            <h4>Low Stock Items</h4>
+            <p>Number of items that are running low</p>
+            <span className="stat-value">{inventoryStats.lowStock}</span>
+          </div>
+        </div>
 
-  <div className="stat-card">
-    <div className="stat-icon expired">
-      ⚠️
-    </div>
-    <div className="stat-content">
-      <h4>Expired Items</h4>
-      <p>Number of items of their expiration date</p>
-      <span className="stat-value">{inventoryStats.expiredItems}</span>
-    </div>
-  </div>
+        <div className="stat-card">
+          <div className="stat-icon expired">⚠️</div>
+          <div className="stat-content">
+            <h4>Expired Items</h4>
+            <p>Number of items of their expiration date</p>
+            <span className="stat-value">{inventoryStats.expiredItems}</span>
+          </div>
+        </div>
 
-  <div className="stat-card">
-    <div className="stat-icon out">
-      📦
-    </div>
-    <div className="stat-content">
-      <h4>Out of Stock Items</h4>
-      <p>Count of items currently out of stock</p>
-      <span className="stat-value">{inventoryStats.outOfStock}</span>
-    </div>
-  </div>
-</div>
+        <div className="stat-card">
+          <div className="stat-icon out">📦</div>
+          <div className="stat-content">
+            <h4>Out of Stock Items</h4>
+            <p>Count of items currently out of stock</p>
+            <span className="stat-value">{inventoryStats.outOfStock}</span>
+          </div>
+        </div>
+      </div>
 
       {/* Inventory Table Section */}
       <div className="inventory-section">
@@ -213,7 +226,10 @@ function Inventory() {
               />
             </div>
             <div className="filter-dropdown">
-              <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
                 <option value="all">All </option>
                 <option value="good-stock">Good</option>
                 <option value="low-stock">Low Stock</option>
@@ -243,19 +259,26 @@ function Inventory() {
             </thead>
             <tbody>
               {filteredInventory.map((item, index) => {
-                const statusInfo = getStatusInfo(item.item_status, item.item_expirydate);
+                const statusInfo = getStatusInfo(
+                  item.item_quantity,
+                  item.item_expirydate
+                );
                 return (
                   <tr key={item._id || index}>
                     <td>{item.item_name}</td>
                     <td>
-                      <div className="item-image">{item.item_image || "🍽️"}</div>
+                      <div className="item-image">
+                        {item.item_image || "🍽️"}
+                      </div>
                     </td>
                     <td>{item.item_quantity}</td>
                     <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>
                     <td>{formatDate(item.item_expirydate)}</td>
                     <td>
-                      <span className={`status ${statusInfo.className}`}>{statusInfo.text}</span>
+                      <span className={`status ${statusInfo.className}`}>
+                        {statusInfo.text}
+                      </span>
                     </td>
                     <td>
                       <div className="action-buttons">
@@ -281,7 +304,9 @@ function Inventory() {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-btn" onClick={closeModal}>×</button>
+            <button className="close-btn" onClick={closeModal}>
+              ×
+            </button>
             <h3>Add New Item</h3>
             <form onSubmit={handleSave}>
               <input
@@ -332,8 +357,16 @@ function Inventory() {
               </select>
 
               <div className="form-actions">
-                <button type="submit" className="save-btn">Save</button>
-                <button type="button" className="cancel-btn" onClick={closeModal}>Cancel</button>
+                <button type="submit" className="save-btn">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

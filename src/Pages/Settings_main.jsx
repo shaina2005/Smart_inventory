@@ -1,7 +1,7 @@
 import React from "react";
 import { LuUserRoundPen } from "react-icons/lu";
 import { FiBell } from "react-icons/fi";
-import { HiOutlinePaintBrush } from "react-icons/hi2";
+import { IoMdHelpCircleOutline } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { IoMoonOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +9,13 @@ import ToggleButton from "../Components/ToggleButton";
 import Profile from "../assets/profile_img.webp";
 import { useState } from "react";
 
-function Settings_main({ handleLogout, notifications, setNotifications, dnd, setDnd }) {
+function Settings_main({
+  handleLogout,
+  notifications,
+  setNotifications,
+  dnd,
+  setDnd,
+}) {
   // const [notifications, setNotifications] = useState(true);
   // const [dnd, setDnd] = useState(false);
   const [theme, setTheme] = useState(false);
@@ -23,13 +29,6 @@ function Settings_main({ handleLogout, notifications, setNotifications, dnd, set
           icon: LuUserRoundPen,
           label: "Profile",
         },
-        {
-          // path: "/notification",
-          type: "toggle",
-          state: "notifications",
-          icon: FiBell,
-          label: "Notifications",
-        },
       ],
     },
 
@@ -37,11 +36,11 @@ function Settings_main({ handleLogout, notifications, setNotifications, dnd, set
       title: "Preferences",
       items: [
         {
-          // path: "/theme",
+          // path: "/notification",
           type: "toggle",
-          state: "theme",
-          icon: HiOutlinePaintBrush,
-          label: "Dark Theme",
+          state: "notifications",
+          icon: FiBell,
+          label: "Notifications",
         },
         {
           // path: "/dnd",
@@ -56,6 +55,11 @@ function Settings_main({ handleLogout, notifications, setNotifications, dnd, set
       title: "General",
       items: [
         {
+          path: "/",
+          icon: IoMdHelpCircleOutline,
+          label: "Help",
+        },
+        {
           path: "/logout",
           icon: IoMdLogOut,
           label: "Logout",
@@ -65,20 +69,17 @@ function Settings_main({ handleLogout, notifications, setNotifications, dnd, set
     },
   ];
 
-  const handleToggle = (stateName)=>{
-    if(stateName === "notifications")
-    {
+  const handleToggle = (stateName) => {
+    if (stateName === "notifications") {
       setNotifications(!notifications);
     }
-    if(stateName === "theme")
-    {
+    if (stateName === "theme") {
       setTheme(!theme);
     }
-    if(stateName === "dnd")
-    {
+    if (stateName === "dnd") {
       setDnd(!dnd);
     }
-  }
+  };
   return (
     <div>
       <div className="settings-container">
@@ -102,34 +103,39 @@ function Settings_main({ handleLogout, notifications, setNotifications, dnd, set
             <div key={section.title}>
               <h5>{section.title}</h5>
               {section.items.map((item) => (
-                <div key={item.label} className="box" onClick={
-                  ()=>{
-                    if(item.path)
-                    {
+                <div
+                  key={item.label}
+                  className="box"
+                  onClick={() => {
+                    if (item.path) {
                       navigate(item.path);
                     }
-                    if(item.action)
-                    {
+                    if (item.action) {
                       item.action();
                     }
-                  }
-                }>
+                  }}
+                >
                   <div className="h">
-                    <item.icon size={18}/>
+                    <item.icon size={18} />
                     {item.label}
                   </div>
 
                   {/* toggle  */}
-                  {item.type==="toggle"?(
-                    <ToggleButton 
-                    isOn={
-                      item.state==="notifications"?notifications:item.state==="theme"?theme:dnd
-                    }
-                    onToggle={()=>handleToggle(item.state)}
+                  {item.type === "toggle" ? (
+                    <ToggleButton
+                      isOn={
+                        item.state === "notifications"
+                          ? notifications
+                          : item.state === "theme"
+                          ? theme
+                          : dnd
+                      }
+                      onToggle={() => handleToggle(item.state)}
                     />
-                  ):(<div className="arrow">&gt;</div>)}
+                  ) : (
+                    <div className="arrow">&gt;</div>
+                  )}
                 </div>
-      
               ))}
             </div>
           ))}

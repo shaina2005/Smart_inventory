@@ -648,8 +648,8 @@ body {
 }
 
 .status.out-of-stock {
-  background: #ffebee;
-  color: #d32f2f;
+  background: #ede4a4;
+  color: #7f7012;
 }
 
 .status.expired {
