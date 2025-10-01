@@ -222,4 +222,3 @@ export const getLowStockWeek = async (req, res) => {
   }
 };
 
-
