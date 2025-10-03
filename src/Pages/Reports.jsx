@@ -23,11 +23,11 @@ const Reports = () => {
       <div className="chart-box">
         <div className="heading">New Items Added</div>
         <div className="chart-container">
-         <Charts
+          <Charts
             apiUrl="http://localhost:5000/items/new_items_added"
             xDatakey="day"
             chartdataKey="newItems"
-            chartType="bar"
+            chartType="line"
             fillColor="#0f766e"
           />
         </div>
@@ -43,7 +43,6 @@ const Reports = () => {
             chartdataKey="lowStock"
             chartType="bar"
             fillColor="#f59e0b"
-            
           />
         </div>
       </div>

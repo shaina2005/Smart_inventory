@@ -4,6 +4,7 @@ import { FiBell } from "react-icons/fi";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { IoMoonOutline } from "react-icons/io5";
+import { MdOutlineFileUpload } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import ToggleButton from "../Components/ToggleButton";
 import Profile from "../assets/profile_img.webp";
@@ -18,6 +19,14 @@ function Settings_main({
 }) {
   // const [notifications, setNotifications] = useState(true);
   // const [dnd, setDnd] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [helpForm, setHelpForm] = useState({
+    title: "",
+    description: "",
+    email: "",
+    screenshots: null,
+  });
+
   const [theme, setTheme] = useState(false);
   const navigate = useNavigate();
   const boxes = [
@@ -55,9 +64,10 @@ function Settings_main({
       title: "General",
       items: [
         {
-          path: "/",
+          path: "",
           icon: IoMdHelpCircleOutline,
           label: "Help",
+          action: () => setIsHelpOpen(true),
         },
         {
           path: "/logout",
@@ -141,6 +151,99 @@ function Settings_main({
           ))}
         </div>
       </div>
+      {isHelpOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setIsHelpOpen(false)}>
+              ×
+            </button>
+            <h3>Report a Problem</h3>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("Form Data:", helpForm);
+                alert("Problem reported!");
+                setIsHelpOpen(false);
+              }}
+            >
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={helpForm.email}
+                onChange={(e) =>
+                  setHelpForm({ ...helpForm, email: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                name="title"
+                placeholder="Problem Title"
+                value={helpForm.title}
+                onChange={(e) =>
+                  setHelpForm({ ...helpForm, title: e.target.value })
+                }
+                required
+              />
+
+              <textarea
+                name="description"
+                placeholder="Describe the problem..."
+                rows="4"
+                cols="48"
+                value={helpForm.description}
+                onChange={(e) =>
+                  setHelpForm({ ...helpForm, description: e.target.value })
+                }
+                required
+              />
+
+              {/* File Upload Section */}
+              <div className="file-upload">
+                <input
+                  type="file"
+                  id="screenshotUpload"
+                  name="screenshots"
+                  accept="image/*"
+                  multiple
+                  style={{ display: "none" }} // hide default button
+                  onChange={(e) =>
+                    setHelpForm({ ...helpForm, screenshots: e.target.files })
+                  }
+                />
+
+                {/* Custom styled button */}
+                <label htmlFor="screenshotUpload" className="upload-btn">
+                  <MdOutlineFileUpload size={20} /> Upload Screenshots
+                </label>
+
+                {/* Show file names if selected */}
+                {helpForm.screenshots && (
+                  <div className="file-names">
+                    {Array.from(helpForm.screenshots).map((file, i) => (
+                      <p key={i}>{file.name}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="form-actions">
+                <button type="submit" className="save-btn">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setIsHelpOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

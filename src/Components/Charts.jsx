@@ -42,7 +42,7 @@ function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
             dataKey={chartdataKey}
             type="monotone"
             stroke={fillColor}
-            strokeWidth={2}
+            strokeWidth={3}
             activeDot={{ r: 5, fill: { fillColor } }}
           />
         </LineChart>
@@ -56,7 +56,7 @@ function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
           <Bar
             dataKey={chartdataKey}
             fill={fillColor}
-            barSize={30}
+            barSize={50}
             radius={[10, 10, 0, 0]}
           />
         </BarChart>

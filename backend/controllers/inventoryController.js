@@ -198,7 +198,7 @@ export const getLowStockWeek = async (req, res) => {
     let cumulativeLowStock = 0;
 
     // Simulate day-by-day
-    for (let i = 0; i <= day; i++) {
+    for (let i = 0; i < day; i++) {
       const currentDay = new Date(startOfWeek);
       currentDay.setDate(startOfWeek.getDate() + i);
 
