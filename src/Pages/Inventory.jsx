@@ -248,7 +248,7 @@ function Inventory() {
             <thead>
               <tr>
                 <th>Item Name</th>
-                <th>Image</th>
+                {/* <th>Image</th> */}
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Storage Location</th>
@@ -266,11 +266,11 @@ function Inventory() {
                 return (
                   <tr key={item._id || index}>
                     <td>{item.item_name}</td>
-                    <td>
+                    {/* <td>
                       <div className="item-image">
                         {item.item_image || "🍽️"}
                       </div>
-                    </td>
+                    </td> */}
                     <td>{item.item_quantity}</td>
                     <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>

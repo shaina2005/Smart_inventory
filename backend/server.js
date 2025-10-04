@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import loginRoute from "./routes/loginRoute.js";
 import mongoose from "mongoose";
 import inventoryRoute from "./routes/inventoryRoute.js";
+import HelpRoute from "./routes/HelpRoute.js"
 
 const PORT = 5000;
 const app = express();
@@ -28,6 +29,7 @@ app.use(cors()); //assigning middleware
 
 app.use("/api/auth", loginRoute);
 app.use("/items", inventoryRoute);
+app.use("/help",HelpRoute);
 
 app.listen(PORT, () => {
   console.log("Server is running : ", PORT);

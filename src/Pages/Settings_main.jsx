@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LuUserRoundPen } from "react-icons/lu";
 import { FiBell } from "react-icons/fi";
 import { IoMdHelpCircleOutline } from "react-icons/io";
@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ToggleButton from "../Components/ToggleButton";
 import Profile from "../assets/profile_img.webp";
 import { useState } from "react";
+import axios from "axios";
 
 function Settings_main({
   handleLogout,
@@ -17,8 +18,6 @@ function Settings_main({
   dnd,
   setDnd,
 }) {
-  // const [notifications, setNotifications] = useState(true);
-  // const [dnd, setDnd] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [helpForm, setHelpForm] = useState({
     title: "",
@@ -90,6 +89,29 @@ function Settings_main({
       setDnd(!dnd);
     }
   };
+  const [result, setResult] = useState(null);
+  const helpSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const helpSend = await axios.post("http://localhost:5000/help", {
+        email: helpForm.email,
+        title: helpForm.title,
+        description: helpForm.description,
+        screenshots: helpForm.screenshots,
+      });
+      setResult(helpSend.data);
+    } catch (error) {
+      console.log("Error " + error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (result) {
+      setTimeout(() => {
+        setResult(null);
+      }, 5000);
+    }
+  }, [result]);
   return (
     <div>
       <div className="settings-container">
@@ -158,29 +180,33 @@ function Settings_main({
               ×
             </button>
             <h3>Report a Problem</h3>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("Form Data:", helpForm);
-                alert("Problem reported!");
-                setIsHelpOpen(false);
-              }}
-            >
+            {result && (
+              <div
+                style={{
+                  color: result.color,
+                  fontSize: "15px",
+                  marginBottom: "5px",
+                }}
+              >
+                {result.message}; 
+              </div>
+            )}
+            <form onSubmit={helpSubmit}>
               <input
                 type="email"
                 name="email"
                 placeholder="Your Email"
-                value={helpForm.email}
+                // value={helpForm.email}
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, email: e.target.value })
                 }
+                required
               />
               <input
                 type="text"
                 name="title"
                 placeholder="Problem Title"
-                value={helpForm.title}
+                // value={helpForm.title}
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, title: e.target.value })
                 }
@@ -192,7 +218,7 @@ function Settings_main({
                 placeholder="Describe the problem..."
                 rows="4"
                 cols="48"
-                value={helpForm.description}
+                // value={helpForm.description}
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, description: e.target.value })
                 }
@@ -208,9 +234,11 @@ function Settings_main({
                   accept="image/*"
                   multiple
                   style={{ display: "none" }} // hide default button
-                  onChange={(e) =>
-                    setHelpForm({ ...helpForm, screenshots: e.target.files })
-                  }
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files);
+                    const fileNames = files.map((file) => file.name);
+                    setHelpForm({ ...helpForm, screenshots: fileNames });
+                  }}
                 />
 
                 {/* Custom styled button */}
@@ -221,8 +249,8 @@ function Settings_main({
                 {/* Show file names if selected */}
                 {helpForm.screenshots && (
                   <div className="file-names">
-                    {Array.from(helpForm.screenshots).map((file, i) => (
-                      <p key={i}>{file.name}</p>
+                    {helpForm.screenshots.map((file, i) => (
+                      <p key={i}>{file}</p>
                     ))}
                   </div>
                 )}
