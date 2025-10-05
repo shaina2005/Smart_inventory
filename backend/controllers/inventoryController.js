@@ -39,14 +39,13 @@ export const addItem = async (req, res) => {
     });
     //updating if items already exists
     if (existingItem) {
-      existingItem.item_image = incomingdata.item_image;
+      existingItem.item_department = incomingdata.item_department;
       existingItem.item_quantity =
         parseInt(existingItem.item_quantity) +
         parseInt(incomingdata.item_quantity);
       existingItem.item_unit = incomingdata.item_unit;
       existingItem.item_location = incomingdata.item_location;
       existingItem.item_expirydate = incomingdata.item_expirydate;
-      existingItem.item_status = incomingdata.item_status;
 
       await existingItem.save();
 

@@ -74,7 +74,10 @@ textarea {
   font-size: 14px;
   transition: border 0.3s;
 }
-
+.modal-content label {
+  font-size: 14px;
+  margin-left: 10px;
+}
 .modal-content form input:focus,
 .modal-content form select:focus,
 .modal-content form textarea:focus {

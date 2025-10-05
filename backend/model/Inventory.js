@@ -6,11 +6,10 @@ const inventorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-    item_image: {
+    item_department: {
       type: String,
+      required: true,
     },
-
     item_quantity: {
       type: Number,
       required: true,

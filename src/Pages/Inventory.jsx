@@ -8,12 +8,15 @@ function Inventory() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [result, setResult] = useState();
+  const [departmentFilter, setDepartmentFilter] = useState("");
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newItem, setNewItem] = useState({
     item_name: "",
-    item_image: "",
+    item_department: "",
+    item_unit: "",
     item_quantity: "",
     item_location: "",
     item_expirydate: "",
@@ -73,7 +76,9 @@ function Inventory() {
     e.preventDefault();
     try {
       // post to backend
-      await axios.post("http://localhost:5000/items", newItem);
+      const respone = await axios.post("http://localhost:5000/items", newItem);
+      console.log(respone.data);
+
       fetchInventoryData(); // reload data
       closeModal();
     } catch (err) {
@@ -87,11 +92,11 @@ function Inventory() {
     setIsModalOpen(false);
     setNewItem({
       item_name: "",
-      item_image: "",
+      item_department: "",
       item_quantity: "",
+      item_unit: "",
       item_location: "",
       item_expirydate: "",
-      item_status: "good-stock",
     });
   };
 
@@ -125,7 +130,9 @@ function Inventory() {
       .includes(searchTerm.toLowerCase());
     const matchesStatus =
       filterStatus === "all" || item.item_status === filterStatus;
-    return matchesSearch && matchesStatus;
+    const matchesDepartment =
+      filterStatus === "all" || item.item_department === departmentFilter;
+    return matchesSearch && matchesStatus && matchesDepartment;
   });
 
   const getStatusInfo = (quantity, expiryDate) => {
@@ -237,6 +244,23 @@ function Inventory() {
                 <option value="expired">Expired</option>
               </select>
             </div>
+            <div className="filter-dropdown">
+              <select
+                value={departmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+              >
+                <option value="all">Department </option>
+                <option value="Administration">Administration & HR</option>
+                <option value="Banquet">Banquet & Events</option>
+                <option value="Engineering">Engineering & Maintenancek</option>
+                <option value="production">F&B production</option>
+                <option value="service">F&B service</option>
+                <option value="Front">Front office</option>
+                <option value="Housekeeping">Housekeeping</option>
+                <option value="Security">Security Departments</option>
+                <option value="others">Other</option>
+              </select>
+            </div>
             <button className="add-item-btn" onClick={openModal}>
               + Add Item
             </button>
@@ -248,12 +272,12 @@ function Inventory() {
             <thead>
               <tr>
                 <th>Item Name</th>
-                {/* <th>Image</th> */}
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Storage Location</th>
                 <th>Used By</th>
                 <th>Status</th>
+                <th>Department</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -266,11 +290,7 @@ function Inventory() {
                 return (
                   <tr key={item._id || index}>
                     <td>{item.item_name}</td>
-                    {/* <td>
-                      <div className="item-image">
-                        {item.item_image || "🍽️"}
-                      </div>
-                    </td> */}
+
                     <td>{item.item_quantity}</td>
                     <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>
@@ -280,6 +300,7 @@ function Inventory() {
                         {statusInfo.text}
                       </span>
                     </td>
+                    <td>{item.item_department}</td>
                     <td>
                       <div className="action-buttons">
                         <button className="edit-btn">✏️</button>
@@ -317,21 +338,42 @@ function Inventory() {
                 onChange={handleChange}
                 required
               />
-              <input
-                type="text"
-                name="item_image"
-                placeholder="Image URL"
-                value={newItem.item_image}
+              <select
+                name="item_department"
+                value={newItem.item_department}
                 onChange={handleChange}
-              />
+              >
+                <option value="all">Department </option>
+                <option value="Administration">Administration & HR</option>
+                <option value="Banquet">Banquet & Events</option>
+                <option value="Engineering">Engineering & Maintenancek</option>
+                <option value="production">F&B production</option>
+                <option value="service">F&B service</option>
+                <option value="Front">Front office</option>
+                <option value="Housekeeping">Housekeeping</option>
+                <option value="Security">Security Departments</option>
+                <option value="others">Other</option>
+              </select>
+
               <input
                 type="number"
                 name="item_quantity"
-                placeholder="Quantity (kg)"
+                placeholder="Quantity"
                 value={newItem.item_quantity}
                 onChange={handleChange}
                 required
               />
+              <select
+                name="item_unit"
+                value={newItem.item_unit}
+                onChange={handleChange}
+              >
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="pcs">pcs</option>
+                <option value="btl">btl</option>
+                <option value="ltr">ltr</option>
+              </select>
               <input
                 type="text"
                 name="item_location"
@@ -342,19 +384,10 @@ function Inventory() {
               <input
                 type="date"
                 name="item_expirydate"
+                placeholder="Expiry date"
                 value={newItem.item_expirydate}
                 onChange={handleChange}
-                required
               />
-              <select
-                name="item_status"
-                value={newItem.item_status}
-                onChange={handleChange}
-              >
-                <option value="good-stock">Good</option>
-                <option value="low-stock">Low Stock</option>
-                <option value="out-of-stock">Out of Stock</option>
-              </select>
 
               <div className="form-actions">
                 <button type="submit" className="save-btn">
