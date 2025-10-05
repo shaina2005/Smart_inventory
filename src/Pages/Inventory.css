@@ -49,6 +49,7 @@
 
 .close-btn:hover {
   color: #e53935;
+  font-weight: bold;
 }
 
 /* Modal Heading */
@@ -62,7 +63,8 @@
 
 /* Form Fields */
 .modal-content form input,
-.modal-content form select {
+.modal-content form select,
+textarea {
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 15px;
@@ -74,9 +76,10 @@
 }
 
 .modal-content form input:focus,
-.modal-content form select:focus {
-  border: 1px solid #4caf50;
-  box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+.modal-content form select:focus,
+.modal-content form textarea:focus {
+  border: 1.5px solid #2b2d2b;
+  box-shadow: 0 0 4px rgba(150, 162, 150, 0.4);
 }
 
 /* Form Actions */
@@ -88,7 +91,7 @@
 
 .save-btn {
   flex: 1;
-  background: #4caf50;
+  background: #204a31;
   color: white;
   padding: 10px;
   border: none;
@@ -99,12 +102,12 @@
 }
 
 .save-btn:hover {
-  background: #43a047;
+  background: #33754e;
 }
 
 .cancel-btn {
   flex: 1;
-  background: #f44336;
+  background: #c20e02;
   color: white;
   padding: 10px;
   border: none;
@@ -116,4 +119,23 @@
 
 .cancel-btn:hover {
   background: #d32f2f;
+}
+.upload-btn {
+  display: inline-block;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  background-color: none;
+  color: gray;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+  transition: background 0.3s ease;
+}
+
+.file-names p {
+  font-size: 12px;
+  color: #555;
+  margin: 4px 0 0;
 }
