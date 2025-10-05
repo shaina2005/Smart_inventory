@@ -30,7 +30,7 @@ function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
 
   const isline = chartType.toLowerCase() === "line";
   return (
-    <ResponsiveContainer height="100%" width="100%">
+    <ResponsiveContainer height={230} width="100%">
       {isline ? (
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3 " />

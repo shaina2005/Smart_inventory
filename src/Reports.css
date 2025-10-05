@@ -4,25 +4,24 @@
   gap: 25px;
   padding: 30px;
   background: #faf9f9;
+  border-radius: 10px;
   justify-content: center;
 }
 
 .chart-box {
-  flex: 1 1 calc(50% - 25px);
-  max-width: calc(50% - 25px);
+  width: 48%;
   background: #fff;
+  padding: 20px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-left: 6px solid #0f766e;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transition: all 0.25s ease;
 }
 
 .chart-box:hover {
-  /* border-left-color: #0f766e; */
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 }
 
 .heading {
@@ -30,6 +29,7 @@
   font-size: 17px;
   font-weight: 600;
   color: #1e293b;
+  text-align: center;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -38,7 +38,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 230px;
+  min-height: 300px;
+  width: 100%;
   padding: 14px;
   background: #f9fafb;
+}
+@media (max-width: 1200px) {
+  .main-reports-container {
+    flex-direction: column;
+  }
+  .chart-box {
+    width: 100%;
+    padding: 0px;
+  }
 }
