@@ -399,6 +399,57 @@ input:checked + .slider:before {
 }
 
 
+/* 🌟 Success/Error Message Box Styling */
+.result-message {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  animation: fadeInOut 5s ease-in-out forwards;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+
+/* ✅ Success */
+.result-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* ❌ Error */
+.result-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ✨ Smooth Fade In + Fade Out */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
 
 @media (max-width: 1160px) {
   .profile-heading {

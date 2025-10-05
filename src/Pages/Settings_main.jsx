@@ -109,7 +109,8 @@ function Settings_main({
     if (result) {
       setTimeout(() => {
         setResult(null);
-      }, 5000);
+        setIsHelpOpen(false);
+      }, 3000);
     }
   }, [result]);
   return (
@@ -182,15 +183,14 @@ function Settings_main({
             <h3>Report a Problem</h3>
             {result && (
               <div
-                style={{
-                  color: result.color,
-                  fontSize: "15px",
-                  marginBottom: "5px",
-                }}
+                className={`result-message ${
+                  result.color === "red" ? "error" : "success"
+                }`}
               >
-                {result.message}; 
+                {result.message}
               </div>
             )}
+
             <form onSubmit={helpSubmit}>
               <input
                 type="email"
@@ -200,7 +200,7 @@ function Settings_main({
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, email: e.target.value })
                 }
-                required
+                // required
               />
               <input
                 type="text"
@@ -210,7 +210,7 @@ function Settings_main({
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, title: e.target.value })
                 }
-                required
+                // required
               />
 
               <textarea
@@ -222,7 +222,7 @@ function Settings_main({
                 onChange={(e) =>
                   setHelpForm({ ...helpForm, description: e.target.value })
                 }
-                required
+                // required
               />
 
               {/* File Upload Section */}
