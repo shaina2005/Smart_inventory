@@ -238,3 +238,4 @@ export const getLowStockWeek = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
