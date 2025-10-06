@@ -50,7 +50,15 @@ const Reports = () => {
       {/* box 4  */}
       <div className="chart-box">
         <div className="heading">Storage centric</div>
-        <div className="chart-container">-</div>
+        <div className="chart-container">
+          <Charts
+            apiUrl="http://localhost:5000/items/department_count" // backend endpoint
+            xDatakey="department"
+            chartdataKey="count"
+            chartType="pie"
+            fillColor="" // not used for Pie chart as slices have COLORS array
+          />
+        </div>
       </div>
     </div>
   );

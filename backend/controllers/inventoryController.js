@@ -101,48 +101,6 @@ export const deleteItem = async (req, res) => {
   }
 };
 
-// export const getExpiredItem = async (req, res) => {
-//   try {
-//     const today = new Date();
-
-//     // Get Monday of the current week
-//     const startOfWeek = new Date(today);
-//     const day = today.getDay(); // Sunday = 0, Monday = 1
-//     const diffToMonday = day === 0 ? -6 : 1 - day;
-//     startOfWeek.setDate(today.getDate() + diffToMonday);
-//     startOfWeek.setHours(0, 0, 0, 0);
-
-//     const weekData = [];
-
-//     for (let i = 0; i <= today.getDay() - 1; i++) {
-//       // Only Monday → today
-//       const currentDay = new Date(startOfWeek);
-//       currentDay.setDate(startOfWeek.getDate() + i);
-
-//       const start = new Date(currentDay);
-//       start.setHours(0, 0, 0, 0);
-
-//       const end = new Date(currentDay);
-//       end.setHours(23, 59, 59, 999);
-
-//       const expiredCount = await Inventory.countDocuments({
-//         item_expirydate: { $gte: start, $lte: end },
-//       });
-
-//       const dayName = currentDay
-//         .toLocaleDateString("en-US", { weekday: "short" })
-//         .toLowerCase();
-
-//       weekData.push({ day: dayName, expired: expiredCount });
-//     }
-
-//     res.json(weekData);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
-
 export const getExpiredItem = async (req, res) => {
   try {
     const today = new Date();
@@ -177,48 +135,6 @@ export const getExpiredItem = async (req, res) => {
   }
 };
 
-// export const getNewItemsWeek = async (req, res) => {
-//   try {
-//     const today = new Date();
-
-//     // Get Monday of the current week
-//     const startOfWeek = new Date(today);
-//     const day = today.getDay(); // Sunday = 0, Monday = 1
-//     const diffToMonday = day === 0 ? -6 : 1 - day;
-//     startOfWeek.setDate(today.getDate() + diffToMonday);
-//     startOfWeek.setHours(0, 0, 0, 0);
-
-//     const weekData = [];
-
-//     for (let i = 0; i <= today.getDay() - 1; i++) {
-//       // Monday → today
-//       const currentDay = new Date(startOfWeek);
-//       currentDay.setDate(startOfWeek.getDate() + i);
-
-//       const start = new Date(currentDay);
-//       start.setHours(0, 0, 0, 0);
-
-//       const end = new Date(currentDay);
-//       end.setHours(23, 59, 59, 999);
-
-//       const newItemsCount = await Inventory.countDocuments({
-//         createdAt: { $gte: start, $lte: end },
-//       });
-
-//       const dayName = currentDay
-//         .toLocaleDateString("en-US", { weekday: "short" })
-//         .toLowerCase();
-
-//       weekData.push({ day: dayName, newItems: newItemsCount });
-//     }
-
-//     res.json(weekData);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
-
 export const getNewItemsWeek = async (req, res) => {
   try {
     const today = new Date();
@@ -252,60 +168,6 @@ export const getNewItemsWeek = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
-// export const getLowStockWeek = async (req, res) => {
-//   try {
-//     const today = new Date();
-//     const startOfWeek = new Date(today);
-//     const day = today.getDay(); // Sunday = 0
-//     const diffToMonday = day === 0 ? -6 : 1 - day;
-//     startOfWeek.setDate(today.getDate() + diffToMonday);
-//     startOfWeek.setHours(0, 0, 0, 0);
-
-//     const weekData = [];
-//     let cumulativeLowStock = 0;
-
-//     // Simulate day-by-day
-//     for (let i = 0; i < day; i++) {
-//       const currentDay = new Date(startOfWeek);
-//       currentDay.setDate(startOfWeek.getDate() + i);
-
-//       const start = new Date(currentDay);
-//       start.setHours(0, 0, 0, 0);
-
-//       const end = new Date(currentDay);
-//       end.setHours(23, 59, 59, 999);
-
-//       // Find items that went low stock that day
-//       const wentLowStockToday = await Inventory.countDocuments({
-//         item_quantity: { $lte: 5 }, // threshold
-//         updatedAt: { $gte: start, $lte: end },
-//       });
-
-//       // Find items that were restocked above threshold
-//       const restockedToday = await Inventory.countDocuments({
-//         item_quantity: { $gt: 5 },
-//         updatedAt: { $gte: start, $lte: end },
-//       });
-
-//       // Update cumulative low stock count
-//       cumulativeLowStock += wentLowStockToday;
-//       cumulativeLowStock -= restockedToday;
-//       if (cumulativeLowStock < 0) cumulativeLowStock = 0;
-
-//       const dayName = currentDay
-//         .toLocaleDateString("en-US", { weekday: "short" })
-//         .toLowerCase();
-
-//       weekData.push({ day: dayName, lowStock: cumulativeLowStock });
-//     }
-
-//     res.status(200).json(weekData);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
 
 export const getLowStockWeek = async (req, res) => {
   try {
@@ -349,5 +211,55 @@ export const getLowStockWeek = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const departmentCount = async (req, res) => {
+  try {
+    // Predefined departments
+    const departments = [
+      "Administration & HR",
+      "Banquet & Events",
+      "Engineering & Maintenance",
+      "F&B production",
+      "F&B service",
+      "Front office",
+      "Housekeeping",
+      "Security Departments",
+      "others",
+    ];
+
+    // Aggregate to count items per department
+    const counts = await Inventory.aggregate([
+      {
+        $group: {
+          _id: "$item_department",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          department: "$_id",
+          count: 1,
+        },
+      },
+    ]);
+
+    // Merge with predefined departments, fill 0 for missing
+    const result = departments.map((dep) => {
+      const found = counts.find((c) => c.department === dep);
+      return {
+        department: dep,
+        count: found ? found.count : 0,
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Error fetching department stats", error: err });
   }
 };

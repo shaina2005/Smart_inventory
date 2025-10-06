@@ -9,7 +9,7 @@ function Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [result, setResult] = useState();
-  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("all");
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -131,7 +131,7 @@ function Inventory() {
     const matchesStatus =
       filterStatus === "all" || item.item_status === filterStatus;
     const matchesDepartment =
-      filterStatus === "all" || item.item_department === departmentFilter;
+      departmentFilter === "all" || item.item_department === departmentFilter;
     return matchesSearch && matchesStatus && matchesDepartment;
   });
 
@@ -250,14 +250,18 @@ function Inventory() {
                 onChange={(e) => setDepartmentFilter(e.target.value)}
               >
                 <option value="all">Department </option>
-                <option value="Administration">Administration & HR</option>
-                <option value="Banquet">Banquet & Events</option>
-                <option value="Engineering">Engineering & Maintenancek</option>
-                <option value="production">F&B production</option>
-                <option value="service">F&B service</option>
-                <option value="Front">Front office</option>
+                <option value="Administration & HR">Administration & HR</option>
+                <option value="Banquet & Events">Banquet & Events</option>
+                <option value="Engineering & Maintenance">
+                  Engineering & Maintenance
+                </option>
+                <option value="F&B production">F&B production</option>
+                <option value="F&B service">F&B service</option>
+                <option value="Front office">Front office</option>
                 <option value="Housekeeping">Housekeeping</option>
-                <option value="Security">Security Departments</option>
+                <option value="Security Departments">
+                  Security Departments
+                </option>
                 <option value="others">Other</option>
               </select>
             </div>
@@ -275,7 +279,7 @@ function Inventory() {
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Storage Location</th>
-                <th>Used By</th>
+                <th>Expiry Date</th>
                 <th>Status</th>
                 <th>Department</th>
                 <th>Action</th>
@@ -344,14 +348,18 @@ function Inventory() {
                 onChange={handleChange}
               >
                 <option value="all">Department </option>
-                <option value="Administration">Administration & HR</option>
-                <option value="Banquet">Banquet & Events</option>
-                <option value="Engineering">Engineering & Maintenancek</option>
-                <option value="production">F&B production</option>
-                <option value="service">F&B service</option>
-                <option value="Front">Front office</option>
+                <option value="Administration & HR">Administration & HR</option>
+                <option value="Banquet & Events">Banquet & Events</option>
+                <option value="Engineering & Maintenance">
+                  Engineering & Maintenance
+                </option>
+                <option value="F&B production">F&B production</option>
+                <option value="F&B service">F&B service</option>
+                <option value="Front office">Front office</option>
                 <option value="Housekeeping">Housekeeping</option>
-                <option value="Security">Security Departments</option>
+                <option value="Security Departments">
+                  Security Departments
+                </option>
                 <option value="others">Other</option>
               </select>
 
