@@ -15,7 +15,23 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
     try {
       setLoading(true);
       const res = await axios.get("http://localhost:5000/items");
-      setInventory(res.data);
+
+// Add status calculation logic
+const updatedInventory = res.data.map((item) => {
+  const today = new Date();
+  const expiry = new Date(item.item_expirydate);
+  let status;
+
+  if (expiry < today) status = "expired";
+  else if (item.item_quantity === 0) status = "out-of-stock";
+  else if (item.item_quantity < 5) status = "low-stock";
+  else status = "good-stock";
+
+  return { ...item, item_status: status };
+});
+
+setInventory(updatedInventory);
+
       setError(null);
     } catch (err) {
       console.error("Error fetching inventory:", err);
