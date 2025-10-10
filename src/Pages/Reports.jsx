@@ -49,7 +49,7 @@ const Reports = () => {
 
       {/* box 4  */}
       <div className="chart-box">
-        <div className="heading">Storage centric</div>
+        <div className="heading">Department-wise Inventory</div>
         <div className="chart-container">
           <Charts
             apiUrl="http://localhost:5000/items/department_count" // backend endpoint
