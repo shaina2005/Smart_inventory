@@ -20,13 +20,18 @@ import {
 function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
   const [data, setData] = useState([]);
   const COLORS = [
-    "#0088FE",
-    "#00C49F",
-    "#FFBB28",
-    "#FF8042",
-    "#A569BD",
-    "#FF6384",
-    "#36A2EB",
+    "#0088FE", // Blue
+    "#23927eff", // Teal
+    "#FFBB28", // Yellow
+    "#FF8042", // Orange
+    "#480562ff", // Purple
+    "#FF6384", // Pink
+    "#36A2EB", // Light Blue
+    "#8E44AD", // Violet
+    "#2ECC71", // Green
+    "#E67E22", // Amber
+    "#E74C3C", // Red
+    "#1ABC9C", // Aqua
   ];
 
   useEffect(() => {
@@ -80,8 +85,11 @@ function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
             nameKey={xDatakey}
             cx="50%"
             cy="50%"
-            outerRadius={80}
-            label
+            outerRadius={60} // slightly larger and centered
+            innerRadius={10} // makes it a donut chart (looks cleaner)
+            paddingAngle={2} // small space between slices
+            labelLine={false} // removes long connecting lines
+            // label={({ name, value }) => `${name}: ${value}`} // neat labels
           >
             {data.map((entry, index) => (
               <Cell

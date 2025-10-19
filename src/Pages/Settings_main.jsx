@@ -123,7 +123,9 @@ function Settings_main({
             </div>
             <div className="profilebox-text">
               <h4>PCTE</h4>
-              <h6 style={{ fontSize: "12px", color: "#949393ff" }}>Admin</h6>
+              <h6 style={{ fontSize: "12px", color: "#949393ff" }}>
+                {localStorage.getItem("role")}
+              </h6>
             </div>
           </div>
           <div className="rightbox"></div>

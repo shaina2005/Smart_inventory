@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { MdDelete } from "react-icons/md";
+import { MdOutlineModeEdit } from "react-icons/md";
 import "./Inventory.css";
 
 function Inventory() {
@@ -10,6 +12,8 @@ function Inventory() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [result, setResult] = useState();
   const [departmentFilter, setDepartmentFilter] = useState("all");
+  const role = localStorage.getItem("role");
+  console.log("role inventory", role);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -265,9 +269,11 @@ function Inventory() {
                 <option value="others">Other</option>
               </select>
             </div>
-            <button className="add-item-btn" onClick={openModal}>
-              + Add Item
-            </button>
+            {role === "admin" && (
+              <button className="add-item-btn" onClick={openModal}>
+                + Add Item
+              </button>
+            )}
           </div>
         </div>
 
@@ -282,7 +288,7 @@ function Inventory() {
                 <th>Expiry Date</th>
                 <th>Status</th>
                 <th>Department</th>
-                <th>Action</th>
+                {role === "admin" && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
@@ -305,7 +311,24 @@ function Inventory() {
                       </span>
                     </td>
                     <td>{item.item_department}</td>
-                    <td>
+                    {role === "admin" && (
+                      <td>
+                        <div className="action-buttons">
+                          <button className="edit-btn"><MdOutlineModeEdit size={20}/></button>
+                          <MdDelete size={20} style={{color : "rgba(232, 37, 37, 1)"}}/>
+                          {/* <div className="dropdown">
+                            <MdDelete size={20} />
+                            <button className="more-btn">⋯</button>
+                            <div className="dropdown-content">
+                              <button>View Details</button>
+                              <button>Delete</button>
+                            </div>
+                          </div> */}
+                        </div>
+                      </td>
+                    )}
+
+                    {/* <td>
                       <div className="action-buttons">
                         <button className="edit-btn">✏️</button>
                         <div className="dropdown">
@@ -316,7 +339,7 @@ function Inventory() {
                           </div>
                         </div>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}

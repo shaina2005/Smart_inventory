@@ -233,7 +233,7 @@ export const departmentCount = async (req, res) => {
     const counts = await Inventory.aggregate([
       {
         $group: {
-          _id: "$item_department",
+          _id: { $ifNull: ["$item_department", "others"] },
           count: { $sum: 1 },
         },
       },

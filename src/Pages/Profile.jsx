@@ -7,7 +7,7 @@ import "../App.css"
 function Profile() {
   const initialProfile = {
     name: "PCTE",
-    role: "Admin",
+    role: localStorage.getItem("role") ,
     email: "pcte123@gmail.com",
     phone: "1234567890",
     gender: "Male",

@@ -18,6 +18,7 @@ function Login({ onLoginSuccess }) {
 
       if (res.data.success) {
         onLoginSuccess(true);
+        localStorage.setItem("role", res.data.role);
         navigate("/dashboard");
       } else {
         onLoginSuccess(false);
@@ -36,11 +37,7 @@ function Login({ onLoginSuccess }) {
     <div className="login-layout">
       {/* Left side branding */}
       <div className="login-left">
-        <img
-          src={Logo}
-          alt="Smart Inventory Logo"
-          className="brand-logo"
-        />
+        <img src={Logo} alt="Smart Inventory Logo" className="brand-logo" />
         <h1>Smart Inventory</h1>
         <p>Manage your stock efficiently with ease.</p>
       </div>
@@ -78,8 +75,6 @@ function Login({ onLoginSuccess }) {
 
             <button className="login-btn">Login</button>
           </form>
-
-          
         </div>
       </div>
     </div>

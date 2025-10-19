@@ -10,7 +10,8 @@ body {
   height: 100vh;
   width: 100%;
   overflow: hidden; 
-  background-color: #0f766e; 
+  background-color: #0f766e;
+  color : rgb(145, 18, 18) 
 }
 
 .splash-video {
