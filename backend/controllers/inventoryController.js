@@ -84,6 +84,36 @@ export const putItem = async (req, res) => {
   }
 };
 
+//update quantity by staff
+
+export const updateQuantity = async (req, res) => {
+  try {
+    const { usedQuantity } = req.body;
+
+    // 1️⃣ Fetch the item first
+    const item = await Inventory.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    // 2️⃣ Subtract usedQuantity from existing quantity
+    const newQuantity = item.item_quantity - usedQuantity;
+    if (newQuantity < 0) {
+      return res.status(400).json({ error: "Used quantity exceeds stock" });
+    }
+
+    item.item_quantity = newQuantity;
+
+    // 3️⃣ Save updated item
+    await item.save();
+
+    res.status(200).json({ message: "Quantity updated successfully!", item });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update item quantity" });
+  }
+};
+
 // DELETE remove an inventory item
 export const deleteItem = async (req, res) => {
   const { id } = req.params;

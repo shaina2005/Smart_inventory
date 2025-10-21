@@ -4,6 +4,7 @@ import {
   getItem,
   addItem,
   putItem,
+  updateQuantity,
   deleteItem,
   getExpiredItem,
   getNewItemsWeek,
@@ -22,6 +23,7 @@ router.get("/", getAllItems);
 router.get("/:id", getItem);
 router.post("", addItem);
 router.put("/:id", putItem);
+router.patch("/:id" , updateQuantity)
 router.delete("/:id", deleteItem);
 
 export default router;

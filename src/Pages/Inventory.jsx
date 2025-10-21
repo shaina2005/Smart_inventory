@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { BiMinusCircle } from "react-icons/bi";
 import "./Inventory.css";
 
 function Inventory() {
@@ -13,7 +14,9 @@ function Inventory() {
   const [result, setResult] = useState();
   const [departmentFilter, setDepartmentFilter] = useState("all");
   const role = localStorage.getItem("role");
-  console.log("role inventory", role);
+  const [qtyUsed, setQtyUsed] = useState("");
+  const [useOpen, setUseOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState();
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -182,6 +185,19 @@ function Inventory() {
     );
   }
 
+  //use item form
+  const useItem = (item) => {
+    console.log("item used");
+    setUseOpen(true);
+    setSelectedItem(item);
+  };
+
+  const updateQuantity = (item, e) => {
+    e.preventDefault();
+
+    setUseOpen(false);
+    console.log("quantity updated");
+  };
   return (
     <div className="inventory-page">
       {/* Statistics Cards */}
@@ -289,6 +305,7 @@ function Inventory() {
                 <th>Status</th>
                 <th>Department</th>
                 {role === "admin" && <th>Action</th>}
+                {role === "staff" && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -314,8 +331,13 @@ function Inventory() {
                     {role === "admin" && (
                       <td>
                         <div className="action-buttons">
-                          <button className="edit-btn"><MdOutlineModeEdit size={20}/></button>
-                          <MdDelete size={20} style={{color : "rgba(232, 37, 37, 1)"}}/>
+                          <button className="edit-btn">
+                            <MdOutlineModeEdit size={20} />
+                          </button>
+                          <MdDelete
+                            size={20}
+                            style={{ color: "rgba(232, 37, 37, 1)" }}
+                          />
                           {/* <div className="dropdown">
                             <MdDelete size={20} />
                             <button className="more-btn">⋯</button>
@@ -325,6 +347,17 @@ function Inventory() {
                             </div>
                           </div> */}
                         </div>
+                      </td>
+                    )}
+
+                    {role === "staff" && (
+                      <td>
+                        <button
+                          className="use-item-btn"
+                          onClick={() => useItem(item)}
+                        >
+                          <BiMinusCircle size={25} />
+                        </button>
                       </td>
                     )}
 
@@ -428,6 +461,44 @@ function Inventory() {
                   type="button"
                   className="cancel-btn"
                   onClick={closeModal}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {useOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setUseOpen(false)}>
+              ×
+            </button>
+            <h3> {selectedItem.item_name}</h3>
+            <form>
+              <input
+                type="number"
+                placeholder="Enter quantity used"
+                value={qtyUsed}
+                onChange={(e) => setQtyUsed(e.target.value)}
+                min="1"
+                max={selectedItem.item_quantity}
+                required
+              />
+              <div className="form-actions">
+                <button
+                  type="submit"
+                  className="save-btn"
+                  onClick={(e) => updateQuantity(selectedItem, e)}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setUseOpen(false)}
                 >
                   Cancel
                 </button>
