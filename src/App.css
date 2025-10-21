@@ -589,7 +589,7 @@ body {
   color: rgba(239, 68, 68, 1);
   padding: 5px 8px;
   border-radius: 8px;
-  background : none;
+  background: none;
   border: none;
 }
 /* 🌟 Success/Error Message Box Styling */
@@ -727,22 +727,32 @@ body {
   gap: 8px;
 }
 
-.edit-btn,
-.more-btn {
+.edit-btn {
   background: none;
   border: none;
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
+  color : rgb(63, 62, 62)
 }
 
-.edit-btn:hover,
-.more-btn:hover {
-  background: #f4f4f4;
+.edit-btn:hover {
+  color : black;
 }
 
-.dropdown {
+/* Inventory.css */
+.delete-icon {
+  color: rgb(189, 30, 30);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.delete-icon:hover {
+  color: rgba(255, 0, 0, 0.8);
+}
+
+/* .dropdown {
   position: relative;
   display: inline-block;
 }
@@ -775,7 +785,7 @@ body {
 
 .dropdown-content button:hover {
   background: #f4f4f4;
-}
+} */
 
 /* Loading and Error States */
 .loading,
@@ -799,6 +809,44 @@ body {
   margin-top: 15px;
   cursor: pointer;
 }
+
+.popup-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  /* background-color: rgb(231, 23, 23); */
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.close-popup {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (min-width: 320px) and (max-width: 550px) {
   .navbar-modern {
     width: 100%;

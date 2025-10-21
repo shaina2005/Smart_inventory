@@ -51,13 +51,18 @@ export const addItem = async (req, res) => {
 
       return res.status(200).json({
         message: "Item already exists . Item updated",
+        backgroundColor: "#0b877d",
         updatedItem: existingItem,
       });
     }
     //creating new if it doesnt exists
     const newItem = await Inventory(incomingdata);
     await newItem.save();
-    res.status(200).json({ message: "Item added successfully", item: newItem });
+    res.status(200).json({
+      message: "Item added successfully",
+      backgroundColor: "#0b877d",
+      item: newItem,
+    });
   } catch (error) {
     res
       .status(400)
@@ -78,7 +83,7 @@ export const putItem = async (req, res) => {
     }
     res
       .status(200)
-      .json({ message: "Item updated successfully", item: updatedItem });
+      .json({ message: "Item updated successfully",   backgroundColor: "#0b877d", item: updatedItem });
   } catch (error) {
     res.status(400).json({ message: "Error updating item", error });
   }
@@ -107,7 +112,13 @@ export const updateQuantity = async (req, res) => {
     // 3️⃣ Save updated item
     await item.save();
 
-    res.status(200).json({ message: "Quantity updated successfully!", item });
+    res
+      .status(200)
+      .json({
+        message: "Quantity updated successfully!",
+        backgroundColor: "#0b877d",
+        item,
+      });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update item quantity" });
@@ -125,7 +136,10 @@ export const deleteItem = async (req, res) => {
       res.status(404).json({ message: "Item not found" });
       return;
     }
-    res.status(200).json({ message: "Item deleted" });
+    res.status(200).json({
+      message: "Item deleted Successfully",
+      backgroundColor: "rgb(231, 23, 23)",
+    });
   } catch (error) {
     res.status(400).json({ message: "Error deleting item", error });
   }

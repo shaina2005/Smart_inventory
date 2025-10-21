@@ -26,7 +26,6 @@ const inventorySchema = new mongoose.Schema(
 
     item_expirydate: {
       type: Date,
-      required: true,
     },
   },
   { timestamps: true }

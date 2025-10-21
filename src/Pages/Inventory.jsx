@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { BiMinusCircle } from "react-icons/bi";
 import "./Inventory.css";
+import ItemForm from "../Components/ItemForm";
 
 function Inventory() {
   const [inventory, setInventory] = useState([]);
@@ -17,13 +18,15 @@ function Inventory() {
   const [qtyUsed, setQtyUsed] = useState("");
   const [useOpen, setUseOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
+  const [showPopup, setShowPopup] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newItem, setNewItem] = useState({
     item_name: "",
     item_department: "",
-    item_unit: "",
+    item_unit: "pcs",
     item_quantity: "",
     item_location: "",
     item_expirydate: "",
@@ -44,14 +47,22 @@ function Inventory() {
           const today = new Date();
           const expiry = new Date(item.item_expirydate);
 
-          if (expiry < today) {
-            status = "expired"; // Expired overrides everything
-          } else if (item.item_quantity === 0) {
-            status = "out-of-stock";
-          } else if (item.item_quantity < 5) {
-            status = "low-stock";
+          if (item.item_expirydate) {
+            const expiry = new Date(item.item_expirydate);
+            if (expiry < today) {
+              status = "expired";
+            } else if (item.item_quantity === 0) {
+              status = "out-of-stock";
+            } else if (item.item_quantity < 5) {
+              status = "low-stock";
+            } else {
+              status = "good-stock";
+            }
           } else {
-            status = "good-stock";
+            // Expiry date nahi hai
+            if (item.item_quantity === 0) status = "out-of-stock";
+            else if (item.item_quantity < 5) status = "low-stock";
+            else status = "good-stock";
           }
 
           return { ...item, item_status: status };
@@ -82,19 +93,65 @@ function Inventory() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      // post to backend
-      const respone = await axios.post("http://localhost:5000/items", newItem);
-      console.log(respone.data);
+      if (
+        !newItem.item_name ||
+        !newItem.item_unit ||
+        !newItem.item_quantity ||
+        !newItem.item_department ||
+        !newItem.item_location
+      ) {
+        setResult({ message: "Please fill all required fields!" });
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+        return;
+      }
 
-      fetchInventoryData(); // reload data
-      closeModal();
+      if (modalMode === "add") {
+        const response = await axios.post(
+          "http://localhost:5000/items",
+          newItem
+        );
+        setResult(response.data);
+      } else {
+        const response = await axios.put(
+          `http://localhost:5000/items/${newItem._id}`,
+          newItem
+        );
+        setResult(response.data);
+      }
+
+      await fetchInventoryData();
+      setIsModalOpen(false);
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
     } catch (err) {
       console.error("Error saving item:", err);
+      setResult({ message: "Error saving item" });
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
     }
   };
 
   // Modal controls
-  const openModal = () => setIsModalOpen(true);
+  const handleAddClick = () => {
+    setNewItem({
+      item_name: "",
+      item_department: "",
+      item_unit: "pcs",
+      item_quantity: "",
+      item_location: "",
+      item_expirydate: "",
+    });
+    setModalMode("add"); // set mode to add
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (item) => {
+    setNewItem(item); // prefill the form with the selected item
+    setModalMode("edit"); // set mode to edit
+    setIsModalOpen(true);
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setNewItem({
@@ -144,17 +201,14 @@ function Inventory() {
 
   const getStatusInfo = (quantity, expiryDate) => {
     const today = new Date();
-    const expiry = new Date(expiryDate);
-
-    if (expiry < today) {
-      return { text: "Expired", className: "expired" };
-    } else if (quantity === 0) {
-      return { text: "Out of Stock", className: "out-of-stock" };
-    } else if (quantity < 5) {
-      return { text: "Low Stock", className: "low-stock" };
-    } else {
-      return { text: "Good", className: "good" };
+    if (expiryDate) {
+      const expiry = new Date(expiryDate);
+      if (expiry < today) return { text: "Expired", className: "expired" };
     }
+    if (quantity === 0)
+      return { text: "Out of Stock", className: "out-of-stock" };
+    if (quantity < 5) return { text: "Low Stock", className: "low-stock" };
+    return { text: "Good", className: "good" };
   };
 
   const formatDate = (dateString) => {
@@ -192,12 +246,78 @@ function Inventory() {
     setSelectedItem(item);
   };
 
-  const updateQuantity = (item, e) => {
+  const updateQuantity = async (item, e) => {
     e.preventDefault();
 
-    setUseOpen(false);
-    console.log("quantity updated");
+    if (!qtyUsed || qtyUsed <= 0) {
+      setResult({ message: "Please enter a valid quantity!" });
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+      return;
+    }
+
+    if (qtyUsed > item.item_quantity) {
+      setResult({ message: "Used quantity exceeds available stock!" });
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/items/${item._id}`,
+        { usedQuantity: parseInt(qtyUsed) }
+      );
+
+      // ✅ Update the UI immediately without waiting for backend
+      setInventory((prev) =>
+        prev.map((inv) =>
+          inv._id === item._id
+            ? { ...inv, item_quantity: inv.item_quantity - parseInt(qtyUsed) }
+            : inv
+        )
+      );
+
+      // ✅ Re-fetch latest data to ensure accuracy
+      await fetchInventoryData();
+
+      // ✅ Reset form and show success popup
+      setUseOpen(false);
+      setQtyUsed("");
+      setResult({ message: response.data.message });
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      setResult({ message: "Failed to update quantity" });
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+    }
   };
+
+  const handleDelete = async (itemId) => {
+    if (window.confirm("Are you sure you want to delete this item?")) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/items/${itemId}`
+        );
+
+        // Remove deleted item from the UI
+        setInventory(inventory.filter((item) => item._id !== itemId));
+
+        // Show popup message
+        setResult(response.data);
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+      } catch (err) {
+        console.error("Error deleting item:", err);
+        setResult({ message: "Failed to delete item!" });
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+      }
+    }
+  };
+
   return (
     <div className="inventory-page">
       {/* Statistics Cards */}
@@ -286,7 +406,7 @@ function Inventory() {
               </select>
             </div>
             {role === "admin" && (
-              <button className="add-item-btn" onClick={openModal}>
+              <button className="add-item-btn" onClick={handleAddClick}>
                 + Add Item
               </button>
             )}
@@ -321,7 +441,11 @@ function Inventory() {
                     <td>{item.item_quantity}</td>
                     <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>
-                    <td>{formatDate(item.item_expirydate)}</td>
+                    <td>
+                      {item.item_expirydate
+                        ? formatDate(item.item_expirydate)
+                        : "N/A"}
+                    </td>
                     <td>
                       <span className={`status ${statusInfo.className}`}>
                         {statusInfo.text}
@@ -330,22 +454,18 @@ function Inventory() {
                     <td>{item.item_department}</td>
                     {role === "admin" && (
                       <td>
-                        <div className="action-buttons">
+                        <div
+                          className="action-buttons"
+                          onClick={() => handleEditClick(item)}
+                        >
                           <button className="edit-btn">
                             <MdOutlineModeEdit size={20} />
                           </button>
                           <MdDelete
                             size={20}
-                            style={{ color: "rgba(232, 37, 37, 1)" }}
+                            className="delete-icon"
+                            onClick={() => handleDelete(item._id)}
                           />
-                          {/* <div className="dropdown">
-                            <MdDelete size={20} />
-                            <button className="more-btn">⋯</button>
-                            <div className="dropdown-content">
-                              <button>View Details</button>
-                              <button>Delete</button>
-                            </div>
-                          </div> */}
                         </div>
                       </td>
                     )}
@@ -360,19 +480,6 @@ function Inventory() {
                         </button>
                       </td>
                     )}
-
-                    {/* <td>
-                      <div className="action-buttons">
-                        <button className="edit-btn">✏️</button>
-                        <div className="dropdown">
-                          <button className="more-btn">⋯</button>
-                          <div className="dropdown-content">
-                            <button>View Details</button>
-                            <button>Delete</button>
-                          </div>
-                        </div>
-                      </div>
-                    </td> */}
                   </tr>
                 );
               })}
@@ -383,91 +490,13 @@ function Inventory() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="close-btn" onClick={closeModal}>
-              ×
-            </button>
-            <h3>Add New Item</h3>
-            <form onSubmit={handleSave}>
-              <input
-                type="text"
-                name="item_name"
-                placeholder="Item Name"
-                value={newItem.item_name}
-                onChange={handleChange}
-                required
-              />
-              <select
-                name="item_department"
-                value={newItem.item_department}
-                onChange={handleChange}
-              >
-                <option value="all">Department </option>
-                <option value="Administration & HR">Administration & HR</option>
-                <option value="Banquet & Events">Banquet & Events</option>
-                <option value="Engineering & Maintenance">
-                  Engineering & Maintenance
-                </option>
-                <option value="F&B production">F&B production</option>
-                <option value="F&B service">F&B service</option>
-                <option value="Front office">Front office</option>
-                <option value="Housekeeping">Housekeeping</option>
-                <option value="Security Departments">
-                  Security Departments
-                </option>
-                <option value="others">Other</option>
-              </select>
-
-              <input
-                type="number"
-                name="item_quantity"
-                placeholder="Quantity"
-                value={newItem.item_quantity}
-                onChange={handleChange}
-                required
-              />
-              <select
-                name="item_unit"
-                value={newItem.item_unit}
-                onChange={handleChange}
-              >
-                <option value="kg">kg</option>
-                <option value="g">g</option>
-                <option value="pcs">pcs</option>
-                <option value="btl">btl</option>
-                <option value="ltr">ltr</option>
-              </select>
-              <input
-                type="text"
-                name="item_location"
-                placeholder="Storage Location"
-                value={newItem.item_location}
-                onChange={handleChange}
-              />
-              <input
-                type="date"
-                name="item_expirydate"
-                placeholder="Expiry date"
-                value={newItem.item_expirydate}
-                onChange={handleChange}
-              />
-
-              <div className="form-actions">
-                <button type="submit" className="save-btn">
-                  Save
-                </button>
-                <button
-                  type="button"
-                  className="cancel-btn"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <ItemForm
+          newItem={newItem}
+          setNewItem={setNewItem}
+          onSave={handleSave}
+          onCancel={() => setIsModalOpen(false)}
+          mode={modalMode}
+        />
       )}
 
       {useOpen && (
@@ -505,6 +534,15 @@ function Inventory() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {showPopup && (
+        <div
+          className="popup-message"
+          style={{ backgroundColor: result.backgroundColor }}
+        >
+          {result && <span> {result.message}</span>}
         </div>
       )}
     </div>
