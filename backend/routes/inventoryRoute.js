@@ -4,26 +4,25 @@ import {
   getItem,
   addItem,
   putItem,
-  updateQuantity,
   deleteItem,
   getExpiredItem,
   getNewItemsWeek,
   getLowStockWeek,
-  departmentCount
+  departmentCount,
+  useItemQuantity,
 } from "../controllers/inventoryController.js";
 const router = express.Router();
-
 
 router.get("/expired_items", getExpiredItem);
 router.get("/new_items_added", getNewItemsWeek);
 router.get("/get_lowstock_items", getLowStockWeek);
-router.get("/department_count" , departmentCount);
+router.get("/department_count", departmentCount);
 
 router.get("/", getAllItems);
 router.get("/:id", getItem);
 router.post("", addItem);
 router.put("/:id", putItem);
-router.patch("/:id" , updateQuantity)
+router.put("/use/:id", useItemQuantity);
 router.delete("/:id", deleteItem);
 
 export default router;

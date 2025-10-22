@@ -265,11 +265,11 @@ function Inventory() {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/items/${item._id}`,
+        `http://localhost:5000/items/use/${item._id}`,
         { usedQuantity: parseInt(qtyUsed) }
       );
 
-      // ✅ Update the UI immediately without waiting for backend
+      // ✅ Instantly update UI
       setInventory((prev) =>
         prev.map((inv) =>
           inv._id === item._id
@@ -278,13 +278,10 @@ function Inventory() {
         )
       );
 
-      // ✅ Re-fetch latest data to ensure accuracy
-      await fetchInventoryData();
-
-      // ✅ Reset form and show success popup
+      // ✅ Reset popup and input
       setUseOpen(false);
       setQtyUsed("");
-      setResult({ message: response.data.message });
+      setResult(response.data);
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
     } catch (error) {

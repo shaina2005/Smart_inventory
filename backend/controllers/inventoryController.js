@@ -81,9 +81,11 @@ export const putItem = async (req, res) => {
     if (updatedItem === null) {
       return res.status(404).json({ message: "Item not found" });
     }
-    res
-      .status(200)
-      .json({ message: "Item updated successfully",   backgroundColor: "#0b877d", item: updatedItem });
+    res.status(200).json({
+      message: "Item updated successfully",
+      backgroundColor: "#0b877d",
+      item: updatedItem,
+    });
   } catch (error) {
     res.status(400).json({ message: "Error updating item", error });
   }
@@ -91,37 +93,53 @@ export const putItem = async (req, res) => {
 
 //update quantity by staff
 
-export const updateQuantity = async (req, res) => {
+// Staff reduces quantity (use items)
+// Staff reduces quantity (use items)
+export const useItemQuantity = async (req, res) => {
   try {
     const { usedQuantity } = req.body;
 
-    // 1️⃣ Fetch the item first
+    // Check if valid quantity was provided
+    if (!usedQuantity || isNaN(usedQuantity) || usedQuantity <= 0) {
+      return res.status(400).json({
+        message: "Please enter a valid used quantity.",
+        backgroundColor: "red",
+      });
+    }
+
+    // Find item by ID
     const item = await Inventory.findById(req.params.id);
     if (!item) {
-      return res.status(404).json({ error: "Item not found" });
+      return res.status(404).json({
+        message: "Item not found.",
+        backgroundColor: "red",
+      });
     }
 
-    // 2️⃣ Subtract usedQuantity from existing quantity
-    const newQuantity = item.item_quantity - usedQuantity;
-    if (newQuantity < 0) {
-      return res.status(400).json({ error: "Used quantity exceeds stock" });
+    // Check available stock
+    if (item.item_quantity < usedQuantity) {
+      return res.status(400).json({
+        message: "Used quantity exceeds available stock.",
+        backgroundColor: "red",
+      });
     }
 
-    item.item_quantity = newQuantity;
-
-    // 3️⃣ Save updated item
+    // Subtract and save
+    item.item_quantity -= usedQuantity;
     await item.save();
 
-    res
-      .status(200)
-      .json({
-        message: "Quantity updated successfully!",
-        backgroundColor: "#0b877d",
-        item,
-      });
+    res.status(200).json({
+      message: "Quantity reduced successfully!",
+      backgroundColor: "#0b877d",
+      item,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to update item quantity" });
+    console.error("Error updating quantity:", error);
+    res.status(500).json({
+      message: "Failed to update quantity.",
+      backgroundColor: "red",
+      error: error.message,
+    });
   }
 };
 
