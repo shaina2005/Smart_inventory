@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { MdDelete } from "react-icons/md";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDelete, MdOutlineModeEdit } from "react-icons/md";
 import { BiMinusCircle } from "react-icons/bi";
 import "./Inventory.css";
 import ItemForm from "../Components/ItemForm";
@@ -12,16 +11,15 @@ function Inventory() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [result, setResult] = useState();
   const [departmentFilter, setDepartmentFilter] = useState("all");
   const role = localStorage.getItem("role");
   const [qtyUsed, setQtyUsed] = useState("");
   const [useOpen, setUseOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
   const [showPopup, setShowPopup] = useState(false);
-  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [result, setResult] = useState();
 
-  // Modal state
+  // Modal state for add/edit item
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newItem, setNewItem] = useState({
     item_name: "",
@@ -31,8 +29,13 @@ function Inventory() {
     item_location: "",
     item_expirydate: "",
   });
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
 
-  // Fetch inventory data from backend
+  // Modal state for stats cards
+  const [statsModalOpen, setStatsModalOpen] = useState(false);
+  const [statsModalItems, setStatsModalItems] = useState([]);
+  const [statsModalTitle, setStatsModalTitle] = useState("");
+
   useEffect(() => {
     fetchInventoryData();
   }, []);
@@ -45,26 +48,18 @@ function Inventory() {
         .map((item) => {
           let status;
           const today = new Date();
-          const expiry = new Date(item.item_expirydate);
 
           if (item.item_expirydate) {
             const expiry = new Date(item.item_expirydate);
-            if (expiry < today) {
-              status = "expired";
-            } else if (item.item_quantity === 0) {
-              status = "out-of-stock";
-            } else if (item.item_quantity < 5) {
-              status = "low-stock";
-            } else {
-              status = "good-stock";
-            }
+            if (expiry < today) status = "expired";
+            else if (item.item_quantity === 0) status = "out-of-stock";
+            else if (item.item_quantity < 5) status = "low-stock";
+            else status = "good-stock";
           } else {
-            // Expiry date nahi hai
             if (item.item_quantity === 0) status = "out-of-stock";
             else if (item.item_quantity < 5) status = "low-stock";
             else status = "good-stock";
           }
-
           return { ...item, item_status: status };
         })
         .sort((a, b) => {
@@ -83,13 +78,43 @@ function Inventory() {
     }
   };
 
-  // Handle form input change
+  // Stats modal
+  const openStatsModal = (type) => {
+    let itemsToShow = [];
+    let title = "";
+
+    const today = new Date();
+
+    switch (type) {
+      case "low-stock":
+        itemsToShow = inventory.filter((item) => item.item_status === "low-stock");
+        title = "Low Stock Items";
+        break;
+      case "out-of-stock":
+        itemsToShow = inventory.filter((item) => item.item_status === "out-of-stock");
+        title = "Out of Stock Items";
+        break;
+      case "expired":
+        itemsToShow = inventory.filter(
+          (item) => item.item_expirydate && new Date(item.item_expirydate) < today
+        );
+        title = "Expired Items";
+        break;
+      default:
+        itemsToShow = [];
+    }
+
+    setStatsModalItems(itemsToShow);
+    setStatsModalTitle(title);
+    setStatsModalOpen(true);
+  };
+
+  // Form handling
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewItem({ ...newItem, [name]: value });
   };
 
-  // Handle form submit (for now, just add to local state)
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -107,10 +132,7 @@ function Inventory() {
       }
 
       if (modalMode === "add") {
-        const response = await axios.post(
-          "http://localhost:5000/items",
-          newItem
-        );
+        const response = await axios.post("http://localhost:5000/items", newItem);
         setResult(response.data);
       } else {
         const response = await axios.put(
@@ -132,7 +154,6 @@ function Inventory() {
     }
   };
 
-  // Modal controls
   const handleAddClick = () => {
     setNewItem({
       item_name: "",
@@ -142,13 +163,13 @@ function Inventory() {
       item_location: "",
       item_expirydate: "",
     });
-    setModalMode("add"); // set mode to add
+    setModalMode("add");
     setIsModalOpen(true);
   };
 
   const handleEditClick = (item) => {
-    setNewItem(item); // prefill the form with the selected item
-    setModalMode("edit"); // set mode to edit
+    setNewItem(item);
+    setModalMode("edit");
     setIsModalOpen(true);
   };
 
@@ -164,36 +185,26 @@ function Inventory() {
     });
   };
 
-  // Calculate statistics
+  // Stats calculation
   const calculateStats = () => {
     const totalItems = inventory.length;
-    const lowStock = inventory.filter(
-      (item) => item.item_status === "low-stock"
-    ).length;
-    const outOfStock = inventory.filter(
-      (item) => item.item_status === "out-of-stock"
-    ).length;
-
+    const lowStock = inventory.filter((item) => item.item_status === "low-stock").length;
+    const outOfStock = inventory.filter((item) => item.item_status === "out-of-stock").length;
     const today = new Date();
-    const expiredItems = inventory.filter((item) => {
-      const expiryDate = new Date(item.item_expirydate);
-      return expiryDate < today;
-    }).length;
+    const expiredItems = inventory.filter(
+      (item) => item.item_expirydate && new Date(item.item_expirydate) < today
+    ).length;
 
-    return {
-      totalItems,
-      lowStock,
-      expiredItems,
-      outOfStock,
-    };
+    return { totalItems, lowStock, expiredItems, outOfStock };
   };
+
+  const inventoryStats = calculateStats();
 
   const filteredInventory = inventory.filter((item) => {
     const matchesSearch = item.item_name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === "all" || item.item_status === filterStatus;
+    const matchesStatus = filterStatus === "all" || item.item_status === filterStatus;
     const matchesDepartment =
       departmentFilter === "all" || item.item_department === departmentFilter;
     return matchesSearch && matchesStatus && matchesDepartment;
@@ -205,8 +216,7 @@ function Inventory() {
       const expiry = new Date(expiryDate);
       if (expiry < today) return { text: "Expired", className: "expired" };
     }
-    if (quantity === 0)
-      return { text: "Out of Stock", className: "out-of-stock" };
+    if (quantity === 0) return { text: "Out of Stock", className: "out-of-stock" };
     if (quantity < 5) return { text: "Low Stock", className: "low-stock" };
     return { text: "Good", className: "good" };
   };
@@ -220,56 +230,31 @@ function Inventory() {
     });
   };
 
-  const inventoryStats = calculateStats();
-
-  if (loading) {
-    return (
-      <div className="inventory-page">
-        <div className="loading">Loading inventory data...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="inventory-page">
-        <div className="error">Error: {error}</div>
-        <button onClick={fetchInventoryData}>Retry</button>
-      </div>
-    );
-  }
-
-  //use item form
+  // Use item modal
   const useItem = (item) => {
-    console.log("item used");
     setUseOpen(true);
     setSelectedItem(item);
   };
 
   const updateQuantity = async (item, e) => {
     e.preventDefault();
-
     if (!qtyUsed || qtyUsed <= 0) {
       setResult({ message: "Please enter a valid quantity!" });
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
       return;
     }
-
     if (qtyUsed > item.item_quantity) {
       setResult({ message: "Used quantity exceeds available stock!" });
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
       return;
     }
-
     try {
       const response = await axios.put(
         `http://localhost:5000/items/use/${item._id}`,
         { usedQuantity: parseInt(qtyUsed) }
       );
-
-      // ✅ Instantly update UI
       setInventory((prev) =>
         prev.map((inv) =>
           inv._id === item._id
@@ -277,8 +262,6 @@ function Inventory() {
             : inv
         )
       );
-
-      // ✅ Reset popup and input
       setUseOpen(false);
       setQtyUsed("");
       setResult(response.data);
@@ -295,14 +278,8 @@ function Inventory() {
   const handleDelete = async (itemId) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        const response = await axios.delete(
-          `http://localhost:5000/items/${itemId}`
-        );
-
-        // Remove deleted item from the UI
+        const response = await axios.delete(`http://localhost:5000/items/${itemId}`);
         setInventory(inventory.filter((item) => item._id !== itemId));
-
-        // Show popup message
         setResult(response.data);
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 3000);
@@ -314,6 +291,14 @@ function Inventory() {
       }
     }
   };
+
+  if (loading) return <div className="loading">Loading inventory data...</div>;
+  if (error)
+    return (
+      <div className="error">
+        Error: {error} <button onClick={fetchInventoryData}>Retry</button>
+      </div>
+    );
 
   return (
     <div className="inventory-page">
@@ -328,7 +313,7 @@ function Inventory() {
           </div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card" onClick={() => openStatsModal("low-stock")}>
           <div className="stat-icon low">⏰</div>
           <div className="stat-content">
             <h4>Low Stock Items</h4>
@@ -337,7 +322,7 @@ function Inventory() {
           </div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card" onClick={() => openStatsModal("expired")}>
           <div className="stat-icon expired">⚠️</div>
           <div className="stat-content">
             <h4>Expired Items</h4>
@@ -346,7 +331,7 @@ function Inventory() {
           </div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card" onClick={() => openStatsModal("out-of-stock")}>
           <div className="stat-icon out">📦</div>
           <div className="stat-content">
             <h4>Out of Stock Items</h4>
@@ -362,45 +347,38 @@ function Inventory() {
           <h3>Inventory Overview</h3>
           <div className="table-controls">
             <div className="search-box">
-              <input
-                type="text"
-                placeholder="Search Item"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+            <input
+              type="text"
+              placeholder="Search Item"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
             </div>
             <div className="filter-dropdown">
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">All </option>
-                <option value="good-stock">Good</option>
-                <option value="low-stock">Low Stock</option>
-                <option value="out-of-stock">Out of Stock</option>
-                <option value="expired">Expired</option>
-              </select>
+            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+              <option value="all">All</option>
+              <option value="good-stock">Good</option>
+              <option value="low-stock">Low Stock</option>
+              <option value="out-of-stock">Out of Stock</option>
+              <option value="expired">Expired</option>
+            </select>
             </div>
             <div className="filter-dropdown">
-              <select
-                value={departmentFilter}
-                onChange={(e) => setDepartmentFilter(e.target.value)}
-              >
-                <option value="all">Department </option>
-                <option value="Administration & HR">Administration & HR</option>
-                <option value="Banquet & Events">Banquet & Events</option>
-                <option value="Engineering & Maintenance">
-                  Engineering & Maintenance
-                </option>
-                <option value="F&B production">F&B production</option>
-                <option value="F&B service">F&B service</option>
-                <option value="Front office">Front office</option>
-                <option value="Housekeeping">Housekeeping</option>
-                <option value="Security Departments">
-                  Security Departments
-                </option>
-                <option value="others">Other</option>
-              </select>
+            <select
+              value={departmentFilter}
+              onChange={(e) => setDepartmentFilter(e.target.value)}
+            >
+              <option value="all">Department</option>
+              <option value="Administration & HR">Administration & HR</option>
+              <option value="Banquet & Events">Banquet & Events</option>
+              <option value="Engineering & Maintenance">Engineering & Maintenance</option>
+              <option value="F&B production">F&B production</option>
+              <option value="F&B service">F&B service</option>
+              <option value="Front office">Front office</option>
+              <option value="Housekeeping">Housekeeping</option>
+              <option value="Security Departments">Security Departments</option>
+              <option value="others">Other</option>
+            </select>
             </div>
             {role === "admin" && (
               <button className="add-item-btn" onClick={handleAddClick}>
@@ -427,35 +405,22 @@ function Inventory() {
             </thead>
             <tbody>
               {filteredInventory.map((item, index) => {
-                const statusInfo = getStatusInfo(
-                  item.item_quantity,
-                  item.item_expirydate
-                );
+                const statusInfo = getStatusInfo(item.item_quantity, item.item_expirydate);
                 return (
                   <tr key={item._id || index}>
                     <td>{item.item_name}</td>
-
                     <td>{item.item_quantity}</td>
                     <td>{item.item_unit}</td>
                     <td>{item.item_location}</td>
+                    <td>{item.item_expirydate ? formatDate(item.item_expirydate) : "N/A"}</td>
                     <td>
-                      {item.item_expirydate
-                        ? formatDate(item.item_expirydate)
-                        : "N/A"}
-                    </td>
-                    <td>
-                      <span className={`status ${statusInfo.className}`}>
-                        {statusInfo.text}
-                      </span>
+                      <span className={`status ${statusInfo.className}`}>{statusInfo.text}</span>
                     </td>
                     <td>{item.item_department}</td>
                     {role === "admin" && (
                       <td>
-                        <div
-                          className="action-buttons"
-                          onClick={() => handleEditClick(item)}
-                        >
-                          <button className="edit-btn">
+                        <div className="action-buttons">
+                          <button className="edit-btn" onClick={() => handleEditClick(item)}>
                             <MdOutlineModeEdit size={20} />
                           </button>
                           <MdDelete
@@ -466,13 +431,9 @@ function Inventory() {
                         </div>
                       </td>
                     )}
-
                     {role === "staff" && (
                       <td>
-                        <button
-                          className="use-item-btn"
-                          onClick={() => useItem(item)}
-                        >
+                        <button className="use-item-btn" onClick={() => useItem(item)}>
                           <BiMinusCircle size={25} />
                         </button>
                       </td>
@@ -485,7 +446,7 @@ function Inventory() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Add/Edit Item Modal */}
       {isModalOpen && (
         <ItemForm
           newItem={newItem}
@@ -496,13 +457,14 @@ function Inventory() {
         />
       )}
 
+      {/* Use Item Modal */}
       {useOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <button className="close-btn" onClick={() => setUseOpen(false)}>
               ×
             </button>
-            <h3> {selectedItem.item_name}</h3>
+            <h3>{selectedItem.item_name}</h3>
             <form>
               <input
                 type="number"
@@ -534,12 +496,45 @@ function Inventory() {
         </div>
       )}
 
+      {/* Stats Modal */}
+      {statsModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setStatsModalOpen(false)}>×</button>
+            <h3>{statsModalTitle}</h3>
+            <ul className="stats-item-list">
+              {statsModalItems.map((item) => {
+                const departmentColors = {
+                  "Administration & HR": "#28a745",
+                  "Banquet & Events": "#ff8c00",
+                  "Engineering & Maintenance": "#6f42c1",
+                  "F&B production": "#dc3545",
+                  "F&B service": "#17a2b8",
+                  "Front office": "#ffc107",
+                  "Housekeeping": "#20c997",
+                  "Security Departments": "#343a40",
+                  "others": "#6c757d",
+                };
+                const deptColor = departmentColors[item.item_department] || "#007bff";
+
+                return (
+                  <li key={item._id}>
+                    {item.item_name} -{" "}
+                    <span style={{ color: deptColor, fontWeight: "bold" }}>
+                      {item.item_department}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Popup */}
       {showPopup && (
-        <div
-          className="popup-message"
-          style={{ backgroundColor: result.backgroundColor }}
-        >
-          {result && <span> {result.message}</span>}
+        <div className="popup-message" style={{ backgroundColor: result?.backgroundColor }}>
+          {result && <span>{result.message}</span>}
         </div>
       )}
     </div>
