@@ -7,9 +7,18 @@ import {
   useItemQuantity,
   deleteItem,
   getExpiredNotifications,
+  getExpiredItem,
+  getNewItemsWeek,
+  getLowStockWeek,
+  departmentCount,
 } from "../controllers/inventoryController.js";
 
 const router = express.Router();
+
+router.get("/expired_items", getExpiredItem);
+router.get("/new_items_added", getNewItemsWeek);
+router.get("/get_lowstock_items", getLowStockWeek);
+router.get("/department_count", departmentCount);
 
 router.get("/", getAllItems);
 router.get("/:id", getItem);
