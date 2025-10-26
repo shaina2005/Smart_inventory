@@ -246,8 +246,8 @@ body {
 }
 /* split screen logo  */
 .brand-logo {
-  width: 120px; /* adjust based on your logo */
-  margin-bottom: 20px;
+  width: 150px; /* adjust based on your logo */
+  margin-bottom: 10px;
 }
 
 .login-left h1 {
@@ -258,7 +258,7 @@ body {
 
 .login-left p {
   font-size: 16px;
-  max-width: 280px;
+  max-width: 300px;
   margin-bottom: 30px;
   line-height: 1.5;
 }
