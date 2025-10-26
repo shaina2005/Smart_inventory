@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../assets/Logo.png";
+import Logo from "../assets/InventoryLogo.png";
 
 function Login({ onLoginSuccess }) {
   const [role, setRole] = useState("");
