@@ -67,7 +67,6 @@ const Indent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handle submit clicked");
     try {
       const response = await axios.post("http://localhost:5000/indent", {
         purpose,
@@ -77,7 +76,6 @@ const Indent = () => {
         items,
         notes,
       });
-      console.log(response.data);
       setResult(response.data);
       setShowPopup(true);
 
@@ -217,7 +215,8 @@ const Indent = () => {
               <div className="indentpage-group">
                 <label>Time</label>
                 <input
-                  type="time"
+                  type="text"
+                  placeholder="eg : 10:00 AM"
                   value={requiredTime}
                   onChange={(e) => setRequiredTime(e.target.value)}
                 />
@@ -228,7 +227,7 @@ const Indent = () => {
               <label>Requested By</label>
               <input
                 type="text"
-                placeholder="Requested By"
+                placeholder="eg : Riya sharma"
                 value={requestedBy}
                 onChange={(e) => setRequestedBy(e.target.value)}
               />
