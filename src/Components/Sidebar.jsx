@@ -2,13 +2,14 @@ import React from "react";
 import { useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineGridView } from "react-icons/md";
+import { FaClipboardList } from "react-icons/fa";
 import { FaChartLine, FaChartBar, FaCog } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-const location = useLocation();
-const sidebarRef = useRef();
-const menuItems = [
-  {
+  const location = useLocation();
+  const sidebarRef = useRef();
+  const menuItems = [
+    {
       path: "/dashboard",
       label: "Dashboard",
       icon: <MdOutlineGridView size={20} />,
@@ -18,6 +19,11 @@ const menuItems = [
       path: "/reports",
       label: "Reports & Analysis",
       icon: <FaChartBar size={20} />,
+    },
+    {
+      path: "/indent",
+      label: "Indent Request",
+      icon: <FaClipboardList size={20} />,
     },
     {
       path: "/settings",

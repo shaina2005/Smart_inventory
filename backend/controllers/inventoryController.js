@@ -385,7 +385,6 @@ export const departmentCount = async (req, res) => {
   try {
     // Predefined departments
     const departments = [
-      "Administration & HR",
       "Banquet & Events",
       "Engineering & Maintenance",
       "F&B production",

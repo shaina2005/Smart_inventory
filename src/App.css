@@ -246,7 +246,7 @@ body {
 }
 /* split screen logo  */
 .brand-logo {
-  width: 150px; /* adjust based on your logo */
+  width: 80px; /* adjust based on your logo */
   margin-bottom: 10px;
 }
 
@@ -441,11 +441,6 @@ body {
   color: #757575;
 }
 
-
-  
-
-
-
 /* Notification Panel */
 .notification-panel {
   margin-top: 2rem;
@@ -454,7 +449,7 @@ body {
   border-radius: 12px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .notification-bar {
@@ -539,12 +534,15 @@ body {
   opacity: 0.6;
 }
 
-
 /* Inventory Section */
 .inventory-section {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 220px); /* adjust based on navbar height */
+  overflow: hidden;
 }
 
 .section-header {
@@ -554,6 +552,7 @@ body {
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 15px;
+  position: sticky;
 }
 
 .section-header h3 {
@@ -673,7 +672,10 @@ body {
 
 /* Table Styling */
 .table-container {
-  overflow-x: auto;
+  max-height: 500px; /* adjust as needed */
+  overflow-y: auto;
+  border-radius: 8px;
+  /* background: white; */
 }
 
 .inventory-table {
@@ -685,12 +687,15 @@ body {
   overflow: hidden;
 }
 
-.inventory-table th {
+.inventory-table thead th {
+  position: sticky;
+  top: 0;
   background: #f8f9fa;
+  z-index: 5;
   padding: 15px 12px;
-  text-align: left;
+  /* text-align: left; */
   font-weight: 600;
-  color: #333;
+  color: #2a2a2a;
   border-bottom: 1px solid #e9ecef;
   font-size: 14px;
 }
@@ -704,17 +709,6 @@ body {
 
 .inventory-table tbody tr:hover {
   background: #f8f9fa;
-}
-
-.item-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: #f4f4f4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
 }
 
 /* Status Styling */
@@ -762,11 +756,11 @@ body {
   padding: 6px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
-  color : rgb(63, 62, 62)
+  color: rgb(63, 62, 62);
 }
 
 .edit-btn:hover {
-  color : black;
+  color: black;
 }
 
 /* Inventory.css */
@@ -779,41 +773,6 @@ body {
 .delete-icon:hover {
   color: rgba(255, 0, 0, 0.8);
 }
-
-/* .dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background: white;
-  min-width: 120px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 1000;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-content button {
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-}
-
-.dropdown-content button:hover {
-  background: #f4f4f4;
-} */
 
 /* Loading and Error States */
 .loading,
@@ -1041,7 +1000,9 @@ body {
     flex-direction: column;
     align-items: stretch;
   }
-
+  .filter-dropdown {
+    width: 100%;
+  }
   .table-controls {
     flex-direction: column;
     align-items: stretch;
@@ -1064,6 +1025,7 @@ body {
     width: calc(100% - 290px);
     max-width: none;
   }
+  
 }
 
 /* Medium screens (tablets) → 2 cards per row */
@@ -1110,7 +1072,6 @@ body {
     font-size: 20px;
   }
 }
-
 
 .stats-item-list {
   list-style: none;

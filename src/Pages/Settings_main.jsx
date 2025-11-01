@@ -7,7 +7,7 @@ import { IoMoonOutline } from "react-icons/io5";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import ToggleButton from "../Components/ToggleButton";
-import Profile from "../assets/profile_img.webp";
+import Profile from "../assets/pcte_profile.png";
 import { useState } from "react";
 import axios from "axios";
 

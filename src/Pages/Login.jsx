@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../assets/InventoryLogo.png";
+import Logo from "../assets/InventoryLogo copy.png";
 
 function Login({ onLoginSuccess }) {
   const [role, setRole] = useState("");
@@ -38,7 +38,7 @@ function Login({ onLoginSuccess }) {
       {/* Left side branding */}
       <div className="login-left">
         <img src={Logo} alt="Smart Inventory Logo" className="brand-logo" />
-        <h1>Smart Inventory</h1>
+        <h1>StockWise</h1>
         <p>Manage your stock efficiently with ease.</p>
       </div>
 

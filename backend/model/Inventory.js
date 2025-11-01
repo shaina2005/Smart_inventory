@@ -5,6 +5,7 @@ const inventorySchema = new mongoose.Schema(
     item_name: {
       type: String,
       required: true,
+      lowercase: true
     },
     item_department: {
       type: String,
@@ -22,6 +23,7 @@ const inventorySchema = new mongoose.Schema(
     item_location: {
       type: String,
       required: true,
+      lowercase: true
     },
 
     item_expirydate: {

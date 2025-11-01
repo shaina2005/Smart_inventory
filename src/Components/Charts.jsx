@@ -20,7 +20,6 @@ import {
 function Charts({ apiUrl, xDatakey, chartdataKey, chartType, fillColor }) {
   const [data, setData] = useState([]);
   const COLORS = [
-    "#0088FE", // Blue
     "#23927eff", // Teal
     "#FFBB28", // Yellow
     "#FF8042", // Orange

@@ -30,7 +30,6 @@ function ItemForm({ newItem, setNewItem, onSave, onCancel, mode }) {
             onChange={handleChange}
           >
             <option value="">Select Department</option>
-            <option value="Administration & HR">Administration & HR</option>
             <option value="Banquet & Events">Banquet & Events</option>
             <option value="Engineering & Maintenance">
               Engineering & Maintenance
@@ -62,6 +61,7 @@ function ItemForm({ newItem, setNewItem, onSave, onCancel, mode }) {
             <option value="pcs">pcs</option>
             <option value="btl">btl</option>
             <option value="ltr">ltr</option>
+            <option value="ml">ml</option>
           </select>
           <input
             type="text"

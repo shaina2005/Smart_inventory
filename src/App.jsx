@@ -15,6 +15,7 @@ import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Settings_main from "./Pages/Settings_main";
 import Reports from "./Pages/Reports";
+import Indent from "./Pages/Indent";
 import "./App.css";
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
   const [splash, setSplash] = useState(true);
   const [notificationsOn, setNotificationsOn] = useState(true);
   const [dndOn, setDndOn] = useState(false);
-
+  const role = localStorage.getItem("role");
   useEffect(() => {
     const timer = setTimeout(() => {
       setSplash(false);
@@ -83,6 +84,7 @@ function App() {
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/reports" element={<Reports />} />
+                <Route path="/indent" element={<Indent />} />
                 <Route
                   path="/settings"
                   element={

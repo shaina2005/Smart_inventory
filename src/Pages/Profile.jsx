@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { FiEdit2, FiSave, FiLogOut } from "react-icons/fi";
-import profile from "../assets/profile_img.webp";
+import pcte_profile from "../assets/pcte_profile.png";
 import "../Settings.css";
-import "../App.css"
+import "../App.css";
 
 function Profile() {
   const initialProfile = {
     name: "PCTE",
-    role: localStorage.getItem("role") ,
+    role: localStorage.getItem("role"),
     email: "pcte123@gmail.com",
     phone: "1234567890",
     gender: "Male",
@@ -15,7 +15,7 @@ function Profile() {
   };
 
   const [profileData, setProfileData] = useState(initialProfile);
-  const [profileImage, setProfileImage] = useState(profile);
+  const [profileImage, setProfileImage] = useState(pcte_profile);
   const [draft, setDraft] = useState(initialProfile);
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
@@ -88,7 +88,6 @@ function Profile() {
   };
 
   return (
-
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-actions">
@@ -107,7 +106,7 @@ function Profile() {
         {/* Left column - Profile picture and name */}
         <div className="left">
           <div className="profile-image">
-            <img src={profileImage} alt="Profile avatar" />
+            <img src={pcte_profile} alt="Profile avatar" />
             <input
               type="file"
               accept="image/*"
@@ -115,13 +114,12 @@ function Profile() {
               onChange={handleImageChange}
               style={{ display: "none" }}
             />
-            
-              <FiEdit2
-                size={25}
-                className="edit-icon"
-                onClick={() => document.getElementById("fileInput").click()}
-              />
-           
+
+            <FiEdit2
+              size={25}
+              className="edit-icon"
+              onClick={() => document.getElementById("fileInput").click()}
+            />
           </div>
           <div className="name-container">
             <div className="name">{profileData.name}</div>
@@ -248,7 +246,7 @@ function Profile() {
                       name="role"
                       type="text"
                       value={draft.role}
-                      disabled   
+                      disabled
                       className="input"
                     />
                   </div>
@@ -278,7 +276,6 @@ function Profile() {
         </div>
       </div>
     </div>
-
   );
 }
 
