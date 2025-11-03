@@ -7,7 +7,7 @@ import inventoryRoute from "./routes/inventoryRoute.js";
 import HelpRoute from "./routes/HelpRoute.js";
 import IndentRoute from "./routes/IndentRoute.js";
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 dotenv.config(); // loads .env varibales (that can be access using process.env)
 app.use(express.json()); //handling data send by frontend
