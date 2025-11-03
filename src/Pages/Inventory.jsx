@@ -43,7 +43,9 @@ function Inventory() {
   const fetchInventoryData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/items");
+      const response = await axios.get(
+        "https://smart-inventory-mx5v.onrender.com/items"
+      );
       const updatedInventory = response.data
         .map((item) => {
           let status;
@@ -138,13 +140,13 @@ function Inventory() {
 
       if (modalMode === "add") {
         const response = await axios.post(
-          "http://localhost:5000/items",
+          "https://smart-inventory-mx5v.onrender.com/items",
           newItem
         );
         setResult(response.data);
       } else {
         const response = await axios.put(
-          `http://localhost:5000/items/${newItem._id}`,
+          `https://smart-inventory-mx5v.onrender.com/items/${newItem._id}`,
           newItem
         );
         setResult(response.data);
@@ -266,7 +268,7 @@ function Inventory() {
     }
     try {
       const response = await axios.put(
-        `http://localhost:5000/items/use/${item._id}`,
+        `https://smart-inventory-mx5v.onrender.com/items/use/${item._id}`,
         { usedQuantity: parseInt(qtyUsed) }
       );
       setInventory((prev) =>
@@ -293,7 +295,7 @@ function Inventory() {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/items/${itemId}`
+          `https://smart-inventory-mx5v.onrender.com/items/${itemId}`
         );
         setInventory(inventory.filter((item) => item._id !== itemId));
         setResult(response.data);

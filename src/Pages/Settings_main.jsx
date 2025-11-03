@@ -93,12 +93,15 @@ function Settings_main({
   const helpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const helpSend = await axios.post("http://localhost:5000/help", {
-        email: helpForm.email,
-        title: helpForm.title,
-        description: helpForm.description,
-        screenshots: helpForm.screenshots,
-      });
+      const helpSend = await axios.post(
+        "https://smart-inventory-mx5v.onrender.com/help",
+        {
+          email: helpForm.email,
+          title: helpForm.title,
+          description: helpForm.description,
+          screenshots: helpForm.screenshots,
+        }
+      );
       setResult(helpSend.data);
     } catch (error) {
       console.log("Error " + error.message);

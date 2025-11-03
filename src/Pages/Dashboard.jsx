@@ -20,7 +20,9 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
   const fetchInventoryData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/items");
+      const res = await axios.get(
+        "https://smart-inventory-mx5v.onrender.com/items"
+      );
       const today = new Date();
 
       const updatedInventory = res.data.map((item) => {
@@ -61,19 +63,33 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
     const newNotifications = [];
 
     inventoryData.forEach((item) => {
-      const expiryDate = item.item_expirydate ? new Date(item.item_expirydate) : null;
+      const expiryDate = item.item_expirydate
+        ? new Date(item.item_expirydate)
+        : null;
 
       if (expiryDate && expiryDate < today) {
-        newNotifications.push({ message: `${item.item_name} has expired`, type: "alert" });
+        newNotifications.push({
+          message: `${item.item_name} has expired`,
+          type: "alert",
+        });
       }
       if (expiryDate && expiryDate.toDateString() === tomorrow.toDateString()) {
-        newNotifications.push({ message: `${item.item_name} is expiring tomorrow`, type: "warning" });
+        newNotifications.push({
+          message: `${item.item_name} is expiring tomorrow`,
+          type: "warning",
+        });
       }
       if (item.item_quantity > 0 && item.item_quantity <= 5) {
-        newNotifications.push({ message: `${item.item_name} stock is low (${item.item_quantity})`, type: "warning" });
+        newNotifications.push({
+          message: `${item.item_name} stock is low (${item.item_quantity})`,
+          type: "warning",
+        });
       }
       if (item.item_quantity === 0) {
-        newNotifications.push({ message: `${item.item_name} is out of stock`, type: "alert" });
+        newNotifications.push({
+          message: `${item.item_name} is out of stock`,
+          type: "alert",
+        });
       }
     });
 
@@ -82,8 +98,12 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
 
   const calculateStats = () => {
     const totalItems = inventory.length;
-    const lowStock = inventory.filter((i) => i.item_status === "low-stock").length;
-    const outOfStock = inventory.filter((i) => i.item_status === "out-of-stock").length;
+    const lowStock = inventory.filter(
+      (i) => i.item_status === "low-stock"
+    ).length;
+    const outOfStock = inventory.filter(
+      (i) => i.item_status === "out-of-stock"
+    ).length;
     const today = new Date();
     const expiredItems = inventory.filter(
       (i) => i.item_expirydate && new Date(i.item_expirydate) < today
@@ -101,15 +121,22 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
 
     switch (type) {
       case "low-stock":
-        itemsToShow = inventory.filter((item) => item.item_status === "low-stock");
+        itemsToShow = inventory.filter(
+          (item) => item.item_status === "low-stock"
+        );
         title = "Low Stock Items";
         break;
       case "out-of-stock":
-        itemsToShow = inventory.filter((item) => item.item_status === "out-of-stock");
+        itemsToShow = inventory.filter(
+          (item) => item.item_status === "out-of-stock"
+        );
         title = "Out of Stock Items";
         break;
       case "expired":
-        itemsToShow = inventory.filter((item) => item.item_expirydate && new Date(item.item_expirydate) < today);
+        itemsToShow = inventory.filter(
+          (item) =>
+            item.item_expirydate && new Date(item.item_expirydate) < today
+        );
         title = "Expired Items";
         break;
       default:
@@ -168,7 +195,10 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
           </div>
         </div>
 
-        <div className="stat-card" onClick={() => openStatsModal("out-of-stock")}>
+        <div
+          className="stat-card"
+          onClick={() => openStatsModal("out-of-stock")}
+        >
           <div className="stat-icon out">📦</div>
           <div className="stat-content">
             <h4>Out of Stock Items</h4>
@@ -207,7 +237,12 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
       {statsModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-btn" onClick={() => setStatsModalOpen(false)}>×</button>
+            <button
+              className="close-btn"
+              onClick={() => setStatsModalOpen(false)}
+            >
+              ×
+            </button>
             <h3>{statsModalTitle}</h3>
             <ul className="stats-item-list">
               {statsModalItems.map((item) => {
@@ -218,11 +253,12 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
                   "F&B production": "#dc3545",
                   "F&B service": "#17a2b8",
                   "Front office": "#ffc107",
-                  "Housekeeping": "#20c997",
+                  Housekeeping: "#20c997",
                   "Security Departments": "#343a40",
-                  "others": "#6c757d",
+                  others: "#6c757d",
                 };
-                const deptColor = departmentColors[item.item_department] || "#007bff";
+                const deptColor =
+                  departmentColors[item.item_department] || "#007bff";
 
                 return (
                   <li key={item._id}>

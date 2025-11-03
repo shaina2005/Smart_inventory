@@ -10,7 +10,7 @@ const Reports = () => {
         <div className="heading">Expired Items</div>
         <div className="chart-container">
           <Charts
-            apiUrl="http://localhost:5000/items/expired_items"
+            apiUrl="https://smart-inventory-mx5v.onrender.com/items/expired_items"
             xDatakey="day"
             chartdataKey="expired"
             chartType="bar"
@@ -24,7 +24,7 @@ const Reports = () => {
         <div className="heading">New Items Added</div>
         <div className="chart-container">
           <Charts
-            apiUrl="http://localhost:5000/items/new_items_added"
+            apiUrl="https://smart-inventory-mx5v.onrender.com/items/new_items_added"
             xDatakey="day"
             chartdataKey="newItems"
             chartType="line"
@@ -38,7 +38,7 @@ const Reports = () => {
         <div className="heading">Low Stock Items</div>
         <div className="chart-container">
           <Charts
-            apiUrl="http://localhost:5000/items/get_lowstock_items"
+            apiUrl="https://smart-inventory-mx5v.onrender.com/items/get_lowstock_items"
             xDatakey="day"
             chartdataKey="lowStock"
             chartType="bar"
@@ -52,7 +52,7 @@ const Reports = () => {
         <div className="heading">Department-wise Inventory</div>
         <div className="chart-container">
           <Charts
-            apiUrl="http://localhost:5000/items/department_count" // backend endpoint
+            apiUrl="https://smart-inventory-mx5v.onrender.com/items/department_count" // backend endpoint
             xDatakey="department"
             chartdataKey="count"
             chartType="pie"

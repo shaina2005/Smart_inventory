@@ -43,7 +43,7 @@ function App() {
     return <Splashscreen />;
   }
   return (
-    <Router>
+    <>
       <div className="App">
         {!isLogin ? (
           <Routes>
@@ -106,7 +106,7 @@ function App() {
           </>
         )}
       </div>
-    </Router>
+    </>
   );
 }
 

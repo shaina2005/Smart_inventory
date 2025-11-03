@@ -27,7 +27,7 @@ const Indent = () => {
         try {
           setLoading(true);
 
-          const res = await axios.get("http://localhost:5000/indent");
+          const res = await axios.get("https://smart-inventory-mx5v.onrender.com/indent");
           setIndents(res.data);
         } catch (err) {
           console.log("Error fetching indents:", err);
@@ -44,7 +44,7 @@ const Indent = () => {
     if (window.confirm("Are you sure you want to delete this indent?")) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/indent/${id}`
+          `https://smart-inventory-mx5v.onrender.com/indent/${id}`
         );
 
         setIndents(indents.filter((indent) => indent._id !== id));
@@ -74,7 +74,7 @@ const Indent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/indent", {
+      const response = await axios.post("https://smart-inventory-mx5v.onrender.com/indent", {
         purpose,
         requiredBy,
         requestedBy,
