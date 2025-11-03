@@ -9,7 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/smart_inventory">
+    <BrowserRouter basename="/Smart_inventory">
       <App />
     </BrowserRouter>
   </StrictMode>
