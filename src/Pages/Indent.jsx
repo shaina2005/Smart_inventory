@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
 const Indent = () => {
+  const [loading, setLoading] = useState(true);
   const [purpose, setPurpose] = useState("");
   const [requiredBy, setRequiredBy] = useState("");
   const [requiredTime, setRequiredTime] = useState("");
@@ -24,15 +25,20 @@ const Indent = () => {
     if (role === "admin") {
       const fetchIndents = async () => {
         try {
+          setLoading(true);
+
           const res = await axios.get("http://localhost:5000/indent");
           setIndents(res.data);
         } catch (err) {
           console.log("Error fetching indents:", err);
+        } finally {
+          setLoading(false);
         }
       };
       fetchIndents();
     }
   }, [role]);
+  if (loading) return <div className="loading">Loading Indents ...</div>;
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this indent?")) {
