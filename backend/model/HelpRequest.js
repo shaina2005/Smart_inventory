@@ -1,4 +1,4 @@
-import { _descriptors } from "chart.js/helpers";
+// import { _descriptors } from "chart.js/helpers";
 import mongoose from "mongoose";
 const helpSchema = new mongoose.Schema(
   {
