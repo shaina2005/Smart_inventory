@@ -7,14 +7,19 @@ function Login({ onLoginSuccess }) {
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await axios.post("https://smart-inventory-mx5v.onrender.com/api/auth/login", {
-        role,
-        password,
-      });
+      const res = await axios.post(
+        "https://smart-inventory-mx5v.onrender.com/api/auth/login",
+        {
+          role,
+          password,
+        }
+      );
 
       if (res.data.success) {
         onLoginSuccess(true);
@@ -30,6 +35,8 @@ function Login({ onLoginSuccess }) {
       } else {
         alert("Something went wrong");
       }
+    } finally {
+      setLoading(false); // stop spinner
     }
   };
 
@@ -73,7 +80,9 @@ function Login({ onLoginSuccess }) {
               />
             </div>
 
-            <button className="login-btn">Login</button>
+            <button className="login-btn">
+              {loading ? <div className="spinner"></div> : "Login"}
+            </button>
           </form>
         </div>
       </div>

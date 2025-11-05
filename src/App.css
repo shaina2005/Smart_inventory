@@ -346,6 +346,47 @@ body {
   background: #115e57;
 }
 
+/* spinner */
+/* .login-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+} */
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner Animation */
+/* Spinner: thin ring that spins */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.059); /* light ring */
+  border-top: 3px solid white; /* visible spinning part */
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* inventory page  */
 .inventory-page {
   padding: 20px;
@@ -1025,7 +1066,6 @@ body {
     width: calc(100% - 290px);
     max-width: none;
   }
-  
 }
 
 /* Medium screens (tablets) → 2 cards per row */

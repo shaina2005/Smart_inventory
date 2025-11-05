@@ -17,13 +17,13 @@ export const addHelpRequest = async (req, res) => {
 
     res.status(200).json({
       message: "Submitted. Thanks for feedback!",
-      color: "green",
+      backgroundColor: "#0f766e",
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Submission Failed. Please try again!",
-      color: "red",
+      backgroundColor: "rgb(145, 18, 18)",
     });
   }
 };

@@ -158,7 +158,7 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
 
   const clearNotifications = () => setNotifications([]);
 
-  if (loading) return <p>Loading stats...</p>;
+  if (loading) return <div className="loading">Loading ...</div>;
   if (error) return <p>{error}</p>;
 
   return (

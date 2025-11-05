@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MdDelete, MdOutlineModeEdit } from "react-icons/md";
 import { BiMinusCircle } from "react-icons/bi";
+import { FiSearch } from "react-icons/fi";
+
 import "./Inventory.css";
 import ItemForm from "../Components/ItemForm";
 
@@ -310,7 +312,7 @@ function Inventory() {
     }
   };
 
-  if (loading) return <div className="loading">Loading inventory data...</div>;
+  if (loading) return <div className="loading">Loading ...</div>;
   if (error)
     return (
       <div className="error">
@@ -374,6 +376,8 @@ function Inventory() {
           <h3>Inventory Overview</h3>
           <div className="table-controls">
             <div className="search-box">
+              <FiSearch size={18} />
+
               <input
                 type="text"
                 placeholder="Search Item"

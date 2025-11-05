@@ -25,7 +25,7 @@ function Settings_main({
     email: "",
     screenshots: null,
   });
-
+  const [showPopup, setShowPopup] = useState(false);
   const [theme, setTheme] = useState(false);
   const navigate = useNavigate();
   const boxes = [
@@ -103,8 +103,12 @@ function Settings_main({
         }
       );
       setResult(helpSend.data);
+      setShowPopup(true);
+      // setTimeout(() => setShowPopup(false), 3000);
     } catch (error) {
       console.log("Error " + error.message);
+      setShowPopup(true);
+      // setTimeout(() => setShowPopup(false), 3000);
     }
   };
 
@@ -186,7 +190,7 @@ function Settings_main({
               ×
             </button>
             <h3>Report a Problem</h3>
-            {result && (
+            {/* {result && (
               <div
                 className={`result-message ${
                   result.color === "red" ? "error" : "success"
@@ -194,7 +198,7 @@ function Settings_main({
               >
                 {result.message}
               </div>
-            )}
+            )} */}
 
             <form onSubmit={helpSubmit}>
               <input
@@ -275,6 +279,16 @@ function Settings_main({
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {showPopup && (
+        <div className="popup-message">
+          {result && (
+            <span style={{ backgroundColor: result?.backgroundColor }}>
+              {result.message}
+            </span>
+          )}
         </div>
       )}
     </div>

@@ -67,7 +67,11 @@ function App() {
         ) : (
           <>
             <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-            <Navbar toggleSidebar={toggleSidebar} />
+            <Navbar
+              toggleSidebar={toggleSidebar}
+              notificationsOn={notificationsOn}
+              setNotificationsOn={setNotificationsOn}
+            />
             <main className="main-modern">
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" />} />

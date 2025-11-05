@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Indent = () => {
   const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
   const [purpose, setPurpose] = useState("");
   const [requiredBy, setRequiredBy] = useState("");
   const [requiredTime, setRequiredTime] = useState("");
@@ -27,7 +28,9 @@ const Indent = () => {
         try {
           setLoading(true);
 
-          const res = await axios.get("https://smart-inventory-mx5v.onrender.com/indent");
+          const res = await axios.get(
+            "https://smart-inventory-mx5v.onrender.com/indent"
+          );
           setIndents(res.data);
         } catch (err) {
           console.log("Error fetching indents:", err);
@@ -36,9 +39,12 @@ const Indent = () => {
         }
       };
       fetchIndents();
+    } else {
+      // staff doesn’t need to fetch anything
+      setLoading(false);
     }
   }, [role]);
-  if (loading) return <div className="loading">Loading Indents ...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this indent?")) {
@@ -73,19 +79,23 @@ const Indent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSending(true);
     try {
-      const response = await axios.post("https://smart-inventory-mx5v.onrender.com/indent", {
-        purpose,
-        requiredBy,
-        requestedBy,
-        requiredTime,
-        items,
-        notes,
-      });
+      const response = await axios.post(
+        "https://smart-inventory-mx5v.onrender.com/indent",
+        {
+          purpose,
+          requiredBy,
+          requestedBy,
+          requiredTime,
+          items,
+          notes,
+        }
+      );
       setResult(response.data);
       setShowPopup(true);
 
-      if (result.success == "true") {
+      if (response.data.success == "true") {
         setPurpose("");
         setRequestedBy("");
         setRequiredBy("");
@@ -100,9 +110,19 @@ const Indent = () => {
       }, 3000);
     } catch (error) {
       console.log("error in friontend handlesubmit");
+    } finally {
+      setSending(false);
     }
   };
-
+  const handlecancel = (e) => {
+    e.preventDefault();
+    setPurpose("");
+    setRequestedBy("");
+    setRequiredBy("");
+    setRequiredTime("");
+    setItems([{ item_name: "", specification: "", quantity: "", remarks: "" }]);
+    setNotes("");
+  };
   return (
     <>
       {role === "admin" ? (
@@ -339,9 +359,13 @@ const Indent = () => {
                 className="indentpage-btn-submit"
                 onClick={handleSubmit}
               >
-                Submit Indent
+                {sending ? <div className="spinner"></div> : "Submit Indent"}
               </button>
-              <button type="button" className="indentpage-btn-cancel">
+              <button
+                type="button"
+                className="indentpage-btn-cancel"
+                onClick={handlecancel}
+              >
                 Cancel
               </button>
             </div>
