@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base:  '/Smart_inventory/',
-   server: {
-    historyApiFallback: true
-  }
+  //  server: {
+  //   historyApiFallback: true
+  // }
 })
