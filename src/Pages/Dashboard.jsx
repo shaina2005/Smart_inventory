@@ -32,11 +32,11 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
           const expiry = new Date(item.item_expirydate);
           if (expiry < today) status = "expired";
           else if (item.item_quantity === 0) status = "out-of-stock";
-          else if (item.item_quantity < 5) status = "low-stock";
+          else if (item.item_quantity < 2) status = "low-stock";
           else status = "good-stock";
         } else {
           if (item.item_quantity === 0) status = "out-of-stock";
-          else if (item.item_quantity < 5) status = "low-stock";
+          else if (item.item_quantity < 2) status = "low-stock";
           else status = "good-stock";
         }
 
@@ -79,7 +79,7 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
           type: "warning",
         });
       }
-      if (item.item_quantity > 0 && item.item_quantity <= 5) {
+      if (item.item_quantity > 0 && item.item_quantity <= 2) {
         newNotifications.push({
           message: `${item.item_name} stock is low (${item.item_quantity})`,
           type: "warning",
