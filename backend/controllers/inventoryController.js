@@ -429,3 +429,62 @@ export const departmentCount = async (req, res) => {
       .json({ message: "Error fetching department stats", error: err });
   }
 };
+
+
+
+// Developer-only: bulk insert (all-or-nothing)
+export const addBulkItems = async (req, res) => {
+  try {
+    const items = req.body;
+
+    // Must be an array
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        message: "Please send a non-empty array of inventory items.",
+        backgroundColor: "rgb(145, 18, 18)",
+      });
+    }
+
+    // Validate each item manually
+    const invalidItems = [];
+
+    for (const [index, item] of items.entries()) {
+      const missingFields = [];
+      if (!item.item_name) missingFields.push("item_name");
+      if (!item.item_department) missingFields.push("item_department");
+      if (item.item_quantity == null) missingFields.push("item_quantity");
+      if (!item.item_unit) missingFields.push("item_unit");
+      if (!item.item_location) missingFields.push("item_location");
+
+      if (missingFields.length > 0) {
+        invalidItems.push({
+          index,
+          error: `Missing required fields: ${missingFields.join(", ")}`,
+        });
+      }
+    }
+
+    // If any invalid item found → reject entire array
+    if (invalidItems.length > 0) {
+      return res.status(400).json({
+        message: "Validation failed. No items were stored.",
+        invalidItems,
+        backgroundColor: "rgb(145, 18, 18)",
+      });
+    }
+
+    // All valid → directly insert
+    await Inventory.insertMany(items);
+
+    return res.status(200).json({
+      message: `${items.length} items added successfully.`,
+      backgroundColor: "#0f766e",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error adding bulk items",
+      error: error.message,
+      backgroundColor: "rgb(145, 18, 18)",
+    });
+  }
+};
