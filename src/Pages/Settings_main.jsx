@@ -19,6 +19,7 @@ function Settings_main({
   setDnd,
 }) {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [sending, setSending] = useState(false);
   const [helpForm, setHelpForm] = useState({
     title: "",
     description: "",
@@ -92,6 +93,7 @@ function Settings_main({
   const [result, setResult] = useState(null);
   const helpSubmit = async (e) => {
     e.preventDefault();
+    setSending(true);
     try {
       const helpSend = await axios.post(
         "https://smart-inventory-mx5v.onrender.com/help",
@@ -104,11 +106,11 @@ function Settings_main({
       );
       setResult(helpSend.data);
       setShowPopup(true);
-      // setTimeout(() => setShowPopup(false), 3000);
     } catch (error) {
       console.log("Error " + error.message);
       setShowPopup(true);
-      // setTimeout(() => setShowPopup(false), 3000);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -190,15 +192,6 @@ function Settings_main({
               ×
             </button>
             <h3>Report a Problem</h3>
-            {/* {result && (
-              <div
-                className={`result-message ${
-                  result.color === "red" ? "error" : "success"
-                }`}
-              >
-                {result.message}
-              </div>
-            )} */}
 
             <form onSubmit={helpSubmit}>
               <input
@@ -267,7 +260,7 @@ function Settings_main({
 
               <div className="form-actions">
                 <button type="submit" className="save-btn">
-                  Submit
+                  {sending ? <div className="spinner"></div> : "Submit "}
                 </button>
                 <button
                   type="button"
