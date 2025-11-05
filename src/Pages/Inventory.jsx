@@ -57,11 +57,11 @@ function Inventory() {
             const expiry = new Date(item.item_expirydate);
             if (expiry < today) status = "expired";
             else if (item.item_quantity === 0) status = "out-of-stock";
-            else if (item.item_quantity < 5) status = "low-stock";
+            else if (item.item_quantity < 2) status = "low-stock";
             else status = "good-stock";
           } else {
             if (item.item_quantity === 0) status = "out-of-stock";
-            else if (item.item_quantity < 5) status = "low-stock";
+            else if (item.item_quantity < 2) status = "low-stock";
             else status = "good-stock";
           }
           return { ...item, item_status: status };
@@ -235,7 +235,7 @@ function Inventory() {
     }
     if (quantity === 0)
       return { text: "Out of Stock", className: "out-of-stock" };
-    if (quantity < 5) return { text: "Low Stock", className: "low-stock" };
+    if (quantity < 2) return { text: "Low Stock", className: "low-stock" };
     return { text: "Good", className: "good" };
   };
 

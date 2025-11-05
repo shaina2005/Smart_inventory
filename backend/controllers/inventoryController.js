@@ -354,12 +354,12 @@ export const getLowStockWeek = async (req, res) => {
       end.setHours(23, 59, 59, 999);
 
       const wentLowStockToday = await Inventory.countDocuments({
-        item_quantity: { $lte: 5 },
+        item_quantity: { $lte: 2 },
         updatedAt: { $gte: start, $lte: end },
       });
 
       const restockedToday = await Inventory.countDocuments({
-        item_quantity: { $gt: 5 },
+        item_quantity: { $gt: 2 },
         updatedAt: { $gte: start, $lte: end },
       });
 
