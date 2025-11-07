@@ -879,7 +879,7 @@ body {
   .navbar-modern {
     position: fixed;
     left: 0;
-    width: 100%;
+    width: 90%;
     height: 50px;
     padding: 0;
     gap: 0;
