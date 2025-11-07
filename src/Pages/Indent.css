@@ -247,6 +247,21 @@
   .indentpage-btn-cancel {
     width: 100%;
   }
+   .indentpage-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .indentpage-group {
+    width: 100% !important;
+  }
+
+  .indentpage-group input,
+  .indentpage-group select,
+  .indentpage-group textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
 }
 
 /* ---------- ADMIN INDENT TABLE ---------- */
