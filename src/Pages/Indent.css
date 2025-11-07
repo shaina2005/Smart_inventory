@@ -247,9 +247,12 @@
   .indentpage-btn-cancel {
     width: 100%;
   }
-   .indentpage-row {
-    flex-direction: column;
-    gap: 12px;
+
+  /* ✅ MOBILE FIX: Stack side-by-side fields (Required By, Time, etc.) vertically */
+  .indentpage-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 12px !important;
   }
 
   .indentpage-group {
@@ -260,7 +263,13 @@
   .indentpage-group select,
   .indentpage-group textarea {
     width: 100% !important;
+    min-width: unset !important;
+    max-width: 100% !important;
     box-sizing: border-box;
+  }
+
+  .indentpage-form {
+    gap: 16px !important;
   }
 }
 
@@ -273,8 +282,8 @@
   padding: 10px;
   margin: 25px;
   transition: all 0.3s ease;
-
 }
+
 .admin-indent-header {
   display: flex;
   justify-content: space-between;
@@ -282,6 +291,7 @@
   margin-bottom: 15px;
   padding: 0 10px;
 }
+
 .admin-indent-title {
   margin-left: 0;
   color: #0f766e;
@@ -293,7 +303,7 @@
 
 /* Filter */
 .admin-indent-filter {
-   display: flex;
+  display: flex;
   justify-content: flex-end;
 }
 
@@ -309,7 +319,6 @@
 /* Table */
 .admin-indent-table-container {
   overflow-x: auto;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); */
   padding: 10px;
 }
 
@@ -322,7 +331,6 @@
 }
 
 .admin-indent-table th {
- 
   color: #2a2a2a;
   font-weight: 600;
   font-size: 15px;
@@ -341,14 +349,6 @@
   background-color: #f8f9fa;
   transition: background-color 0.2s ease;
 }
-
-/* Rounded top corners like your inventory table
-.admin-indent-table th:first-child {
-  border-top-left-radius: 10px;
-}
-.admin-indent-table th:last-child {
-  border-top-right-radius: 10px;
-} */
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
