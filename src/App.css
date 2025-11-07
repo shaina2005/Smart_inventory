@@ -590,7 +590,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   flex-wrap: wrap;
   gap: 15px;
   position: sticky;
@@ -957,6 +957,33 @@ body {
     display: none;
   }
 }
+
+@media (max-width: 600px) {
+  /* Make parent container flex */
+  .section-header {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  /* Make both dropdowns share the same row */
+  .filter-dropdown {
+    flex: 1;
+    width: 50%;
+  }
+
+  /* Optional: small padding adjustment */
+  .filter-dropdown select {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+  }
+}
+
+
+
 
 /* Small screens (mobiles) → still 2 cards per row */
 @media (max-width: 600px) {

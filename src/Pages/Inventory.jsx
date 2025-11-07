@@ -385,38 +385,38 @@ function Inventory() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="filter-dropdown">
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">All</option>
-                <option value="good-stock">Good</option>
-                <option value="low-stock">Low Stock</option>
-                <option value="out-of-stock">Out of Stock</option>
-                <option value="expired">Expired</option>
-              </select>
-            </div>
-            <div className="filter-dropdown">
-              <select
-                value={departmentFilter}
-                onChange={(e) => setDepartmentFilter(e.target.value)}
-              >
-                <option value="all">Department</option>
-                <option value="Banquet & Events">Banquet & Events</option>
-                <option value="Engineering & Maintenance">
-                  Engineering & Maintenance
-                </option>
-                <option value="F&B production">F&B production</option>
-                <option value="F&B service">F&B service</option>
-                <option value="Front office">Front office</option>
-                <option value="Housekeeping">Housekeeping</option>
-                <option value="Security Departments">
-                  Security Departments
-                </option>
-                <option value="others">Other</option>
-              </select>
-            </div>
+            <div className="section-header">
+  <div className="filter-dropdown">
+    <select
+      value={filterStatus}
+      onChange={(e) => setFilterStatus(e.target.value)}
+    >
+      <option value="all">All</option>
+      <option value="good-stock">Good</option>
+      <option value="low-stock">Low Stock</option>
+      <option value="out-of-stock">Out of Stock</option>
+      <option value="expired">Expired</option>
+    </select>
+  </div>
+
+  <div className="filter-dropdown">
+    <select
+      value={departmentFilter}
+      onChange={(e) => setDepartmentFilter(e.target.value)}
+    >
+      <option value="all">Department</option>
+      <option value="Banquet & Events">Banquet & Events</option>
+      <option value="Engineering & Maintenance">Engineering & Maintenance</option>
+      <option value="F&B production">F&B production</option>
+      <option value="F&B service">F&B service</option>
+      <option value="Front office">Front office</option>
+      <option value="Housekeeping">Housekeeping</option>
+      <option value="Security Departments">Security Departments</option>
+      <option value="others">Other</option>
+    </select>
+  </div>
+</div>
+
             {role === "admin" && (
               <button className="add-item-btn" onClick={handleAddClick}>
                 + Add Item
