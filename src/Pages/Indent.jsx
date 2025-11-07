@@ -229,7 +229,6 @@ const Indent = () => {
               />
             </div>
 
-            <div className="indentpage-row">
               <div className="indentpage-group">
                 <label>Required By</label>
                 <input
@@ -246,7 +245,6 @@ const Indent = () => {
                   value={requiredTime}
                   onChange={(e) => setRequiredTime(e.target.value)}
                 />
-              </div>
             </div>
 
             <div className="indentpage-group">
