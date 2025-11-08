@@ -1,7 +1,7 @@
 /* ------------------------------
    SMART INVENTORY - INDENT FORM
    UNIQUE + RESPONSIVE + CLEAN
-   ------------------------------ */
+------------------------------ */
 
 .indentpage-container {
   background: #ffffff;
@@ -49,7 +49,6 @@
   font-size: 1rem;
 }
 
-/* INPUTS & SELECTS */
 .indentpage-group input,
 .indentpage-group select,
 .indentpage-group textarea {
@@ -83,6 +82,11 @@
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+.indentpage-row .indentpage-group {
+  flex: 1 1 48%;
+  min-width: 260px;
 }
 
 /* -------- TABLE FOR ITEMS -------- */
@@ -146,7 +150,7 @@
   background-color: #d32f2f;
 }
 
-/* -------- ACTION BUTTONS (BOTTOM) -------- */
+/* -------- ACTION BUTTONS -------- */
 .indentpage-buttons {
   display: flex;
   justify-content: center;
@@ -187,94 +191,7 @@
   background-color: #d32f2f;
 }
 
-/* -------- RESPONSIVE FIXES -------- */
-@media (max-width: 992px) {
-  .indentpage-container {
-    padding: 25px;
-  }
-
-  .indentpage-title {
-    font-size: 1.5rem;
-  }
-
-  .indentpage-row {
-    flex-direction: column;
-  }
-
-  .indentpage-table th,
-  .indentpage-table td {
-    font-size: 0.9rem;
-  }
-
-  .indentpage-btn-remove {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .indentpage-container {
-    padding: 20px;
-    border-radius: 10px;
-  }
-
-  .indentpage-title {
-    font-size: 1.3rem;
-  }
-
-  .indentpage-group label {
-    font-size: 0.95rem;
-  }
-
-  .indentpage-group input,
-  .indentpage-group select,
-  .indentpage-group textarea {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-  }
-
-  .indentpage-table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  .indentpage-table th,
-  .indentpage-table td {
-    white-space: nowrap;
-  }
-
-  .indentpage-btn-submit,
-  .indentpage-btn-cancel {
-    width: 100%;
-  }
-
-  /* ✅ MOBILE FIX: Stack side-by-side fields (Required By, Time, etc.) vertically */
-  .indentpage-row {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 12px !important;
-  }
-
-  .indentpage-group {
-    width: 100% !important;
-  }
-
-  .indentpage-group input,
-  .indentpage-group select,
-  .indentpage-group textarea {
-    width: 100% !important;
-    min-width: unset !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-  }
-
-  .indentpage-form {
-    gap: 16px !important;
-  }
-}
-
-/* ---------- ADMIN INDENT TABLE ---------- */
-
+/* ---------- ADMIN TABLE ---------- */
 .admin-indent-container {
   background-color: #ffffff;
   border-radius: 12px;
@@ -293,7 +210,6 @@
 }
 
 .admin-indent-title {
-  margin-left: 0;
   color: #0f766e;
   font-size: 25px;
   font-weight: 600;
@@ -301,7 +217,6 @@
   margin-top: 15px;
 }
 
-/* Filter */
 .admin-indent-filter {
   display: flex;
   justify-content: flex-end;
@@ -316,7 +231,6 @@
   transition: 0.3s;
 }
 
-/* Table */
 .admin-indent-table-container {
   overflow-x: auto;
   padding: 10px;
@@ -351,16 +265,20 @@
 }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width: 768px) {
-  .admin-indent-container {
-    padding: 15px;
+@media (max-width: 992px) {
+  .indentpage-container {
+    padding: 25px;
   }
+  .indentpage-title {
+    font-size: 1.5rem;
+  }
+}
 
+@media (max-width: 768px) {
   .admin-indent-filter input {
     width: 100%;
     margin-bottom: 10px;
   }
-
   .admin-indent-table th,
   .admin-indent-table td {
     font-size: 13px;
@@ -368,101 +286,59 @@
   }
 }
 
-/* ✅ FIX for "Required By" + "Time" Responsiveness */
-.indentpage-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.indentpage-row .indentpage-group {
-  flex: 1 1 48%; /* side by side on desktop */
-  min-width: 260px; /* prevents shrinking */
-}
-
-.indentpage-group input[type="date"] {
-  width: 100%;
-  font-size: 0.95rem;
-  padding: 10px 14px;
-  box-sizing: border-box;
-}
-
-/* ✅ MOBILE RESPONSIVE FIX */
+/* ✅ FINAL MOBILE RESPONSIVE FIX (TESTED ON iPhone + Android) */
 @media (max-width: 600px) {
+  .indentpage-container {
+    padding: 16px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .indentpage-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
   .indentpage-row {
     flex-direction: column;
     gap: 12px;
   }
 
-  .indentpage-row .indentpage-group {
-    flex: 1 1 100%;
-    min-width: unset;
-    width: 100%;
-  }
-
-  .indentpage-group input[type="date"] {
-    width: 100%;
-    font-size: 1rem;
-  }
-}
-/* --------------------------------------
-   MOBILE OPTIMIZATION (Smart & Compact)
-   -------------------------------------- */
-@media (max-width: 600px) {
-  /* Container spacing & layout */
-  .indentpage-container {
-    padding: 16px;
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: none; /* looks cleaner on mobile */
-  }
-
-  /* Title adjustments */
-  .indentpage-title {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    text-align: center;
-    line-height: 1.4;
-  }
-
-  /* Reduce label and input spacing */
   .indentpage-group label {
     font-size: 0.9rem;
-    margin-bottom: 4px;
   }
 
   .indentpage-group input,
   .indentpage-group select,
   .indentpage-group textarea {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+    padding: 10px;
   }
 
-  /* Compact textarea height */
-  .indentpage-group textarea {
-    min-height: 70px;
+  /* Fix Required By + Time Fields */
+  .indentpage-group input[type="date"],
+  .indentpage-group input[type="time"] {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 16px !important; /* prevents Safari zoom */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
   }
 
-  /* Table adjustments (horizontal scroll) */
+  .indentpage-group input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+    padding-left: 4px;
+  }
+
+  /* Compact Table */
   .indentpage-table {
     display: block;
-    width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-  }
-
-  .indentpage-table th,
-  .indentpage-table td {
-    font-size: 0.85rem;
-    padding: 8px 6px;
-  }
-
-  /* Buttons stacked vertically */
-  .indentpage-buttons {
-    flex-direction: column;
-    gap: 10px;
   }
 
   .indentpage-btn-submit,
@@ -470,86 +346,5 @@
     width: 100%;
     font-size: 0.95rem;
     padding: 10px;
-    border-radius: 8px;
-  }
-
-  /* Smaller "Add Item" & "Remove" buttons */
-  .indentpage-btn-add {
-    padding: 6px 14px;
-    font-size: 0.85rem;
-    border-radius: 6px;
-  }
-
-  .indentpage-btn-remove {
-    padding: 5px 12px;
-    font-size: 0.8rem;
-  }
-
-  /* Fix "Required By" and "Time" layout */
-  .indentpage-row {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .indentpage-group input[type="date"],
-  .indentpage-group input[type="time"] {
-    width: 100%;
   }
 }
-/* --------------------------------------
-   FIX: "Required By" field (Date Input)
-   Works perfectly on iPhone & Android
-   -------------------------------------- */
-.indentpage-group input[type="date"] {
-  width: 100%;
-  min-width: 100%;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  color: #333;
-  appearance: none; /* removes native iOS styles */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  box-sizing: border-box;
-  text-align: left;
-}
-
-/* iPhone Safari fix for calendar icon alignment */
-.indentpage-group input[type="date"]::-webkit-date-and-time-value {
-  text-align: left;
-  padding-left: 4px;
-}
-
-/* Prevent zoom on focus (iPhone Safari issue) */
-@supports (-webkit-touch-callout: none) {
-  .indentpage-group input[type="date"] {
-    font-size: 16px !important; /* stops auto zoom */
-  }
-}
-
-/* Responsive layout fix for date/time row */
-.indentpage-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.indentpage-row .indentpage-group {
-  flex: 1 1 48%;
-  min-width: 260px;
-}
-
-@media (max-width: 600px) {
-  .indentpage-row {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .indentpage-row .indentpage-group {
-    width: 100%;
-    min-width: unset;
-  }
-}
-
