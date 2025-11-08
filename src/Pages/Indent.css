@@ -405,4 +405,95 @@
     font-size: 1rem;
   }
 }
+/* --------------------------------------
+   MOBILE OPTIMIZATION (Smart & Compact)
+   -------------------------------------- */
+@media (max-width: 600px) {
+  /* Container spacing & layout */
+  .indentpage-container {
+    padding: 16px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: none; /* looks cleaner on mobile */
+  }
+
+  /* Title adjustments */
+  .indentpage-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Reduce label and input spacing */
+  .indentpage-group label {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .indentpage-group input,
+  .indentpage-group select,
+  .indentpage-group textarea {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  /* Compact textarea height */
+  .indentpage-group textarea {
+    min-height: 70px;
+  }
+
+  /* Table adjustments (horizontal scroll) */
+  .indentpage-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .indentpage-table th,
+  .indentpage-table td {
+    font-size: 0.85rem;
+    padding: 8px 6px;
+  }
+
+  /* Buttons stacked vertically */
+  .indentpage-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .indentpage-btn-submit,
+  .indentpage-btn-cancel {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  /* Smaller "Add Item" & "Remove" buttons */
+  .indentpage-btn-add {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .indentpage-btn-remove {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* Fix "Required By" and "Time" layout */
+  .indentpage-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .indentpage-group input[type="date"],
+  .indentpage-group input[type="time"] {
+    width: 100%;
+  }
+}
 
