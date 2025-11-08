@@ -242,7 +242,7 @@ const Indent = () => {
                 <label>Time</label>
                 <input
                   type="text"
-                  // placeholder="eg : 10:00 AM"
+                  placeholder="eg : 10:00 AM"
                   value={requiredTime}
                   onChange={(e) => setRequiredTime(e.target.value)}
                 />
