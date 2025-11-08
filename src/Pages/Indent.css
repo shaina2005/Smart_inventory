@@ -367,3 +367,42 @@
     padding: 10px 8px;
   }
 }
+
+/* ✅ FIX for "Required By" + "Time" Responsiveness */
+.indentpage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.indentpage-row .indentpage-group {
+  flex: 1 1 48%; /* side by side on desktop */
+  min-width: 260px; /* prevents shrinking */
+}
+
+.indentpage-group input[type="date"] {
+  width: 100%;
+  font-size: 0.95rem;
+  padding: 10px 14px;
+  box-sizing: border-box;
+}
+
+/* ✅ MOBILE RESPONSIVE FIX */
+@media (max-width: 600px) {
+  .indentpage-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .indentpage-row .indentpage-group {
+    flex: 1 1 100%;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .indentpage-group input[type="date"] {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
