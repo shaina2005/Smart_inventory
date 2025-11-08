@@ -496,4 +496,60 @@
     width: 100%;
   }
 }
+/* --------------------------------------
+   FIX: "Required By" field (Date Input)
+   Works perfectly on iPhone & Android
+   -------------------------------------- */
+.indentpage-group input[type="date"] {
+  width: 100%;
+  min-width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+  appearance: none; /* removes native iOS styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* iPhone Safari fix for calendar icon alignment */
+.indentpage-group input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+  padding-left: 4px;
+}
+
+/* Prevent zoom on focus (iPhone Safari issue) */
+@supports (-webkit-touch-callout: none) {
+  .indentpage-group input[type="date"] {
+    font-size: 16px !important; /* stops auto zoom */
+  }
+}
+
+/* Responsive layout fix for date/time row */
+.indentpage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.indentpage-row .indentpage-group {
+  flex: 1 1 48%;
+  min-width: 260px;
+}
+
+@media (max-width: 600px) {
+  .indentpage-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .indentpage-row .indentpage-group {
+    width: 100%;
+    min-width: unset;
+  }
+}
 
