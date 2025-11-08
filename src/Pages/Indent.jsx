@@ -234,6 +234,7 @@ const Indent = () => {
                 <label>Required By</label>
                 <input
                   type="date"
+                  placeholder="dd-mm-yyyy"
                   value={requiredBy}
                   onChange={(e) => setRequiredBy(e.target.value)}
                 />
