@@ -38,7 +38,7 @@ function ItemForm({ newItem, setNewItem, onSave, onCancel, mode }) {
             <option value="F&B service">F&B service</option>
             <option value="Front office">Front office</option>
             <option value="Housekeeping">Housekeeping</option>
-            <option value="Security Departments">Security Departments</option>
+            {/* <option value="Security Departments">Security Departments</option> */}
             <option value="others">Other</option>
           </select>
 

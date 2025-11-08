@@ -391,7 +391,6 @@ export const departmentCount = async (req, res) => {
       "F&B service",
       "Front office",
       "Housekeeping",
-      "Security Departments",
       "others",
     ];
 

@@ -411,7 +411,7 @@ function Inventory() {
       <option value="F&B service">F&B service</option>
       <option value="Front office">Front office</option>
       <option value="Housekeeping">Housekeeping</option>
-      <option value="Security Departments">Security Departments</option>
+      {/* <option value="Security Departments">Security Departments</option> */}
       <option value="others">Other</option>
     </select>
   </div>
@@ -569,7 +569,7 @@ function Inventory() {
                   "F&B service": "#17a2b8",
                   "Front office": "#ffc107",
                   Housekeeping: "#20c997",
-                  "Security Departments": "#343a40",
+                  // "Security Departments": "#343a40",
                   others: "#6c757d",
                 };
                 const deptColor =
