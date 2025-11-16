@@ -20,6 +20,7 @@ function Inventory() {
   const [selectedItem, setSelectedItem] = useState();
   const [showPopup, setShowPopup] = useState(false);
   const [result, setResult] = useState();
+  const [sending, setSending] = useState(false);
 
   // Modal state for add/edit item
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -146,12 +147,14 @@ function Inventory() {
           newItem
         );
         setResult(response.data);
+        setSending(true);
       } else {
         const response = await axios.put(
           `https://smart-inventory-mx5v.onrender.com/items/${newItem._id}`,
           newItem
         );
         setResult(response.data);
+        setSending(true);
       }
 
       await fetchInventoryData();
@@ -163,6 +166,8 @@ function Inventory() {
       setResult({ message: "Error saving item" });
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -386,36 +391,40 @@ function Inventory() {
               />
             </div>
             <div className="section-header">
-  <div className="filter-dropdown">
-    <select
-      value={filterStatus}
-      onChange={(e) => setFilterStatus(e.target.value)}
-    >
-      <option value="all">All</option>
-      <option value="good-stock">Good</option>
-      <option value="low-stock">Low Stock</option>
-      <option value="out-of-stock">Out of Stock</option>
-      <option value="expired">Expired</option>
-    </select>
-  </div>
+              <div className="filter-dropdown">
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="good-stock">Good</option>
+                  <option value="low-stock">Low Stock</option>
+                  <option value="out-of-stock">Out of Stock</option>
+                  <option value="expired">Expired</option>
+                </select>
+              </div>
 
-  <div className="filter-dropdown">
-    <select
-      value={departmentFilter}
-      onChange={(e) => setDepartmentFilter(e.target.value)}
-    >
-      <option value="all">Department</option>
-      <option value="Banquet & Events">Banquet & Events</option>
-      <option value="Engineering & Maintenance">Engineering & Maintenance</option>
-      <option value="F&B production">F&B production</option>
-      <option value="F&B service">F&B service</option>
-      <option value="Front office">Front office</option>
-      <option value="Housekeeping">Housekeeping</option>
-      <option value="Security Departments">Security Departments</option>
-      <option value="others">Other</option>
-    </select>
-  </div>
-</div>
+              <div className="filter-dropdown">
+                <select
+                  value={departmentFilter}
+                  onChange={(e) => setDepartmentFilter(e.target.value)}
+                >
+                  <option value="all">Department</option>
+                  <option value="Banquet & Events">Banquet & Events</option>
+                  <option value="Engineering & Maintenance">
+                    Engineering & Maintenance
+                  </option>
+                  <option value="F&B production">F&B production</option>
+                  <option value="F&B service">F&B service</option>
+                  <option value="Front office">Front office</option>
+                  <option value="Housekeeping">Housekeeping</option>
+                  <option value="Security Departments">
+                    Security Departments
+                  </option>
+                  <option value="others">Other</option>
+                </select>
+              </div>
+            </div>
 
             {role === "admin" && (
               <button className="add-item-btn" onClick={handleAddClick}>
@@ -506,6 +515,7 @@ function Inventory() {
           onSave={handleSave}
           onCancel={() => setIsModalOpen(false)}
           mode={modalMode}
+          sending={sending}
         />
       )}
 
@@ -533,7 +543,8 @@ function Inventory() {
                   className="save-btn"
                   onClick={(e) => updateQuantity(selectedItem, e)}
                 >
-                  Save
+                  {sending ? <div className="spinner"></div> : "Save"}
+                  
                 </button>
                 <button
                   type="button"

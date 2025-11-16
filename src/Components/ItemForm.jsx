@@ -1,7 +1,7 @@
 import React from "react";
 import "../Pages/Inventory.css";
 
-function ItemForm({ newItem, setNewItem, onSave, onCancel, mode }) {
+function ItemForm({ newItem, setNewItem, onSave, onCancel, mode, sending }) {
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +80,13 @@ function ItemForm({ newItem, setNewItem, onSave, onCancel, mode }) {
 
           <div className="form-actions">
             <button type="submit" className="save-btn">
-              {mode === "add" ? "Save" : "Update"}
+              {sending ? (
+                <div className="spinner"></div>
+              ) : mode === "add" ? (
+                "Save"
+              ) : (
+                "Update"
+              )}{" "}
             </button>
             <button type="button" className="cancel-btn" onClick={onCancel}>
               Cancel
