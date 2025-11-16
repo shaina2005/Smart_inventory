@@ -404,27 +404,23 @@ function Inventory() {
                 </select>
               </div>
 
-              <div className="filter-dropdown">
-                <select
-                  value={departmentFilter}
-                  onChange={(e) => setDepartmentFilter(e.target.value)}
-                >
-                  <option value="all">Department</option>
-                  <option value="Banquet & Events">Banquet & Events</option>
-                  <option value="Engineering & Maintenance">
-                    Engineering & Maintenance
-                  </option>
-                  <option value="F&B production">F&B production</option>
-                  <option value="F&B service">F&B service</option>
-                  <option value="Front office">Front office</option>
-                  <option value="Housekeeping">Housekeeping</option>
-                  <option value="Security Departments">
-                    Security Departments
-                  </option>
-                  <option value="others">Other</option>
-                </select>
-              </div>
-            </div>
+  <div className="filter-dropdown">
+    <select
+      value={departmentFilter}
+      onChange={(e) => setDepartmentFilter(e.target.value)}
+    >
+      <option value="all">Department</option>
+      <option value="Banquet & Events">Banquet & Events</option>
+      <option value="Engineering & Maintenance">Engineering & Maintenance</option>
+      <option value="F&B production">F&B production</option>
+      <option value="F&B service">F&B service</option>
+      <option value="Front office">Front office</option>
+      <option value="Housekeeping">Housekeeping</option>
+      {/* <option value="Security Departments">Security Departments</option> */}
+      <option value="others">Other</option>
+    </select>
+  </div>
+</div>
 
             {role === "admin" && (
               <button className="add-item-btn" onClick={handleAddClick}>
@@ -580,7 +576,7 @@ function Inventory() {
                   "F&B service": "#17a2b8",
                   "Front office": "#ffc107",
                   Housekeeping: "#20c997",
-                  "Security Departments": "#343a40",
+                  // "Security Departments": "#343a40",
                   others: "#6c757d",
                 };
                 const deptColor =

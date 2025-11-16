@@ -2,22 +2,28 @@ body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
 }
-/* Splash container */
+/* -------- SPLASH SCREEN -------- */
 .splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #0f766e;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  background-color: #0f766e;
-  color: rgb(145, 18, 18);
+  z-index: 9999;
 }
 
+/* -------- VIDEO STYLING -------- */
 .splash-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  pointer-events: none;
 }
 /* Modern Sidebar */
 .sidebar-modern {
@@ -1170,4 +1176,27 @@ body {
   padding: 8px 0;
   border-bottom: 1px solid #ddd;
   font-weight: 500;
+}
+/* -------- MOBILE OPTIMIZATION -------- */
+@media (max-width: 768px) {
+  .splash-video {
+    object-fit: contain; /* ensures full video is visible */
+    background-color: #0f766e;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* EXTRA SMALL DEVICES (Phones under 480px) */
+@media (max-width: 480px) {
+  .splash-screen {
+    background-color: #0f766e;
+    padding: 0;
+  }
+
+  .splash-video {
+    object-fit: contain;
+    width: 100%;
+    height: 100vh;
+  }
 }

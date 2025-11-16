@@ -254,7 +254,7 @@ const Dashboard = ({ notificationsOn, dndOn, setDnd }) => {
                   "F&B service": "#17a2b8",
                   "Front office": "#ffc107",
                   Housekeeping: "#20c997",
-                  "Security Departments": "#343a40",
+                  // "Security Departments": "#343a40",
                   others: "#6c757d",
                 };
                 const deptColor =

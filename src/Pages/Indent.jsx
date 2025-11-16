@@ -234,6 +234,7 @@ const Indent = () => {
                 <label>Required By</label>
                 <input
                   type="date"
+                  placeholder="dd-mm-yyyy"
                   value={requiredBy}
                   onChange={(e) => setRequiredBy(e.target.value)}
                 />
@@ -242,7 +243,7 @@ const Indent = () => {
                 <label>Time</label>
                 <input
                   type="text"
-                  // placeholder="eg : 10:00 AM"
+                  placeholder="eg : 10:00 AM"
                   value={requiredTime}
                   onChange={(e) => setRequiredTime(e.target.value)}
                 />
